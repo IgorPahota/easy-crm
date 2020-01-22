@@ -1,2 +1,2 @@
 # easy-crm
-easyCRM thi is a system that you could use super easy. 
+easyCRM this is a CRM system that you could use super easy. 
