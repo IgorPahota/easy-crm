@@ -1,5 +1,7 @@
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/easyCRM", {
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+mongoose.connect(process.env.DB_CONNECTION_STRING, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
