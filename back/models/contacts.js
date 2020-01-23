@@ -7,7 +7,8 @@ const contactsSchema = new mongoose.Schema({
   email: String,
   phone: String,
   address: String,
-  created: { type: Date, default: Date.now }
+  created: Date,
+  updated: Date
 
 });
 
