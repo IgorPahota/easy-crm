@@ -1,19 +1,20 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
-const { sessionChecker } = require("../middleware/auth");
-const User = require("../models/users");
+const express = require('express');
+const bcrypt = require('bcrypt');
+const { sessionChecker } = require('../middleware/auth');
+const User = require('../models/users');
 
 const saltRounds = 10;
 const router = express.Router();
 
-router.get("/", sessionChecker, (req, res) => {
-  res.redirect("/login");
+router.get('/', sessionChecker, (req, res) => {
+  res.send('GET to /');
+  // res.redirect('/login');
 });
 
 router
-  .route("/signup")
+  .route('/signup')
   .get(sessionChecker, (req, res) => {
-    res.render("signup");
+    res.send('GET signup');
   })
   .post(async (req, res, next) => {
     try {
@@ -25,16 +26,16 @@ router
       });
       await user.save();
       req.session.user = user;
-      res.redirect("/dashboard");
+      res.redirect('/dashboard');
     } catch (error) {
       next(error);
     }
   });
 
 router
-  .route("/login")
+  .route('/login')
   .get(sessionChecker, (req, res) => {
-    res.render("login");
+    res.send('GET login');
   })
   .post(async (req, res) => {
     const { username, password } = req.body;
@@ -43,32 +44,32 @@ router
 
     if (user && (await bcrypt.compare(password, user.password))) {
       req.session.user = user;
-      res.redirect("/dashboard");
+      res.redirect('/dashboard');
     } else {
-      res.redirect("/login");
+      // res.redirect('/login');
     }
   });
 
-router.get("/dashboard", (req, res) => {
+router.get('/dashboard', (req, res) => {
   const { user } = req.session;
   if (req.session.user) {
-    res.render("dashboard", { name: user.username });
+    res.send('GET dashboard for logged user');
   } else {
-    res.redirect("/login");
+    res.send('GET dashboard for unlogged user');
   }
 });
 
-router.get("/logout", async (req, res, next) => {
+router.get('/logout', async (req, res, next) => {
   if (req.session.user) {
     try {
       await req.session.destroy();
-      res.clearCookie("user_sid");
-      res.redirect("/");
+      res.clearCookie('user_sid');
+      res.send('GET logout - session terminated');
     } catch (error) {
       next(error);
     }
   } else {
-    res.redirect("/login");
+    res.send('GET logout - user is not logged in');
   }
 });
 

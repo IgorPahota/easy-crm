@@ -1,14 +1,14 @@
-module.exports = function(app) {
-  const express = require("express");
-  const morgan = require("morgan");
-  const cookieParser = require("cookie-parser");
-  const session = require("express-session");
-  const path = require("path");
-  const FileStore = require("session-file-store")(session);
-  const { cookiesCleaner } = require("./auth");
-  const dbConnection = require("./db-connect");
+module.exports = function (app) {
+  const express = require('express');
+  const morgan = require('morgan');
+  const cookieParser = require('cookie-parser');
+  const session = require('express-session');
+  const path = require('path');
+  const FileStore = require('session-file-store')(session);
+  const { cookiesCleaner } = require('./auth');
+  const dbConnection = require('./db-connect');
 
-  app.use(morgan("dev"));
+  app.use(morgan('dev'));
 
   // Body POST запросов.
   app.use(express.urlencoded({ extended: true }));
@@ -21,8 +21,8 @@ module.exports = function(app) {
   app.use(
     session({
       store: new FileStore(),
-      key: "user_sid",
-      secret: "anything here",
+      key: 'user_sid',
+      secret: 'anything here',
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -34,8 +34,5 @@ module.exports = function(app) {
   app.use(cookiesCleaner);
 
   // Подключаем статику
-  app.use(express.static(path.join(__dirname, '..', "public")));
-
-
-
+  app.use(express.static(path.join(__dirname, '..', 'public')));
 };
