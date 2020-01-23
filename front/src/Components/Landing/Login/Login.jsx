@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {loggedIn} from "../../../redux/loggedIn";
+import Logout from "../Logout/Logout";
 
 class Login extends Component {
     constructor(props) {
@@ -64,6 +65,7 @@ class Login extends Component {
                 <input placeholder="email" onChange={this.getEmailForLogin} value={this.state.email}/>
                 <input placeholder="password" onChange={this.getPasswordForLogin} value={this.state.password}/>
                 <button onClick={this.loginFetch}>Login</button>
+                {this.props.isLoggedIn && <Logout/>}
             </div>
         );
     }
