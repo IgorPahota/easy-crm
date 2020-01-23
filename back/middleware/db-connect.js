@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
 
-mongoose.connect(process.env.DB_CONNECTION_STRING, {
+mongoose.connect('mongodb+srv://admin:drajaAIcMabWuIkV@easycrm-cluster-aqzdv.mongodb.net/easycrm-db?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
 
 module.exports = mongoose.connection;
