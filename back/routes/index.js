@@ -6,49 +6,49 @@ const User = require('../models/users');
 const saltRounds = 10;
 const router = express.Router();
 
-router.get('/', sessionChecker, (req, res) => {
-  res.send('GET to /');
-  // res.redirect('/login');
-});
+// router.get('/', sessionChecker, (req, res) => {
+//   res.send('GET to /');
+//   // res.redirect('/login');
+// });
+//
+// router
+//   .route('/signup')
+//   .get(sessionChecker, (req, res) => {
+//     res.send('GET signup');
+//   })
+//   .post(async (req, res, next) => {
+//     try {
+//       const { username, email, password } = req.body;
+//       const user = new User({
+//         username,
+//         email,
+//         password: await bcrypt.hash(password, saltRounds)
+//       });
+//       await user.save();
+//       req.session.user = user;
+//       res.redirect('/dashboard');
+//     } catch (error) {
+//       next(error);
+//     }
+//   });
 
-router
-  .route('/signup')
-  .get(sessionChecker, (req, res) => {
-    res.send('GET signup');
-  })
-  .post(async (req, res, next) => {
-    try {
-      const { username, email, password } = req.body;
-      const user = new User({
-        username,
-        email,
-        password: await bcrypt.hash(password, saltRounds)
-      });
-      await user.save();
-      req.session.user = user;
-      res.redirect('/dashboard');
-    } catch (error) {
-      next(error);
-    }
-  });
-
-router
-  .route('/login')
-  .get(sessionChecker, (req, res) => {
-    res.send('GET login');
-  })
-  .post(async (req, res) => {
-    const { username, password } = req.body;
-
-    const user = await User.findOne({ username });
-
-    if (user && (await bcrypt.compare(password, user.password))) {
-      req.session.user = user;
-      res.redirect('/dashboard');
-    } else {
-      // res.redirect('/login');
-    }
-  });
+// router
+//   .route('/login')
+//   .get(sessionChecker, (req, res) => {
+//     res.send('GET login');
+//   })
+//   .post(async (req, res) => {
+//     const { username, password } = req.body;
+//
+//     const user = await User.findOne({ username });
+//
+//     if (user && (await bcrypt.compare(password, user.password))) {
+//       req.session.user = user;
+//       res.redirect('/dashboard');
+//     } else {
+//       // res.redirect('/login');
+//     }
+//   });
 
 router.get('/dashboard', (req, res) => {
   const { user } = req.session;

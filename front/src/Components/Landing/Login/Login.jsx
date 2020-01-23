@@ -9,6 +9,16 @@ class Login extends Component {
         }
     }
 
+    componentDidMount = async () =>  {
+        let response = await fetch('/login');
+        let result = await response.json();
+        if (result.isLoggedIn) {
+            alert('you already logged in')
+        } else {
+            alert('login please')
+        }
+    };
+
     getEmailForLogin = (e) => {
         this.setState({
             email: e.target.value
@@ -33,7 +43,12 @@ class Login extends Component {
             })
         });
         let result = await response.json();
-    }
+        if (result.isLoggedIn) {
+            alert ('success')
+        } else {
+            alert ('wrong pass/email')
+        }
+    };
 
 
     render() {

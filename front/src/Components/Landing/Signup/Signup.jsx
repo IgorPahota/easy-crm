@@ -10,6 +10,16 @@ class Signup extends Component {
         }
     }
 
+    componentDidMount = async () =>  {
+        let response = await fetch('/login');
+        let result = await response.json();
+        if (result.isLoggedIn) {
+            alert('you already logged in')
+        } else {
+            alert('login please')
+        }
+    };
+
     getUsernameForRegistration = (e) => {
         this.setState({
             username: e.target.value
@@ -41,6 +51,11 @@ class Signup extends Component {
             })
         });
         let result = await response.json();
+        if (result.isLoggedIn) {
+            alert ('signup true')
+        } else {
+            alert ('signup false')
+        }
     };
 
 

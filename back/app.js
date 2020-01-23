@@ -5,6 +5,8 @@ const usersRouter = require('./routes/users');
 const leadsRouter = require('./routes/leads');
 const contactsRouter = require('./routes/contacts');
 const stagesRouter = require('./routes/stages');
+const signupRouter = require('./routes/signup');
+const loginRouter = require('./routes/login');
 const useErrorHandlers = require('./middleware/error-handlers');
 
 const app = express();
@@ -16,6 +18,8 @@ app.use('/users', usersRouter);
 app.use('/leads', leadsRouter);
 app.use('/contacts', contactsRouter);
 app.use('/stages', stagesRouter);
+app.use('/signup', signupRouter);
+app.use('/login', loginRouter);
 
 useErrorHandlers(app);
 
