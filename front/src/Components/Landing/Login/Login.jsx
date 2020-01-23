@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import {loggedIn} from "../../../redux/loggedIn";
 
 class Login extends Component {
     constructor(props) {
@@ -13,7 +15,9 @@ class Login extends Component {
         let response = await fetch('/login');
         let result = await response.json();
         if (result.isLoggedIn) {
-            alert('you already logged in')
+            alert('you already logged in');
+            let arrayWithProps = [result.username, result.email, result.id];
+            this.props.set(arrayWithProps)
         } else {
             alert('login please')
         }
@@ -45,6 +49,8 @@ class Login extends Component {
         let result = await response.json();
         if (result.isLoggedIn) {
             alert ('success')
+            let arrayWithProps = [result.username, result.email, result.id];
+            this.props.set(arrayWithProps)
         } else {
             alert ('wrong pass/email')
         }
@@ -63,4 +69,18 @@ class Login extends Component {
     }
 }
 
-export default Login;
+function mapDispatchToProps (dispatch) {
+    return {
+        set: (data) => {
+            dispatch(loggedIn(data))
+        }
+    }
+}
+
+function mapStateToProps(store) {
+    return {
+        isLoggedIn: store.isLoggedIn
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
