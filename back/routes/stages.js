@@ -1,14 +1,16 @@
-const express = require('express');
-const Stage = require('../models/stages');
+const express = require("express");
+const Stage = require("../models/stages");
 
 // const { sessionChecker } = require('../middleware/auth');
 const router = express.Router();
 
-
-router.route('/')
+router
+  .route("/")
   .get(async (req, res) => {
     const result = await Stage.find({});
-    await res.send(result);
+    console.log(result);
+    // await res.send(result);
+    await res.json(result);
   })
   .post(async (req, res) => {
     const { name } = req.body;
@@ -17,11 +19,12 @@ router.route('/')
       await newStage.save();
       await res.json({ newStage });
     } catch (error) {
-      res.send('Error saving to db');
+      res.send("Error saving to db");
     }
   });
 
-router.route('/:id')
+router
+  .route("/:id")
   .get(async (req, res) => {
     const { id } = req.params;
     const stage = await Stage.findById(id);
@@ -32,7 +35,9 @@ router.route('/:id')
     const update = {
       name: req.body.name
     };
-    const updated = await Stage.findOneAndUpdate({ _id: id }, update, { new: true });
+    const updated = await Stage.findOneAndUpdate({ _id: id }, update, {
+      new: true
+    });
     await res.json({ updated });
   })
   .delete(async (req, res) => {

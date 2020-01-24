@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
 import NewLeadBtn from "./NewLeadBtn/NewLeadBtn";
@@ -47,25 +47,6 @@ const itemsFromBackend = [
   }
 ];
 
-const columnsFromBackend = {
-  [uuid()]: {
-    name: "Requested",
-    items: itemsFromBackend
-  },
-  [uuid()]: {
-    name: "To do",
-    items: []
-  },
-  [uuid()]: {
-    name: "In Progress",
-    items: []
-  },
-  [uuid()]: {
-    name: "Done",
-    items: []
-  }
-};
-
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
   const { source, destination } = result;
@@ -104,9 +85,77 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 export default function Pipeline() {
+  // const itemsFromBackend = [
+  //   {
+  //     id: uuid(),
+  //     name: undefined,
+  //     price: undefined,
+  //     contactname: undefined,
+  //     contactnumber: undefined,
+  //     company: undefined
+  //   },
+  //   {
+  //     id: uuid(),
+  //     name: undefined,
+  //     price: undefined,
+  //     contactname: undefined,
+  //     contactnumber: undefined,
+  //     company: undefined
+  //   },
+  //   {
+  //     id: uuid(),
+  //     name: undefined,
+  //     price: undefined,
+  //     contactname: undefined,
+  //     contactnumber: undefined,
+  //     company: undefined
+  //   },
+  //   {
+  //     id: uuid(),
+  //     name: undefined,
+  //     price: undefined,
+  //     contactname: undefined,
+  //     contactnumber: undefined,
+  //     company: undefined
+  //   },
+  //   {
+  //     id: uuid(),
+  //     name: undefined,
+  //     price: undefined,
+  //     contactname: undefined,
+  //     contactnumber: undefined,
+  //     company: undefined
+  //   }
+  // ];
+
+  const columnsFromBackend = {};
+
+  useEffect(() => {
+    async function fetchData() {
+      let request = await fetch("/stages");
+      let result = await request.json();
+      let requestItems = await fetch("/leads");
+      let resultItems = await requestItems.json();
+      console.log(resultItems);
+      // debugger;
+      let i = 0;
+      result = result.reduce((acc, x) => {
+        acc[x._id] = x;
+        x.items = [resultItems[i]];
+        i++;
+        return acc;
+      }, {});
+      debugger;
+      setColumns(result);
+    }
+    fetchData();
+    // console.log(columns);
+  }, []);
+  // debugger;
   const [columns, setColumns] = useState(columnsFromBackend);
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+      {/* {JSON.stringify(columns)} */}
       <DragDropContext
         onDragEnd={result => onDragEnd(result, columns, setColumns)}
       >
@@ -120,7 +169,7 @@ export default function Pipeline() {
               }}
               key={columnId}
             >
-              <h2>{column.name.toUpperCase()}</h2>
+              <h2>{column.name}</h2>
               <div style={{ margin: 10 }}>
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided, snapshot) => {
@@ -134,7 +183,7 @@ export default function Pipeline() {
                             : "lightgrey",
                           padding: 4,
                           width: 250,
-                          minHeight: 160,
+                          minHeight: 80,
                           borderRadius: "8px"
                         }}
                       >

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 export default class NewLeadBtn extends Component {
+
   render() {
     return (
       <button
