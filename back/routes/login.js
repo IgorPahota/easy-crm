@@ -5,8 +5,8 @@ const User = require('../models/users');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
   if (user && (await bcrypt.compare(password, user.password))) {
     req.session.user = user;
     await res.json({
@@ -25,8 +25,9 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const {_id, password} = req.session.user;
-    const user = await User.findById({_id});
+    const { _id, password } = req.session.user;
+    const user = await User.findById({ _id });
+    console.log(user);
     if (user.password === password) {
       await res.json({
         isLoggedIn: true,

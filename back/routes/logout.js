@@ -2,17 +2,23 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
   if (req.session.user) {
     try {
       await req.session.destroy();
       res.clearCookie('user_sid');
-      console.log('GET logout - session terminated');
+      res.json({
+        isLoggedIn: false
+      });
     } catch (error) {
-      next(error);
+      res.json({
+        error
+      });
     }
   } else {
-    console.log('GET logout - user is not logged in');
+    res.json({
+      error: 'user is not logged in'
+    });
   }
 });
 
