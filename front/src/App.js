@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { Component } from "react";
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import MainLanding from "./Components/Landing/MainLanding/MainLanding";
+import Pipeline from "./Components/Pipeline/Pipeline";
 
-
-
-
-function App() {
-  return (
-    <div className="App">
-     App
-        <MainLanding/>
-    </div>
-  );
+export default class App extends Component {
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <Switch>
+            <Route exact path="/" component={MainLanding} />
+            <Route path="/leads/pipeline" component={Pipeline} />
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
 }
-
-export default App;
