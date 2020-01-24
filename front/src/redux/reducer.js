@@ -1,4 +1,4 @@
-import {LOGIN_SUCCESS} from "./actions";
+import {LOGIN_SUCCESS, LOGOUT_SUCCESS} from "./actions";
 
 const InitialState = {
     isLoggedIn: false,
@@ -15,6 +15,10 @@ export default function (oldState = InitialState, action) {
                 username: action.username,
                 email: action.email,
                 id: action.id
+            };
+        case LOGOUT_SUCCESS:
+            return {
+                isLoggedIn: false
             }
         default:
             return oldState
