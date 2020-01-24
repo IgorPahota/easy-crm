@@ -1,48 +1,75 @@
-import React, { Component } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Table, Divider, Tag } from 'antd';
 
-class Contacts extends Component {
-  state = {
-    data: []
-  };
 
-  componentDidMount = async () => {
-    const response = await fetch ('/contacts');
-    const contacts = await response.json ();
-    this.setState({
-      data: contacts,
-    });
-  };
+const { Column, ColumnGroup } = Table;
+
+class Contacts extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.data = [
+      {
+        key: '1',
+        name: 'John Brown',
+        age: 32,
+        address: 'New York No. 1 Lake Park',
+        tags: ['nice', 'developer'],
+      },
+      {
+        key: '2',
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No. 1 Lake Park',
+        tags: ['loser'],
+      },
+      {
+        key: '3',
+        name: 'Joe Black',
+        age: 32,
+        address: 'Sidney No. 1 Lake Park',
+        tags: ['cool', 'teacher'],
+      },
+    ];
+  }
+
 
   render() {
     return (
-      <div>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>name</th>
-              <th>company</th>
-              <th>companyDetails</th>
-              <th>email</th>
-              <th>phone</th>
-              <th>address</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.data && this.state.data.map((contact, idx) => {
-              return (
-                <tr key={idx}>
-                  <td>{contact.name}</td>
-                  <td>{contact.company}</td>
-                  <td>{contact.companyDetails}</td>
-                  <td>{contact.email}</td>
-                  <td>{contact.phone}</td>
-                  <td>{contact.address}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
+      <Table dataSource={this.data}>
+        <ColumnGroup title="Name">
+          <Column title="First Name" dataIndex="firstName" key="firstName" />
+          <Column title="Last Name" dataIndex="lastName" key="lastName" />
+        </ColumnGroup>
+        <Column title="Age" dataIndex="age" key="age" />
+        <Column title="Address" dataIndex="address" key="address" />
+        <Column
+          title="Tags"
+          dataIndex="tags"
+          key="tags"
+          render={tags => (
+            <span>
+          {tags.map(tag => (
+            <Tag color="blue" key={tag}>
+              {tag}
+            </Tag>
+          ))}
+        </span>
+          )}
+        />
+        <Column
+          title="Action"
+          key="action"
+          render={(text, record) => (
+            <span>
+          <a>Invite {record.lastName}</a>
+          <Divider type="vertical" />
+          <a>Delete</a>
+        </span>
+          )}
+        />
+      </Table>
     );
   }
 }
