@@ -1,5 +1,6 @@
 const express = require('express');
 const Stage = require('../models/stages');
+const {ObjectId} = require('mongoose').Types;
 
 // const { sessionChecker } = require('../middleware/auth');
 const router = express.Router();
@@ -19,6 +20,13 @@ router.route('/')
     } catch (error) {
       res.send('Error saving to db');
     }
+  });
+
+router.route('/created/:userId')
+  .get(async (req, res) => {
+    const { userId } = req.params;
+    const result = await Stage.find({ creatorId: userId });
+    await res.json(result);
   });
 
 router.route('/:id')
