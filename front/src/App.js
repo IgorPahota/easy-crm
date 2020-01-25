@@ -1,6 +1,8 @@
 import React from 'react';
 // import MainLanding from "./Components/Landing/MainLanding/MainLanding";
-import Contacts from './Components/Application/Contacts/Contacts';
+import ContactsList from './Components/Application/Contacts/ContactsList';
+// import NewContactForm from './Components/Application/Contacts/NewContact';
+import NewContactModal from './Components/Application/Contacts/NewContactModal';
 
 
 
@@ -9,7 +11,12 @@ function App() {
     <div className="App">
      {/*App*/}
      {/*   <MainLanding/>*/}
-     <Contacts />
+     <ContactsList />
+     {/*<ContactListSearch/>*/}
+     {/*<ContactListTwo />*/}
+     {/*<ContactListExp />*/}
+    <NewContactModal />
+
     </div>
   );
 }
