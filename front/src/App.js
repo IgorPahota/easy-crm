@@ -3,11 +3,14 @@ import React from 'react';
 import ContactsList from './Components/Application/Contacts/ContactsList';
 // import NewContactForm from './Components/Application/Contacts/NewContact';
 import NewContactModal from './Components/Application/Contacts/NewContactModal';
-
+import './App.css';
+import {ConfigProvider } from 'antd';
+import ruRU from 'antd/es/locale/ru_RU';
 
 
 function App() {
   return (
+    <ConfigProvider locale={ruRU}>
     <div className="App">
      {/*App*/}
      {/*   <MainLanding/>*/}
@@ -18,6 +21,7 @@ function App() {
     <NewContactModal />
 
     </div>
+    </ConfigProvider>
   );
 }
 

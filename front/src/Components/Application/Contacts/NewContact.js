@@ -46,7 +46,6 @@ class NewContact extends Component {
     }
   };
 
-
   render() {
     const {getFieldDecorator} = this.props.form;
 
@@ -60,6 +59,7 @@ class NewContact extends Component {
         sm: {span: 16},
       },
     };
+
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -144,7 +144,6 @@ class NewContact extends Component {
           })(<Input addonBefore={prefixSelector} style={{width: '100%'}}/>)}
         </Form.Item>
 
-
         <Form.Item label="Адрес">
           {getFieldDecorator('address', {
             rules: [{required: false, message: 'Введите адрес местонахождения'}],
@@ -152,7 +151,9 @@ class NewContact extends Component {
             <Input/>
           )}
         </Form.Item>
+
         <Form.Item {...tailFormItemLayout}>
+
           <Button type="primary" htmlType="submit">
             Register
           </Button>
