@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 class Contacts extends Component {
   state = {
@@ -16,6 +18,8 @@ class Contacts extends Component {
   render() {
     return (
       <div>
+        Contacts
+        {!this.props.isLoggedIn && <Redirect to={'/login'}/>}
         <table className="table">
           <thead>
             <tr>
@@ -47,4 +51,10 @@ class Contacts extends Component {
   }
 }
 
-export default Contacts;
+function mapStateToProps(store) {
+  return {
+    isLoggedIn: store.isLoggedIn
+  }
+}
+
+export default connect (mapStateToProps)(Contacts);
