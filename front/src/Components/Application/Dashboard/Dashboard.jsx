@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
+import { Redirect } from 'react-router-dom'
+
 
 class Dashboard extends Component {
 
@@ -15,10 +18,17 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-
+        Dashboard
+        {!this.props.isLoggedIn && <Redirect to={'login'}/>}
       </div>
     );
   }
 }
 
-export default Dashboard;
+function mapStateToProps(store) {
+  return {
+    isLoggedIn: store.isLoggedIn
+  }
+}
+
+export default connect(mapStateToProps)(Dashboard);
