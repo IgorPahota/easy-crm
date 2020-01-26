@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {loggedIn} from "../../../redux/loggedIn";
-import Logout from "../Logout/Logout";
+import { Redirect } from 'react-router-dom'
 
 class Login extends Component {
     constructor(props) {
@@ -49,7 +49,7 @@ class Login extends Component {
         });
         let result = await response.json();
         if (result.isLoggedIn) {
-            alert ('success')
+            alert ('success');
             let arrayWithProps = [result.username, result.email, result.id];
             this.props.set(arrayWithProps)
         } else {
@@ -65,7 +65,7 @@ class Login extends Component {
                 <input placeholder="email" onChange={this.getEmailForLogin} value={this.state.email}/>
                 <input placeholder="password" onChange={this.getPasswordForLogin} value={this.state.password}/>
                 <button onClick={this.loginFetch}>Login</button>
-                {this.props.isLoggedIn && <Logout/>}
+                {this.props.isLoggedIn && <Redirect to='/dashboard'/>}
             </div>
         );
     }
