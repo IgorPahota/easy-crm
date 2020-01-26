@@ -1,12 +1,14 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Input, Popconfirm, Table } from 'antd';
+import {Input, Popconfirm, Table, Button} from 'antd';
 import 'antd/dist/antd.css';
+
 
 import AddContacts from '../../../redux/addContacts';
 import FilterContacts from '../../../redux/filterContacts';
 
-import {loggedIn} from '../../../redux/loggedIn';
+// import {loggedIn} from '../../../redux/loggedIn';
+import NewContactForm from './NewContact';
 
 class ContactsList extends React.Component {
   constructor(props) {
@@ -32,9 +34,6 @@ class ContactsList extends React.Component {
 
 
   handleDelete = key => {
-    // const dataSource = [...this.props.contacts];
-    // this.setState({resultedData: dataSource.filter(item => item._id !== key)});
-    //
     const filteredData = this.props.contacts.filter(item => item._id !== key);
     this.props.submitFilteredContacts(filteredData);
     this.fetchDeleteUser(key);
@@ -55,7 +54,6 @@ class ContactsList extends React.Component {
 
 
   render() {
-    console.log('this.props.contacts', this.props.contacts)
     const FilterByNameInput = (
       <Input
         placeholder="Найти..."
@@ -85,12 +83,13 @@ class ContactsList extends React.Component {
       {
         title: '#',
         key: 'index',
-        render: (text, record, index) => index
+        render: (text, record, index) => index + 1
       },
       {
         title: FilterByNameInput,
         dataIndex: 'name',
-        key: '1'
+        key: '1',
+        render: (text, record) => <a href={`/contacts/${record._id}`}>{text}</a>,
       },
       {
         title: 'Компания',
@@ -123,7 +122,8 @@ class ContactsList extends React.Component {
         render: (text, record) =>
           this.state.resultedData.length >= 1 ? (
             <Popconfirm title="Уверены?" onConfirm={() => this.handleDelete(record._id)}>
-              <a>Удалить</a>
+              {/*<a>Удалить</a>*/}
+              {<Button type="link">Удалить</Button>}
             </Popconfirm>
           ) : null,
       },
@@ -136,6 +136,7 @@ class ContactsList extends React.Component {
                // dataSource={this.state.resultedData}
                dataSource={this.props.contacts}
         />
+      <NewContactForm />
       </div>
     );
   }

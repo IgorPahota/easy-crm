@@ -44,8 +44,9 @@ class NewContact extends Component {
 
     const data = await response.json();
     if (data) {
-      console.log(data);
-      this.props.submitContacts(data.newUser);
+      console.log('data', data);
+
+      // this.props.submitContacts(data.newUser);
     } else {
       alert('Wrong username or password!')
     }
@@ -57,12 +58,12 @@ class NewContact extends Component {
     });
   };
 
-  handleOk = () => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 2000);
-  };
+  // handleOk = () => {
+  //   this.setState({ loading: true });
+  //   setTimeout(() => {
+  //     this.setState({ loading: false, visible: false });
+  //   }, 2000);
+  // };
 
   handleCancel = () => {
     this.setState({ visible: false });
@@ -79,7 +80,7 @@ class NewContact extends Component {
         sm: {span: 8},
       },
       wrapperCol: {
-        xs: {span: 24},
+        xs: {span: 34},
         sm: {span: 16},
       },
     };
@@ -106,19 +107,23 @@ class NewContact extends Component {
       </Select>,
     );
 
-    this.handleSubmit = e => {
+    this.handleSubmit = (e) => {
       e.preventDefault();
-      this.props.form.validateFieldsAndScroll((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values);
-          const formValues = {
-            ...values,
-            phone: `${values.prefix}${values.phone}`
-          };
-          this.fetchAddUser(formValues);
-        }
-      });
+      this.setState({loading: false, visible: false});
+      this.props.form.validateFieldsAndScroll(async (err, values) => {
+          if (!err) {
+            // console.log('Received values of form: ', values);
+            const formValues = {
+              ...values,
+              phone: `${values.prefix}${values.phone}`
+            };
+            await this.fetchAddUser(formValues);
+            await this.props.submitContacts(formValues);
+          }
+        });
     };
+
+    // const modalTitle = <h3>Добавить новый контакт</h3>
 
     return (
       <div>
@@ -128,14 +133,14 @@ class NewContact extends Component {
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Modal
           visible={visible}
-          title="Добавить новый контакт"
+          title={<h1>Добавить новый контакт</h1>}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               Return
             </Button>,
-            <Button key="submit" type="primary" htmlType="submit" loading={loading} onClick={this.handleOk}>
+            <Button key="submit" type="primary" htmlType="submit" loading={loading} onClick={this.handleSubmit}>
               Submit
             </Button>,
           ]}

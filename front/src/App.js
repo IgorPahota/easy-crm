@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import { ConfigProvider } from 'antd';
+import ruRU from 'antd/es/locale/ru_RU';
 import Login from "./Components/Landing/Login/Login";
 import Signup from "./Components/Landing/Signup/Signup";
 import Dashboard from "./Components/Application/Dashboard/Dashboard";
-import Contacts from "./Components/Application/Contacts/Contacts";
+import ContactsList from './Components/Application/Contacts/ContactsList';
 import LandingNavbar from "./Components/Landing/LandingNavbar/LandingNavbar";
 import {loggedIn} from "./redux/loggedIn";
 import ApplicationNavbar from "./Components/Application/ApplicationNavbar/ApplicationNavbar";
-
+import './App.css';
+import ContactInfo from './Components/Application/Contacts/ContactInfo';
 
 
 class App extends Component {
@@ -26,8 +29,9 @@ class App extends Component {
     render() {
 
         return (
+          <ConfigProvider locale={ruRU}>
             <Router>
-            <div>
+            <div className="App">
                 APP.JS
                 {!this.props.isLoggedIn && <LandingNavbar/>}
                 {this.props.isLoggedIn && <ApplicationNavbar/>}
@@ -35,7 +39,8 @@ class App extends Component {
                     <Route  path='/login' component={Login}/>
                     <Route  path='/signup' component={Signup}/>
                     <Route  path='/dashboard' component={Dashboard}/>
-                    <Route  path='/contacts' component={Contacts}/>
+                    <Route  path='/contacts' component={ContactsList}/>
+                    <Route path="/contacts/:id" component={ContactInfo} />
                     <Route render={()=>{
                         return (
                             <Redirect to={'/login'}/>
@@ -44,6 +49,7 @@ class App extends Component {
                 </Switch>
             </div>
             </Router>
+          </ConfigProvider>
         );
     }
 }
