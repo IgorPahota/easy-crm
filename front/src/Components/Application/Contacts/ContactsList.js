@@ -1,6 +1,9 @@
 import React from 'react';
+import {connect} from "react-redux";
 import {Input, Popconfirm, Table } from 'antd';
 import 'antd/dist/antd.css';
+import {AddContacts, FilterContacts} from '../../../redux/creators';
+import {loggedIn} from '../../../redux/loggedIn';
 
 class ContactsList extends React.Component {
   constructor(props) {
@@ -20,12 +23,17 @@ class ContactsList extends React.Component {
       data: contacts,
       resultedData: contacts
     });
+    this.props.submitContacts(contacts);
+
   };
 
 
   handleDelete = key => {
-    const dataSource = [...this.state.resultedData];
-    this.setState({resultedData: dataSource.filter(item => item._id !== key)});
+    // const dataSource = [...this.props.contacts];
+    // this.setState({resultedData: dataSource.filter(item => item._id !== key)});
+    //
+    const filteredData = this.props.contacts.filter(item => item._id !== key);
+    this.props.submitFilteredContacts(filteredData);
     this.fetchDeleteUser(key);
   };
 
@@ -44,6 +52,7 @@ class ContactsList extends React.Component {
 
 
   render() {
+    console.log('this.props.contacts', this.props.contacts)
     const FilterByNameInput = (
       <Input
         placeholder="Найти..."
@@ -51,14 +60,19 @@ class ContactsList extends React.Component {
         onChange={e => {
           const currValue = e.target.value;
           this.setState({value: currValue});
+
           let filteredData = this.state.data.filter(
             entry => {
               const entryName = entry.name.toLowerCase();
               return entryName.includes(currValue.toLowerCase())
             }
           );
-          this.setState({resultedData: filteredData});
-          console.log(this.state.resultedData)
+          this.setState({
+            resultedData: filteredData
+          });
+
+          this.props.submitFilteredContacts(filteredData);
+
         }}
       />
     );
@@ -110,18 +124,40 @@ class ContactsList extends React.Component {
             </Popconfirm>
           ) : null,
       },
-
     ];
 
     return (
       <div>
         <Table rowKey={record => record._id}
                columns={columns}
-               dataSource={this.state.resultedData}
+               // dataSource={this.state.resultedData}
+               dataSource={this.props.contacts}
         />
       </div>
     );
   }
 }
 
-export default ContactsList;
+const mapStateToProps = (state) => {
+  return {
+    // loading: state.loading,
+    // error: state.error,
+    // url: state.url,
+    contacts: state.contacts,
+    filteredContacts: state.resultedData
+
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitContacts: (contacts) => {
+      dispatch( AddContacts(contacts) )
+    },
+    submitFilteredContacts: (contacts) => {
+      dispatch( FilterContacts(contacts) )
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsList)

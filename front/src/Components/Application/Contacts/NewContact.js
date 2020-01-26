@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Form, Input, Select } from 'antd';
+import {AddContacts} from '../../../redux/creators';
+import {connect} from 'react-redux';
 
 const { Option } = Select;
 
@@ -41,6 +43,7 @@ class NewContact extends Component {
     const data = await response.json();
     if (data) {
       console.log(data);
+      this.props.submitContacts(data.newUser);
     } else {
       alert('Wrong username or password!')
     }
@@ -155,7 +158,7 @@ class NewContact extends Component {
         <Form.Item {...tailFormItemLayout}>
 
           <Button type="primary" htmlType="submit">
-            Register
+            Добавить
           </Button>
         </Form.Item>
       </Form>
@@ -163,6 +166,16 @@ class NewContact extends Component {
   }
 }
 
-const NewContactForm = Form.create()(NewContact);
 
-export default NewContactForm;
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitContacts: (contact) => {
+      dispatch( AddContacts(contact) )
+    }
+  }
+};
+
+const NewContactForm = Form.create()(NewContact);
+export default connect(null, mapDispatchToProps)(NewContactForm)
