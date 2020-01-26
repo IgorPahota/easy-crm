@@ -36,7 +36,7 @@ router.route('/:id')
   .get(async (req, res) => {
     const { id } = req.params;
     const contact = await Contact.findById(id);
-    res.json({ contact });
+    await res.json({ contact });
   })
   .put(async (req, res) => {
     const { id } = req.params;
