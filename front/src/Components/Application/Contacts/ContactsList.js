@@ -2,7 +2,10 @@ import React from 'react';
 import {connect} from "react-redux";
 import {Input, Popconfirm, Table } from 'antd';
 import 'antd/dist/antd.css';
-import {AddContacts, FilterContacts} from '../../../redux/creators';
+
+import AddContacts from '../../../redux/addContacts';
+import FilterContacts from '../../../redux/filterContacts';
+
 import {loggedIn} from '../../../redux/loggedIn';
 
 class ContactsList extends React.Component {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Button, Form, Input, Select } from 'antd';
-import {AddContacts} from '../../../redux/creators';
+import {Button, Modal, Form, Input, Select } from 'antd';
+import AddContacts from '../../../redux/addContacts';
 import {connect} from 'react-redux';
 
 const { Option } = Select;
@@ -10,6 +10,8 @@ class NewContact extends Component {
     super(props);
 
     this.state = {
+      loading: false,
+      visible: false,
       confirmDirty: false,
       autoCompleteResult: [],
       name: '',
@@ -49,7 +51,26 @@ class NewContact extends Component {
     }
   };
 
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = () => {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+    }, 2000);
+  };
+
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
+
   render() {
+    const { visible, loading } = this.state;
+
     const {getFieldDecorator} = this.props.form;
 
     const formItemLayout = {
@@ -100,7 +121,25 @@ class NewContact extends Component {
     };
 
     return (
+      <div>
+        <Button type="primary" onClick={this.showModal}>
+          Новый контакт
+        </Button>
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Modal
+          visible={visible}
+          title="Добавить новый контакт"
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button key="back" onClick={this.handleCancel}>
+              Return
+            </Button>,
+            <Button key="submit" type="primary" htmlType="submit" loading={loading} onClick={this.handleOk}>
+              Submit
+            </Button>,
+          ]}
+        >
 
         <Form.Item label="Контакт">
           {getFieldDecorator('name', {
@@ -157,17 +196,24 @@ class NewContact extends Component {
 
         <Form.Item {...tailFormItemLayout}>
 
-          <Button type="primary" htmlType="submit">
-            Добавить
-          </Button>
+          {/*<Button type="primary" htmlType="submit">*/}
+          {/*  Добавить*/}
+          {/*</Button>*/}
         </Form.Item>
+          {/*<Button key="submit" htmlType="submit" type="primary" loading={loading} onClick={this.handleOk}>*/}
+          {/*  Submit*/}
+          {/*</Button>,*/}
+
+
+
+
+
+        </Modal>
       </Form>
+      </div>
     );
   }
 }
-
-
-
 
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -2,7 +2,7 @@ import React from 'react';
 // import MainLanding from "./Components/Landing/MainLanding/MainLanding";
 import ContactsList from './Components/Application/Contacts/ContactsList';
 // import NewContactForm from './Components/Application/Contacts/NewContact';
-import NewContactModal from './Components/Application/Contacts/NewContactModal';
+import NewContact from './Components/Application/Contacts/NewContact';
 import './App.css';
 import {ConfigProvider } from 'antd';
 import ruRU from 'antd/es/locale/ru_RU';
@@ -18,7 +18,7 @@ function App() {
      {/*<ContactListSearch/>*/}
      {/*<ContactListTwo />*/}
      {/*<ContactListExp />*/}
-    <NewContactModal />
+    <NewContact />
 
     </div>
     </ConfigProvider>
