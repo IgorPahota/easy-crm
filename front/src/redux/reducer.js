@@ -26,18 +26,17 @@ export default function (oldState = InitialState, action) {
             };
 
         case ADD_CONTACTS:
-            if (action.contacts) {
+                console.log('action.contacts', action.contacts)
                 return {
+                    isLoggedIn: true,
                     contacts: [
-                        ...oldState.contacts.concat(action.contacts)
+                      ...oldState.contacts.concat(action.contacts)
                     ],
-                    isLoggedIn: oldState.isLoggedIn,
-                    username: oldState.username,
-                    email: oldState.email,
-                    id: oldState.id
-                }
-            }
-            break;
+                    // isLoggedIn: oldState.isLoggedIn,
+                    // username: oldState.username,
+                    // email: oldState.email,
+                    // id: oldState.id
+                };
 
             case FILTER_CONTACTS:
             if (action.contacts) {
@@ -51,12 +50,7 @@ export default function (oldState = InitialState, action) {
                 return {
                     currentContact: action.currentContact
                 };
-
-
-
-
         default:
             return oldState
     }
-
 }

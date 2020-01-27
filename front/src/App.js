@@ -19,8 +19,11 @@ class App extends Component {
         let response = await fetch('/login');
         let result = await response.json();
         if (result.isLoggedIn) {
+            const responseContacts = await fetch('/contacts');
+            const contacts = await responseContacts.json();
+
             // alert('you already logged in');
-            let arrayWithProps = [result.username, result.email, result.id];
+            let arrayWithProps = [result.username, result.email, result.id, contacts];
             this.props.set(arrayWithProps)
         } else {
             // alert('login please')
