@@ -6,15 +6,21 @@ const router = express.Router();
 router
   .route("/")
   .get(async (req, res) => {
-    const result = await Stage.find({});
+    // const result = await Stage.find({});
     const { _id } = req.session.user;
+    // console.log(req.session.user);
+
     const userStages = await Stage.find({ creatorId: _id });
     // console.log(userStages);
+    // await res.json(result);
     await res.json(userStages);
   })
   .post(async (req, res) => {
     const { name } = req.body;
     const { _id } = req.session.user;
+    req.session.user.stageName = name;
+    console.log(req.session.user);
+
     const newStage = new Stage({ name, creatorId: _id });
     try {
       await newStage.save();
@@ -24,7 +30,7 @@ router
     }
   })
   .delete(async (req, res) => {
-    const { laneId } = req.body;
+    const { laneId } = req.params;
     try {
       await Stage.findOneAndDelete({ _id: laneId });
       await res.json(true);

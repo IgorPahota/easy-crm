@@ -11,12 +11,18 @@ router
     await res.send(result);
   })
   .post(async (req, res) => {
-    const { name, stageID, contactId, creatorId, price, details } = req.body;
+    const { name, details } = req.body;
+    const { _id } = req.session.user;
+    console.log(req.session.user);
+    // const { stageName } = req.session.user.stageName;
+
+    // console.log(req.body);
     const newLead = new Lead({
       name,
+      // stageID: stageName,
       stageID,
       contactId,
-      creatorId,
+      creatorId: _id,
       price,
       details,
       created: Date.now(),

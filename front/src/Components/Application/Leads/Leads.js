@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import Board from "react-trello";
 
-import { connect } from "react-redux";
-
 export default class Leads extends Component {
   constructor(props) {
     super(props);
@@ -30,10 +28,6 @@ export default class Leads extends Component {
     let result = await response.json();
     let responseLead = await fetch("/leads");
     let resultLeads = await responseLead.json();
-    // console.log(resultLeads[0]._id);
-    // console.log(resultLeads);
-    // console.log(result);
-
     const lanes = [];
     const cards = [];
 
@@ -79,7 +73,7 @@ export default class Leads extends Component {
   };
 
   onLaneDelete = async params => {
-    console.log(params);
+    // console.log(params);
     let response = await fetch(`/stages/${params}`, {
       method: "DELETE",
       headers: {
@@ -91,12 +85,23 @@ export default class Leads extends Component {
     });
   };
 
-  onCardDelete = e => {
-    alert("deleting card");
+  onCardAdd = async params => {
+    console.log(params);
+
+    let response = await fetch("/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: params.title,
+        details: params.description
+      })
+    });
   };
 
-  onCardAdd = e => {
-    alert("adding card");
+  onCardDelete = async params => {
+    alert("deleting card");
   };
 
   render() {
@@ -126,13 +131,3 @@ export default class Leads extends Component {
     );
   }
 }
-
-// function mapStateToProps(store) {
-//   return {};
-// }
-
-// function mapDispatchToProps(dispatch) {
-//   return {};
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Leads);
