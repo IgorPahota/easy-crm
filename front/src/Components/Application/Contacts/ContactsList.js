@@ -20,15 +20,15 @@ class ContactsList extends React.Component {
   }
 
   componentDidMount = async () => {
-    const response = await fetch('/contacts');
-    const contacts = await response.json();
-    console.log('contacts', contacts)
-    this.setState({
-      data: contacts,
-      resultedData: contacts
-    });
-    this.props.submitContacts(contacts);
-
+    
+      const response = await fetch('/contacts');
+      const contacts = await response.json();
+      console.log('контакты до фетча', contacts)
+      if (contacts.isLoggedIn) {
+        await this.props.submitContacts(contacts);
+      } else {
+        console.log('Это контакты после фетча', this.props.contacts)
+      }
   };
 
   handleDelete = key => {
@@ -113,7 +113,7 @@ class ContactsList extends React.Component {
         title: 'Действия',
         key: 'action',
         render: (text, record) =>
-          this.state.resultedData.length >= 1 ? (
+          this.props.contacts.length >= 1 ? (
             <Popconfirm title="Уверены?" onConfirm={() => this.handleDelete(record._id)}>
               {<Button type="link">Удалить</Button>}
             </Popconfirm>
@@ -136,7 +136,7 @@ class ContactsList extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.isLoggedIn,
+    // isLoggedIn: state.isLoggedIn,
     contacts: state.contacts,
     filteredContacts: state.resultedData
 

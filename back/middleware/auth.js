@@ -10,7 +10,7 @@ function cookiesCleaner(req, res, next) {
 // middleware function to check for logged-in users
 const sessionChecker = (req, res, next) => {
   if (!req.session.user) {
-    res.send('Auth error!');
+    res.json({ isLoggedIn: false });
   } else {
     next();
   }

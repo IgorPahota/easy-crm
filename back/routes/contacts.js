@@ -1,14 +1,18 @@
 const express = require('express');
 const Contact = require('../models/contacts');
 
-// const { sessionChecker } = require('../middleware/auth');
+const { sessionChecker } = require('../middleware/auth');
 const router = express.Router();
 
 
 router.route('/')
   .get(async (req, res) => {
-    const result = await Contact.find({});
-    await res.send(result);
+    if (req.session) {
+      const result = await Contact.find({});
+      await res.send(result);
+    } else {
+      console.log('You r enot logge ');
+    }
   })
   .post(async (req, res) => {
     const {
