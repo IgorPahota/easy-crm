@@ -1,4 +1,4 @@
-import {ADD_CONTACTS, FILTER_CONTACTS, LOGIN_SUCCESS, LOGOUT_SUCCESS} from "./actions";
+import {ADD_CONTACTS, SHOW_CONTACT, FILTER_CONTACTS, LOGIN_SUCCESS, LOGOUT_SUCCESS} from "./actions";
 
 const InitialState = {
     isLoggedIn: false,
@@ -6,7 +6,8 @@ const InitialState = {
     email: undefined,
     id: undefined,
     contacts: [],
-    filteredContacts: []
+    filteredContacts: [],
+    currentContact: {}
 };
 
 export default function (oldState = InitialState, action) {
@@ -16,7 +17,8 @@ export default function (oldState = InitialState, action) {
                 isLoggedIn: true,
                 username: action.username,
                 email: action.email,
-                id: action.id
+                id: action.id,
+                contacts: action.contacts
             };
         case LOGOUT_SUCCESS:
             return {
@@ -28,7 +30,11 @@ export default function (oldState = InitialState, action) {
                 return {
                     contacts: [
                         ...oldState.contacts.concat(action.contacts)
-                    ]
+                    ],
+                    isLoggedIn: oldState.isLoggedIn,
+                    username: oldState.username,
+                    email: oldState.email,
+                    id: oldState.id
                 }
             }
             break;
@@ -40,6 +46,13 @@ export default function (oldState = InitialState, action) {
                 }
             }
             break;
+
+        case SHOW_CONTACT:
+                return {
+                    currentContact: action.currentContact
+                };
+
+
 
 
         default:

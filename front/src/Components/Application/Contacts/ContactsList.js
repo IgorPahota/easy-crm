@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Input, Popconfirm, Table } from 'antd';
-import 'antd/dist/antd.css';
+import {Input, Popconfirm, Table, Button} from 'antd';
 
-import AddContacts from '../../../redux/addContacts';
+import AddContacts from '../../../redux/addContact';
 import FilterContacts from '../../../redux/filterContacts';
 
-import {loggedIn} from '../../../redux/loggedIn';
+// import {loggedIn} from '../../../redux/loggedIn';
+import NewContactForm from './NewContact';
 
 class ContactsList extends React.Component {
   constructor(props) {
@@ -22,6 +22,7 @@ class ContactsList extends React.Component {
   componentDidMount = async () => {
     const response = await fetch('/contacts');
     const contacts = await response.json();
+    console.log('contacts', contacts)
     this.setState({
       data: contacts,
       resultedData: contacts
@@ -30,11 +31,7 @@ class ContactsList extends React.Component {
 
   };
 
-
   handleDelete = key => {
-    // const dataSource = [...this.props.contacts];
-    // this.setState({resultedData: dataSource.filter(item => item._id !== key)});
-    //
     const filteredData = this.props.contacts.filter(item => item._id !== key);
     this.props.submitFilteredContacts(filteredData);
     this.fetchDeleteUser(key);
@@ -53,9 +50,7 @@ class ContactsList extends React.Component {
     }
   };
 
-
   render() {
-    console.log('this.props.contacts', this.props.contacts)
     const FilterByNameInput = (
       <Input
         placeholder="Найти..."
@@ -63,7 +58,6 @@ class ContactsList extends React.Component {
         onChange={e => {
           const currValue = e.target.value;
           this.setState({value: currValue});
-
           let filteredData = this.state.data.filter(
             entry => {
               const entryName = entry.name.toLowerCase();
@@ -73,24 +67,22 @@ class ContactsList extends React.Component {
           this.setState({
             resultedData: filteredData
           });
-
           this.props.submitFilteredContacts(filteredData);
-
         }}
       />
     );
-
 
     const columns = [
       {
         title: '#',
         key: 'index',
-        render: (text, record, index) => index
+        render: (text, record, index) => index + 1
       },
       {
         title: FilterByNameInput,
         dataIndex: 'name',
-        key: '1'
+        key: '1',
+        render: (text, record) => <a href={`/contacts/${record._id}`}>{text}</a>,
       },
       {
         title: 'Компания',
@@ -123,7 +115,7 @@ class ContactsList extends React.Component {
         render: (text, record) =>
           this.state.resultedData.length >= 1 ? (
             <Popconfirm title="Уверены?" onConfirm={() => this.handleDelete(record._id)}>
-              <a>Удалить</a>
+              {<Button type="link">Удалить</Button>}
             </Popconfirm>
           ) : null,
       },
@@ -133,9 +125,10 @@ class ContactsList extends React.Component {
       <div>
         <Table rowKey={record => record._id}
                columns={columns}
-               // dataSource={this.state.resultedData}
                dataSource={this.props.contacts}
         />
+        {/*{this.props.contacts ? <p>{this.props.contacts}</p> : <p>а</p>}*/}
+      <NewContactForm />
       </div>
     );
   }
@@ -143,9 +136,7 @@ class ContactsList extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    // loading: state.loading,
-    // error: state.error,
-    // url: state.url,
+    isLoggedIn: state.isLoggedIn,
     contacts: state.contacts,
     filteredContacts: state.resultedData
 

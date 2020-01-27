@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import { ConfigProvider } from 'antd';
+import ruRU from 'antd/es/locale/ru_RU';
 import Login from "./Components/Landing/Login/Login";
 import Signup from "./Components/Landing/Signup/Signup";
 import Dashboard from "./Components/Application/Dashboard/Dashboard";
-import Contacts from "./Components/Application/Contacts/Contacts";
+import ContactsList from './Components/Application/Contacts/ContactsList';
 import LandingNavbar from "./Components/Landing/LandingNavbar/LandingNavbar";
 import {loggedIn} from "./redux/loggedIn";
 import ApplicationNavbar from "./Components/Application/ApplicationNavbar/ApplicationNavbar";
-
+import './App.css';
+import ContactInfo from './Components/Application/Contacts/ContactInfo';
 
 
 class App extends Component {
@@ -16,18 +19,19 @@ class App extends Component {
         let response = await fetch('/login');
         let result = await response.json();
         if (result.isLoggedIn) {
-            alert('you already logged in');
+            // alert('you already logged in');
             let arrayWithProps = [result.username, result.email, result.id];
             this.props.set(arrayWithProps)
         } else {
-            alert('login please')
+            // alert('login please')
         }
     };
     render() {
 
         return (
+          <ConfigProvider locale={ruRU}>
             <Router>
-            <div>
+            <div className="App">
                 APP.JS
                 {!this.props.isLoggedIn && <LandingNavbar/>}
                 {this.props.isLoggedIn && <ApplicationNavbar/>}
@@ -35,15 +39,17 @@ class App extends Component {
                     <Route  path='/login' component={Login}/>
                     <Route  path='/signup' component={Signup}/>
                     <Route  path='/dashboard' component={Dashboard}/>
-                    <Route  path='/contacts' component={Contacts}/>
-                    <Route render={()=>{
-                        return (
-                            <Redirect to={'/login'}/>
-                        )
-                    }}/>
+                    <Route exact path='/contacts' component={ContactsList}/>
+                    <Route path="/contacts/:id" component={ContactInfo} />
+                    {/*<Route render={()=>{*/}
+                    {/*    return (*/}
+                    {/*        <Redirect to={'/login'}/>*/}
+                    {/*    )*/}
+                    {/*}}/>*/}
                 </Switch>
             </div>
             </Router>
+          </ConfigProvider>
         );
     }
 }

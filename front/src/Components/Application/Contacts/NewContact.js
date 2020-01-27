@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Button, Modal, Form, Input, Select } from 'antd';
-import AddContacts from '../../../redux/addContacts';
+import {Button, Modal, Form, Input, Select, Typography } from 'antd';
+import AddContacts from '../../../redux/addContact';
 import {connect} from 'react-redux';
 
 const { Option } = Select;
+const { Title } = Typography;
 
 class NewContact extends Component {
   constructor(props) {
@@ -44,8 +45,7 @@ class NewContact extends Component {
 
     const data = await response.json();
     if (data) {
-      console.log(data);
-      this.props.submitContacts(data.newUser);
+      console.log('data', data);
     } else {
       alert('Wrong username or password!')
     }
@@ -57,12 +57,12 @@ class NewContact extends Component {
     });
   };
 
-  handleOk = () => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 2000);
-  };
+  // handleOk = () => {
+  //   this.setState({ loading: true });
+  //   setTimeout(() => {
+  //     this.setState({ loading: false, visible: false });
+  //   }, 2000);
+  // };
 
   handleCancel = () => {
     this.setState({ visible: false });
@@ -79,7 +79,7 @@ class NewContact extends Component {
         sm: {span: 8},
       },
       wrapperCol: {
-        xs: {span: 24},
+        xs: {span: 34},
         sm: {span: 16},
       },
     };
@@ -106,18 +106,19 @@ class NewContact extends Component {
       </Select>,
     );
 
-    this.handleSubmit = e => {
+    this.handleSubmit = (e) => {
       e.preventDefault();
-      this.props.form.validateFieldsAndScroll((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values);
-          const formValues = {
-            ...values,
-            phone: `${values.prefix}${values.phone}`
-          };
-          this.fetchAddUser(formValues);
-        }
-      });
+      this.setState({loading: false, visible: false});
+      this.props.form.validateFieldsAndScroll(async (err, values) => {
+          if (!err) {
+            const formValues = {
+              ...values,
+              phone: `${values.prefix}${values.phone}`
+            };
+            await this.fetchAddUser(formValues);
+            await this.props.submitContacts(formValues);
+          }
+        });
     };
 
     return (
@@ -128,15 +129,15 @@ class NewContact extends Component {
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Modal
           visible={visible}
-          title="Добавить новый контакт"
+          title={<Title level={3}>Добавить новый контакт</Title>}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
-              Return
+              Отмена
             </Button>,
-            <Button key="submit" type="primary" htmlType="submit" loading={loading} onClick={this.handleOk}>
-              Submit
+            <Button key="submit" type="primary" htmlType="submit" loading={loading} onClick={this.handleSubmit}>
+              Сохранить
             </Button>,
           ]}
         >
@@ -203,11 +204,6 @@ class NewContact extends Component {
           {/*<Button key="submit" htmlType="submit" type="primary" loading={loading} onClick={this.handleOk}>*/}
           {/*  Submit*/}
           {/*</Button>,*/}
-
-
-
-
-
         </Modal>
       </Form>
       </div>

@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 .App {
   margin: 10px;
 }
@@ -35,4 +37,27 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.login-form {
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.form-title {
+  text-align: center;
+}
+
+.bold-text {
+  font-weight: bold;
 }
