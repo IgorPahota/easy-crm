@@ -1,26 +1,26 @@
-import React, {Component} from 'react';
-import {NavLink} from "react-router-dom";
+import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 import Logout from "../../Landing/Logout/Logout";
-import {connect} from 'react-redux'
-
+import { connect } from "react-redux";
 
 class ApplicationNavbar extends Component {
-    render() {
-        return (
-            <div>
-                <NavLink to={'/dashboard'}>Dashboard</NavLink>
-                <NavLink to={'/contacts'}>Contacts</NavLink>
-                <Logout/>
-                {this.props.username}
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <NavLink to={"/dashboard"}>Dashboard</NavLink>
+        <NavLink to={"/leads"}>Leads</NavLink>
+        <NavLink to={"/contacts"}>Contacts</NavLink>
+        <Logout />
+        {this.props.username}
+      </div>
+    );
+  }
 }
 
 function mapStateToProps(store) {
-    return {
-        username: store.username
-    }
+  return {
+    username: store.username
+  };
 }
 
 export default connect(mapStateToProps)(ApplicationNavbar);

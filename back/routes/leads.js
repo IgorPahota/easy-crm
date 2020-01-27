@@ -1,19 +1,17 @@
-const express = require('express');
-const Lead = require('../models/leads');
+const express = require("express");
+const Lead = require("../models/leads");
 
 // const { sessionChecker } = require('../middleware/auth');
 const router = express.Router();
 
-
-router.route('/')
+router
+  .route("/")
   .get(async (req, res) => {
     const result = await Lead.find({});
     await res.send(result);
   })
   .post(async (req, res) => {
-    const {
-      name, stageID, contactId, creatorId, price, details
-    } = req.body;
+    const { name, stageID, contactId, creatorId, price, details } = req.body;
     const newLead = new Lead({
       name,
       stageID,
@@ -28,11 +26,12 @@ router.route('/')
       await newLead.save();
       await res.json({ newLead });
     } catch (error) {
-      res.send('Error saving to db');
+      res.send("Error saving to db");
     }
   });
 
-router.route('/:id')
+router
+  .route("/:id")
   .get(async (req, res) => {
     const { id } = req.params;
     const lead = await Lead.findById(id);
@@ -48,7 +47,9 @@ router.route('/:id')
       details: req.body.details,
       updated: Date.now()
     };
-    const updated = await Lead.findOneAndUpdate({ _id: id }, update, { new: true });
+    const updated = await Lead.findOneAndUpdate({ _id: id }, update, {
+      new: true
+    });
     await res.json({ updated });
   })
   .delete(async (req, res) => {

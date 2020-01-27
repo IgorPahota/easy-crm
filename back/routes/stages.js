@@ -1,33 +1,46 @@
-const express = require('express');
-const Stage = require('../models/stages');
+const express = require("express");
+const Stage = require("../models/stages");
 
 const router = express.Router();
 
-
-router.route('/')
+router
+  .route("/")
   .get(async (req, res) => {
     const result = await Stage.find({});
-    await res.send(result);
+    const { _id } = req.session.user;
+    const userStages = await Stage.find({ creatorId: _id });
+    // console.log(userStages);
+    await res.json(userStages);
   })
   .post(async (req, res) => {
     const { name } = req.body;
-    const newStage = new Stage({ name });
+    const { _id } = req.session.user;
+    const newStage = new Stage({ name, creatorId: _id });
     try {
       await newStage.save();
       await res.json({ newStage });
     } catch (error) {
-      res.send('Error saving to db');
+      res.json("Error saving to db");
+    }
+  })
+  .delete(async (req, res) => {
+    const { laneId } = req.body;
+    try {
+      await Stage.findOneAndDelete({ _id: laneId });
+      await res.json(true);
+    } catch (e) {
+      await res.json(false);
     }
   });
 
-router.route('/created/:userId')
-  .get(async (req, res) => {
-    const { userId } = req.params;
-    const result = await Stage.find({ creatorId: userId });
-    await res.json(result);
-  });
+router.route("/created/:userId").get(async (req, res) => {
+  const { userId } = req.params;
+  const result = await Stage.find({ creatorId: userId });
+  await res.json(result);
+});
 
-router.route('/:id')
+router
+  .route("/:id")
   .get(async (req, res) => {
     const { id } = req.params;
     const stage = await Stage.findById(id);
@@ -38,7 +51,9 @@ router.route('/:id')
     const update = {
       name: req.body.name
     };
-    const updated = await Stage.findOneAndUpdate({ _id: id }, update, { new: true });
+    const updated = await Stage.findOneAndUpdate({ _id: id }, update, {
+      new: true
+    });
     await res.json({ updated });
   })
   .delete(async (req, res) => {
