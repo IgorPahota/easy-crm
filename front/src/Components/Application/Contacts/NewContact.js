@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Button, Modal, Form, Input, Select } from 'antd';
-import AddContacts from '../../../redux/addContacts';
+import {Button, Modal, Form, Input, Select, Typography } from 'antd';
+import AddContacts from '../../../redux/addContact';
 import {connect} from 'react-redux';
 
 const { Option } = Select;
+const { Title } = Typography;
 
 class NewContact extends Component {
   constructor(props) {
@@ -45,8 +46,6 @@ class NewContact extends Component {
     const data = await response.json();
     if (data) {
       console.log('data', data);
-
-      // this.props.submitContacts(data.newUser);
     } else {
       alert('Wrong username or password!')
     }
@@ -112,7 +111,6 @@ class NewContact extends Component {
       this.setState({loading: false, visible: false});
       this.props.form.validateFieldsAndScroll(async (err, values) => {
           if (!err) {
-            // console.log('Received values of form: ', values);
             const formValues = {
               ...values,
               phone: `${values.prefix}${values.phone}`
@@ -123,8 +121,6 @@ class NewContact extends Component {
         });
     };
 
-    // const modalTitle = <h3>Добавить новый контакт</h3>
-
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
@@ -133,15 +129,15 @@ class NewContact extends Component {
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Modal
           visible={visible}
-          title={<h1>Добавить новый контакт</h1>}
+          title={<Title level={3}>Добавить новый контакт</Title>}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
-              Return
+              Отмена
             </Button>,
             <Button key="submit" type="primary" htmlType="submit" loading={loading} onClick={this.handleSubmit}>
-              Submit
+              Сохранить
             </Button>,
           ]}
         >
@@ -208,11 +204,6 @@ class NewContact extends Component {
           {/*<Button key="submit" htmlType="submit" type="primary" loading={loading} onClick={this.handleOk}>*/}
           {/*  Submit*/}
           {/*</Button>,*/}
-
-
-
-
-
         </Modal>
       </Form>
       </div>

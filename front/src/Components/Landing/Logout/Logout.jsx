@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {loggedOut} from "../../../redux/loggedOut";
+import {message, Button} from 'antd';
 
 class Logout extends Component {
 
@@ -9,14 +10,14 @@ class Logout extends Component {
         let result = await response.json();
         if (!result.isLoggedIn) {
             this.props.set();
-            alert('you are logged out')
+            message.warning('Вы вышли из системы');
         } else alert(result.error)
     };
 
     render() {
         return (
             <div>
-                <button onClick={this.logoutFetch}>Logout</button>
+                <Button onClick={this.logoutFetch}>Logout</Button>
             </div>
         );
     }

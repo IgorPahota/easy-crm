@@ -19,11 +19,11 @@ class App extends Component {
         let response = await fetch('/login');
         let result = await response.json();
         if (result.isLoggedIn) {
-            alert('you already logged in');
+            // alert('you already logged in');
             let arrayWithProps = [result.username, result.email, result.id];
             this.props.set(arrayWithProps)
         } else {
-            alert('login please')
+            // alert('login please')
         }
     };
     render() {
@@ -39,13 +39,13 @@ class App extends Component {
                     <Route  path='/login' component={Login}/>
                     <Route  path='/signup' component={Signup}/>
                     <Route  path='/dashboard' component={Dashboard}/>
-                    <Route  path='/contacts' component={ContactsList}/>
+                    <Route exact path='/contacts' component={ContactsList}/>
                     <Route path="/contacts/:id" component={ContactInfo} />
-                    <Route render={()=>{
-                        return (
-                            <Redirect to={'/login'}/>
-                        )
-                    }}/>
+                    {/*<Route render={()=>{*/}
+                    {/*    return (*/}
+                    {/*        <Redirect to={'/login'}/>*/}
+                    {/*    )*/}
+                    {/*}}/>*/}
                 </Switch>
             </div>
             </Router>

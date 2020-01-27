@@ -35,6 +35,7 @@ router.route('/')
 router.route('/:id')
   .get(async (req, res) => {
     const { id } = req.params;
+    console.log(id);
     const contact = await Contact.findById(id);
     await res.json({ contact });
   })

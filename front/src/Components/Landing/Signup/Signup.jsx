@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux'
+import {Button, Checkbox, Form, Icon, Input, message, Typography} from 'antd';
+import {connect} from 'react-redux';
 import {loggedIn} from "../../../redux/loggedIn";
+import {Redirect} from 'react-router-dom';
 
-class Signup extends Component {
+const {Title} = Typography;
+
+// import { Redirect } from 'react-router-dom'
+
+class SignupForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: undefined,
             email: undefined,
             password: undefined
         }
@@ -16,64 +21,96 @@ class Signup extends Component {
         let response = await fetch('/login');
         let result = await response.json();
         if (result.isLoggedIn) {
-            alert('you already logged in')
+            message.warning('Вы уже вошли в систему');
             let arrayWithProps = [result.username, result.email, result.id]
             this.props.set(arrayWithProps)
         } else {
-            alert('login please')
+            // alert('login please')
         }
     };
 
-    getUsernameForRegistration = (e) => {
-        this.setState({
-            username: e.target.value
-        })
-    };
-
-    getEmailForRegistration = (e) => {
-        this.setState({
-            email: e.target.value
-        })
-    };
-
-    getPasswordForRegistration = (e) => {
-        this.setState({
-            password: e.target.value
-        })
-    };
-
-    signupFetch = async () => {
+    signupFetch = async (formDataUsername, formDataEmail, formDataPassword) => {
         let response = await fetch("/signup", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: this.state.username,
-                email: this.state.email,
-                password: this.state.password
+                username: formDataUsername,
+                email: formDataEmail,
+                password: formDataPassword
             })
         });
         let result = await response.json();
         if (result.isLoggedIn) {
-            alert ('signup true')
+            message.success(`Вы успешно зарегистрированы, ${result.username}`)
             let arrayWithProps = [result.username, result.email, result.id];
             this.props.set(arrayWithProps)
         } else {
-            alert ('signup false')
+            message.error('Не получилось.. Попробуйте снова!')
         }
     };
 
 
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+                this.signupFetch(values.username, values.email, values.password);
+            }
+        });
+    };
+
     render() {
+        const {getFieldDecorator} = this.props.form;
         return (
-            <div>
-                Signup
-                <input placeholder='Enter your name' onChange={this.getUsernameForRegistration} value={this.state.username}/>
-                <input placeholder='Enter your email' onChange={this.getEmailForRegistration} value={this.state.email}/>
-                <input placeholder='Enter your password' onChange={this.getPasswordForRegistration} value={this.state.password}/>
-                <button onClick={this.signupFetch}>Register</button>
-            </div>
+          <div>
+              <Form onSubmit={this.handleSubmit} className="login-form">
+                  <Title level={2} className={"form-title"}>Регистрация</Title>
+                  <Form.Item>
+                      {getFieldDecorator('username', {
+                          rules: [{required: true, message: 'Введите имя пользователя'}],
+                      })(
+                        <Input
+                          prefix={<Icon type="user" theme="outlined" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                          placeholder="Имя пользователя"
+                          autoComplete={"username"}
+                        />,
+                      )}
+                  </Form.Item>
+
+                  <Form.Item>
+                      {getFieldDecorator('email', {
+                          rules: [{required: true, message: 'Введите адрес электронной почты'}],
+                      })(
+                        <Input
+                          prefix={<Icon type="smile" theme="outlined" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                          placeholder="Электронная почта"
+                          autoComplete={"email"}
+                        />,
+                      )}
+                  </Form.Item>
+                  <Form.Item>
+                      {getFieldDecorator('password', {
+                          rules: [{required: true, message: 'Введите пароль для входа'}],
+                      })(
+                        <Input
+                          prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                          type="password"
+                          placeholder="Пароль"
+                          autoComplete={"password"}
+                        />,
+                      )}
+                  </Form.Item>
+                  <Form.Item>
+                      <Button type="primary" htmlType="submit" className="login-form-button">
+                          Зарегистрироваться
+                      </Button>
+                      </Form.Item>
+              </Form>
+              {this.props.isLoggedIn && <Redirect to='/dashboard'/>}
+          </div>
         );
     }
 }
@@ -91,5 +128,7 @@ function mapStateToProps(store) {
         isLoggedIn: store.isLoggedIn
     }
 }
+
+const Signup = Form.create()(SignupForm);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

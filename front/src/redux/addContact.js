@@ -1,9 +1,9 @@
 import {ADD_CONTACTS} from "./actions";
 
-const AddContacts = (fetchedContacts) => {
+const AddContacts = (data) => {
   return {
     type: ADD_CONTACTS,
-    contacts: fetchedContacts
+    contacts: data
   }
 };
 
