@@ -1,7 +1,7 @@
 const express = require('express');
 const Contact = require('../models/contacts');
 
-const { sessionChecker } = require('../middleware/auth');
+// const { sessionChecker } = require('../middleware/auth');
 const router = express.Router();
 
 
@@ -11,7 +11,7 @@ router.route('/')
       const result = await Contact.find({});
       await res.send(result);
     } else {
-      console.log('You r enot logge ');
+      console.log('Not logged in');
     }
   })
   .post(async (req, res) => {

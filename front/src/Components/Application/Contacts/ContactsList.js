@@ -20,14 +20,14 @@ class ContactsList extends React.Component {
   }
 
   componentDidMount = async () => {
-    
       const response = await fetch('/contacts');
       const contacts = await response.json();
-      console.log('контакты до фетча', contacts)
+      this.setState({
+        data: contacts,
+        resultedData: contacts
+      });
       if (contacts.isLoggedIn) {
         await this.props.submitContacts(contacts);
-      } else {
-        console.log('Это контакты после фетча', this.props.contacts)
       }
   };
 
