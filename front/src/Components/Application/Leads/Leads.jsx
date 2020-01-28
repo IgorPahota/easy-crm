@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Board from "react-trello";
 
+import "./Leads.css";
+
 export default class Leads extends Component {
   constructor(props) {
     super(props);
@@ -152,3 +154,12 @@ export default class Leads extends Component {
     );
   }
 }
+
+// const buttonTextChange = () => {
+//   console.log(document.getElementsByClassName("sc-fzXfNM"));
+//   const button = document.getElementsByClassName("sc-fzXfNM")[0];
+//   button.getElementsByClassName("cJIuoU")[0].innerHTML =
+//     "Click to add new stage";
+// };
+
+// buttonTextChange();
