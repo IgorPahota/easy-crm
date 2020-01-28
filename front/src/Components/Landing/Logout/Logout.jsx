@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {loggedOut} from "../../../redux/loggedOut";
-import {message, Button} from 'antd';
+import { message, Button, Icon } from 'antd';
 
 class Logout extends Component {
 
@@ -16,8 +16,9 @@ class Logout extends Component {
 
     render() {
         return (
-            <div>
-                <Button onClick={this.logoutFetch}>Logout</Button>
+            <div onClick={this.logoutFetch}>
+                <Icon type="logout" />Logout
+                {/*<Button onClick={this.logoutFetch}>Logout</Button>*/}
             </div>
         );
     }

@@ -36,7 +36,7 @@ class App extends Component {
           <ConfigProvider locale={ruRU}>
             <Router>
             <div className="App">
-                APP.JS
+
                 {!this.props.isLoggedIn && <LandingNavbar/>}
                 {this.props.isLoggedIn && <ApplicationNavbar/>}
                 <Switch>
