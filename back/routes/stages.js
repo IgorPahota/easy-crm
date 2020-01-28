@@ -10,8 +10,9 @@ router.route('/')
     await res.send(result);
   })
   .post(async (req, res) => {
-    const { name } = req.body;
-    const newStage = new Stage({ name });
+    const { title } = req.body;
+    console.log(title);
+    const newStage = new Stage({ title });
     try {
       await newStage.save();
       await res.json({ newStage });

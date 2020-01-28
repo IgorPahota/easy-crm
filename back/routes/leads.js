@@ -1,6 +1,6 @@
 const express = require('express');
 const Lead = require('../models/leads');
-
+const Stage = require('../models/stages');
 // const { sessionChecker } = require('../middleware/auth');
 const router = express.Router();
 
@@ -11,25 +11,70 @@ router.route('/')
     await res.send(result);
   })
   .post(async (req, res) => {
+    // console.log(req.body);
     const {
-      name, stageID, contactId, creatorId, price, details
+      title, stageId, description, cardId
     } = req.body;
+    // console.log(title, stageId, description);
+    // const foundedStage = await Stage.findOne({ _id: stageId });
+    // console.log(foundedStage);
+    // foundedStage.cards.push({
+    //   id: cardId,
+    //   title,
+    //   description
+    // });
+    // console.log(foundedStage);
+    // await foundedStage.save();
+
     const newLead = new Lead({
-      name,
-      stageID,
-      contactId,
-      creatorId,
-      price,
-      details,
+      name: title,
+      stageId,
+      details: description,
       created: Date.now(),
       updated: Date.now()
     });
-    try {
-      await newLead.save();
-      await res.json({ newLead });
-    } catch (error) {
-      res.send('Error saving to db');
-    }
+    await newLead.save();
+    const foundedStage = await Stage.findOne({ _id: stageId });
+    // console.log(foundedStage);
+    foundedStage.cards.push(newLead);
+    // console.log(foundedStage);
+    await foundedStage.save();
+    // try {
+    //   await newLead.save();
+    //   await res.json({ newLead });
+    // } catch (error) {
+    //   res.send('Error saving to db');
+    // }
+  })
+  .patch(async (req, res) => {
+    const { fromLaneId, toLaneId, cardId } = req.body;
+    const movedCard = await Lead.findOne({ _id: cardId });
+    movedCard.stageId = toLaneId;
+    await movedCard.save();
+
+    const stageFrom = await Stage.findOne({ _id: fromLaneId });
+    const arrayWithoutMovedCard = stageFrom.cards.filter((card) => card.title !== movedCard.name);
+    console.log(arrayWithoutMovedCard);
+    stageFrom.cards = arrayWithoutMovedCard;
+    await stageFrom.save();
+
+
+    const stageTo = await Stage.findOne({ _id: toLaneId });
+    stageTo.cards.push(movedCard);
+    await stageTo.save();
+  })
+  .delete(async (req, res) => {
+    const { cardId, stageId } = req.body;
+    await Lead.findOneAndDelete({ _id: cardId });
+    const foundedStage = await Stage.findOne({ _id: stageId });
+    foundedStage.cards.map(element=>{
+      if (element._id == cardId) {
+        console.log(element)
+        console.log(foundedStage.cards.indexOf(element));
+        foundedStage.cards.splice(foundedStage.cards.indexOf(element))
+      }
+    });
+    await foundedStage.save();
   });
 
 router.route('/:id')
