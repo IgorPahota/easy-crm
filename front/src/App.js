@@ -12,6 +12,7 @@ import {loggedIn} from "./redux/loggedIn";
 import ApplicationNavbar from "./Components/Application/ApplicationNavbar/ApplicationNavbar";
 import './App.css';
 import ContactInfo from './Components/Application/Contacts/ContactInfo';
+import Leads from "./Components/Application/Leads/Leads";
 
 
 class App extends Component {
@@ -44,6 +45,7 @@ class App extends Component {
                     <Route  path='/dashboard' component={Dashboard}/>
                     <Route exact path='/contacts' component={ContactsList}/>
                     <Route path="/contacts/:id" component={ContactInfo} />
+                    <Route path="/leads" component={Leads}/>
                     {/*<Route render={()=>{*/}
                     {/*    return (*/}
                     {/*        <Redirect to={'/login'}/>*/}
