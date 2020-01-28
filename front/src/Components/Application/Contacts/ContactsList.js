@@ -1,12 +1,12 @@
-import React from 'react';
-import {connect} from "react-redux";
-import {Input, Popconfirm, Table, Button} from 'antd';
+import React from "react";
+import { connect } from "react-redux";
+import { Input, Popconfirm, Table, Button } from "antd";
 
-import AddContacts from '../../../redux/addContact';
-import FilterContacts from '../../../redux/filterContacts';
+import AddContacts from "../../../redux/addContact";
+import FilterContacts from "../../../redux/filterContacts";
 
 // import {loggedIn} from '../../../redux/loggedIn';
-import NewContactForm from './NewContact';
+import NewContactForm from "./NewContact";
 
 class ContactsList extends React.Component {
   constructor(props) {
@@ -14,25 +14,26 @@ class ContactsList extends React.Component {
 
     this.state = {
       data: [],
-      value: '',
+      value: "",
       resultedData: []
     };
   }
 
   componentDidMount = async () => {
-    
-      const response = await fetch('/contacts');
-      const contacts = await response.json();
-      console.log('контакты до фетча', contacts)
+    const response = await fetch("/contacts");
+    const contacts = await response.json();
+    // console.log('контакты до фетча', contacts)
+    console.log("contacts BEFORE fetch", contacts);
     this.setState({
       data: contacts,
       resultedData: contacts
-    })
-      if (contacts.isLoggedIn) {
-        await this.props.submitContacts(contacts);
-      } else {
-        console.log('Это контакты после фетча', this.props.contacts)
-      }
+    });
+    if (contacts.isLoggedIn) {
+      await this.props.submitContacts(contacts);
+    } else {
+      // console.log('Это контакты после фетча', this.props.contacts)
+      console.log("contact AFTER fetch", this.props.contacts);
+    }
   };
 
   handleDelete = key => {
@@ -41,12 +42,12 @@ class ContactsList extends React.Component {
     this.fetchDeleteUser(key);
   };
 
-  fetchDeleteUser = async (id) => {
+  fetchDeleteUser = async id => {
     const response = await fetch(`/contacts/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
-      },
+        "Content-Type": "application/json"
+      }
     });
     const data = await response.json();
     if (data) {
@@ -57,17 +58,16 @@ class ContactsList extends React.Component {
   render() {
     const FilterByNameInput = (
       <Input
-        placeholder="Найти..."
+        /*placeholder="Найти..."*/
+        placeholder="Search..."
         value={this.state.value}
         onChange={e => {
           const currValue = e.target.value;
-          this.setState({value: currValue});
-          let filteredData = this.state.data.filter(
-            entry => {
-              const entryName = entry.name.toLowerCase();
-              return entryName.includes(currValue.toLowerCase())
-            }
-          );
+          this.setState({ value: currValue });
+          let filteredData = this.state.data.filter(entry => {
+            const entryName = entry.name.toLowerCase();
+            return entryName.includes(currValue.toLowerCase());
+          });
           this.setState({
             resultedData: filteredData
           });
@@ -78,84 +78,95 @@ class ContactsList extends React.Component {
 
     const columns = [
       {
-        title: '#',
-        key: 'index',
+        title: "#",
+        key: "index",
         render: (text, record, index) => index + 1
       },
       {
         title: FilterByNameInput,
-        dataIndex: 'name',
-        key: '1',
-        render: (text, record) => <a href={`/contacts/${record._id}`}>{text}</a>,
+        dataIndex: "name",
+        key: "1",
+        render: (text, record) => <a href={`/contacts/${record._id}`}>{text}</a>
       },
       {
-        title: 'Компания',
-        dataIndex: 'company',
-        key: '2',
+        // title: 'Компания',
+        title: "Company",
+        dataIndex: "company",
+        key: "2"
       },
       {
-        title: 'Описание',
-        dataIndex: 'companyDetails',
-        key: '3',
+        // title: 'Описание',
+        title: "Description",
+        dataIndex: "companyDetails",
+        key: "3"
       },
       {
-        title: 'Эл. почта',
-        dataIndex: 'email',
-        key: '4',
+        // title: 'Эл. почта',
+        title: "Email",
+        dataIndex: "email",
+        key: "4"
       },
       {
-        title: 'Адрес',
-        dataIndex: 'address',
-        key: '5',
+        // title: "Адрес",
+        title: "Address",
+        dataIndex: "address",
+        key: "5"
       },
       {
-        title: 'Телефон',
-        dataIndex: 'phone',
-        key: '6',
+        // title: "Телефон",
+        title: "Phone",
+        dataIndex: "phone",
+        key: "6"
       },
       {
-        title: 'Действия',
-        key: 'action',
+        // title: "Действия",
+        title: "Actions",
+        key: "action",
         render: (text, record) =>
           this.props.contacts.length >= 1 ? (
-            <Popconfirm title="Уверены?" onConfirm={() => this.handleDelete(record._id)}>
-              {<Button type="link">Удалить</Button>}
+            <Popconfirm
+              /*title="Уверены?"*/
+              title="Are you sure to delete?"
+              onConfirm={() => this.handleDelete(record._id)}
+            >
+              {/* {<Button type="link">Удалить</Button>} */}
+              {<Button type="link">Delete</Button>}
             </Popconfirm>
-          ) : null,
-      },
+          ) : null
+      }
     ];
 
     return (
       <div>
-        <Table rowKey={record => record._id}
-               columns={columns}
-               dataSource={this.props.contacts}
+        <Table
+          rowKey={record => record._id}
+          columns={columns}
+          dataSource={this.props.contacts}
         />
         {/*{this.props.contacts ? <p>{this.props.contacts}</p> : <p>а</p>}*/}
-      <NewContactForm />
+        <NewContactForm />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     // isLoggedIn: state.isLoggedIn,
     contacts: state.contacts,
     filteredContacts: state.resultedData
-
-  }
+  };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    submitContacts: (contacts) => {
-      dispatch( AddContacts(contacts) )
+    submitContacts: contacts => {
+      dispatch(AddContacts(contacts));
     },
-    submitFilteredContacts: (contacts) => {
-      dispatch( FilterContacts(contacts) )
+    submitFilteredContacts: contacts => {
+      dispatch(FilterContacts(contacts));
     }
-  }
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsList)
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);
