@@ -4,7 +4,6 @@ import Logout from "../../Landing/Logout/Logout";
 import { connect } from 'react-redux'
 import { Menu, Icon } from 'antd';
 
-const { SubMenu } = Menu;
 
 class ApplicationNavbar extends Component {
   state = {
@@ -27,19 +26,19 @@ class ApplicationNavbar extends Component {
           <Menu.Item key="app">
             <NavLink to={'/dashboard'}>
               <Icon type="appstore"/>
-              Dashboard
+              Рабочий стол
             </NavLink>
           </Menu.Item>
           <Menu.Item key="contacts">
             <NavLink to={'/contacts'}>
               <Icon type="contacts"/>
-              Contacts
+              Контакты
             </NavLink>
           </Menu.Item>
           <Menu.Item key="transaction">
             <NavLink to={'/leads'}>
               <Icon type="transaction"/>
-              Leads
+              Сделки
             </NavLink>
           </Menu.Item>
           <Menu.Item key="logout" style={{ float: 'right' }}>

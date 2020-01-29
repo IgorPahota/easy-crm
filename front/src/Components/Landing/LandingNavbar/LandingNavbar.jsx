@@ -25,14 +25,14 @@ class LandingNavbar extends Component {
           <Menu.Item key="login">
             <NavLink to={'/login'}>
               <Icon type="login"/>
-              Login
+              Вход
             </NavLink>
           </Menu.Item>
 
           <Menu.Item key="user-add">
             <NavLink to={'/signup'}>
               <Icon type="user-add"/>
-              Signup
+              Регистрация
             </NavLink>
           </Menu.Item>
 
