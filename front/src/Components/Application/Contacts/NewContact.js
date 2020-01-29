@@ -25,7 +25,7 @@ class NewContact extends Component {
   }
 
   fetchAddUser = async (formData) => {
-    const { name, company, companyDetails, email, phone, address } = formData;
+    const { name, company, companyDetails, email, phone, address, creatorId } = formData;
     const response = await fetch('/contacts', {
       method: 'POST',
       headers: {
@@ -38,6 +38,7 @@ class NewContact extends Component {
         email,
         phone,
         address,
+        creatorId,
         created: Date.now(),
         updated: Date.now()
       })
@@ -57,22 +58,29 @@ class NewContact extends Component {
     });
   };
 
-  // handleOk = () => {
-  //   this.setState({ loading: true });
-  //   setTimeout(() => {
-  //     this.setState({ loading: false, visible: false });
-  //   }, 2000);
-  // };
-
   handleCancel = () => {
     this.setState({ visible: false });
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState({loading: false, visible: false});
+    this.props.form.validateFieldsAndScroll(async (err, values) => {
+        if (!err) {
+          const formValues = {
+            ...values,
+            phone: `${values.prefix}${values.phone}`,
+            creatorId: this.props.id
+          };
+          await this.fetchAddUser(formValues);
+          await this.props.submitContacts(formValues);
+        }
+      });
+  };
+
   render() {
     const { visible, loading } = this.state;
-
     const {getFieldDecorator} = this.props.form;
-
     const formItemLayout = {
       labelCol: {
         xs: {span: 24},
@@ -83,7 +91,6 @@ class NewContact extends Component {
         sm: {span: 16},
       },
     };
-
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -96,7 +103,6 @@ class NewContact extends Component {
         },
       },
     };
-
     const prefixSelector = getFieldDecorator('prefix', {
       initialValue: '+7',
     })(
@@ -105,21 +111,6 @@ class NewContact extends Component {
         <Option value="+375">+375</Option>
       </Select>,
     );
-
-    this.handleSubmit = (e) => {
-      e.preventDefault();
-      this.setState({loading: false, visible: false});
-      this.props.form.validateFieldsAndScroll(async (err, values) => {
-          if (!err) {
-            const formValues = {
-              ...values,
-              phone: `${values.prefix}${values.phone}`
-            };
-            await this.fetchAddUser(formValues);
-            await this.props.submitContacts(formValues);
-          }
-        });
-    };
 
     return (
       <div>
@@ -196,18 +187,17 @@ class NewContact extends Component {
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
-
-          {/*<Button type="primary" htmlType="submit">*/}
-          {/*  Добавить*/}
-          {/*</Button>*/}
         </Form.Item>
-          {/*<Button key="submit" htmlType="submit" type="primary" loading={loading} onClick={this.handleOk}>*/}
-          {/*  Submit*/}
-          {/*</Button>,*/}
         </Modal>
       </Form>
       </div>
     );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    id: state.id
   }
 }
 
@@ -220,4 +210,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const NewContactForm = Form.create()(NewContact);
-export default connect(null, mapDispatchToProps)(NewContactForm)
+export default connect(mapStateToProps, mapDispatchToProps)(NewContactForm)
