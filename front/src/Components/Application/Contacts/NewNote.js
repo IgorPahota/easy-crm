@@ -5,13 +5,36 @@ import AddNoteToList from '../../../redux/addNote'
 import { Input, Button } from 'antd';
 const { TextArea } = Input;
 
-class AddNote extends Component {
+class NewNote extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       text: ''
     }
   }
+
+  fetchAddNote = async (formData) => {
+    const {text, creatorId} = formData;
+    const response = await fetch('/notes', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        text,
+        creatorId
+      })
+    });
+
+    const data = await response.json();
+    if (data) {
+      const dataToProps = data.newNote;
+      this.props.submit(dataToProps);
+    } else {
+      console.log('Wrong username or password!');
+    }
+  };
 
   onChange = (name) => (e) => {
     const newState = {};
@@ -20,11 +43,11 @@ class AddNote extends Component {
   };
 
   onSubmit = () => {
-
-    this.props.submit([this.state.text, this.props.id]);
     this.setState({text: ''});
-
-    console.log('rrr', this.props.notes)
+    this.fetchAddNote({
+      text: this.state.text,
+      creatorId: this.props.currentContact._id
+    });
   };
 
   render() {
@@ -53,4 +76,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddNote)
+export default connect(mapStateToProps, mapDispatchToProps)(NewNote)

@@ -4,7 +4,6 @@ const Contact = require('../models/contacts');
 // const { sessionChecker } = require('../middleware/auth');
 const router = express.Router();
 
-
 router.route('/')
   .get(async (req, res) => {
     if (req.session) {
@@ -16,7 +15,7 @@ router.route('/')
   })
   .post(async (req, res) => {
     const {
-      name, company, companyDetails, email, phone, address
+      name, company, companyDetails, email, phone, address, creatorId
     } = req.body;
     const newContact = new Contact({
       name,
@@ -25,6 +24,7 @@ router.route('/')
       email,
       phone,
       address,
+      creatorId,
       created: Date.now(),
       updated: Date.now()
     });
@@ -36,10 +36,16 @@ router.route('/')
     }
   });
 
+router.route('/created/:userId')
+  .get(async (req, res) => {
+    const { userId } = req.params;
+    const result = await Contact.find({ creatorId: userId });
+    await res.json(result);
+  });
+
 router.route('/:id')
   .get(async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     const contact = await Contact.findById(id);
     await res.json({ contact });
   })

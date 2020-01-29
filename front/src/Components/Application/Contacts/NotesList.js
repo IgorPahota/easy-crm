@@ -1,69 +1,69 @@
-import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import React, {Component} from 'react';
+import Note from "./Note";
 
-class ContactsList extends Component {
-  state = {
-    data: []
+import {connect} from 'react-redux'
+import NewNote from './NewNote';
+import DeleteNote from '../../../redux/deleteNote';
+
+class NotesList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      notes: ''
+    }
+  }
+
+  fetchDeleteNote = async (id) => {
+    const response = await fetch(`/notes/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    if (data) {
+    }
   };
 
-  componentDidMount = async () => {
-    const response = await fetch ('/contacts');
-    const contacts = await response.json ();
-    this.setState({
-      data: contacts,
-    });
+  deleteOneNote = (id) => {
+    this.fetchDeleteNote(id);
+    this.props.deleteNote(id);
   };
 
   render() {
     return (
       <div>
-        <table className="table">
-          <thead>
-          <tr>
-            <th>name</th>
-            <th>company</th>
-            <th>companyDetails</th>
-            <th>email</th>
-            <th>phone</th>
-            <th>address</th>
-          </tr>
-          </thead>
-          <tbody>
-          {this.state.data && this.state.data.map((contact, idx) => {
-            return (
-              <tr key={idx}>
-                <td>{contact.name}</td>
-                <td>{contact.company}</td>
-                <td>{contact.companyDetails}</td>
-                <td>{contact.email}</td>
-                <td>{contact.phone}</td>
-                <td>{contact.address}</td>
-              </tr>
-            )
-          })}
-          </tbody>
-        </table>
+        <ol>
+        {this.props.notes.map( (note, i) =>
+          <Note userId={this.props.currentContact._id}
+                note={note}
+                key={i}
+                id={note._id}
+                onDeleted={this.deleteOneNote}
+                />
+        )}
+        </ol>
+        <NewNote userId={this.props.currentContact._id}/>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
   return {
     currentContact: state.currentContact,
-
+    notes: state.notes,
+    id: state.id
   }
-};
+}
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     submitContacts: (contacts) => {
-//       dispatch( AddContacts(contacts) )
-//     },
-//     submitFilteredContacts: (contacts) => {
-//       dispatch( FilterContacts(contacts) )
-//     }
-//   }
-// };
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteNote: (id) => {
+      dispatch( DeleteNote(id) )
+    },
+  }
+}
 
-export default connect(mapStateToProps)(ContactsList)
+export default connect(mapStateToProps, mapDispatchToProps)(NotesList)

@@ -6,8 +6,6 @@ import {Redirect} from 'react-router-dom';
 
 const {Title} = Typography;
 
-// import { Redirect } from 'react-router-dom'
-
 class NormalLoginForm extends Component {
   constructor(props) {
     super(props);
@@ -16,32 +14,20 @@ class NormalLoginForm extends Component {
       password: undefined
     }
   }
-  // componentDidMount = async () =>  {
-  //   let response = await fetch('/login');
-  //   let result = await response.json();
-  //   const responseContacts = await fetch('/contacts');
-  //   const contacts = await responseContacts.json();
-  //   if (result.isLoggedIn) {
-  //     alert('you already logged in');
-  //     let arrayWithProps = [result.username, result.email, result.id, contacts];
-  //     this.props.set(arrayWithProps)
-  //   } else {
-  //     alert('login please')
-  //   }
-  // };
-
 
   componentDidMount = async () => {
+    // Check if some user is logged in (session exists)
     const response = await fetch('/login');
     const result = await response.json();
 
-    const responseContacts = await fetch('/contacts');
-    const contacts = await responseContacts.json();
 
     if (result.isLoggedIn) {
+      // Retrieve all contacts for logged user
+      const responseContacts = await fetch(`/contacts/created/${result.id}`);
+      const contacts = await responseContacts.json();
       message.warning(`Вы уже вошли в систему, ${result.username}`);
       const arrayWithProps = [result.username, result.email, result.id, contacts];
-      this.props.set(arrayWithProps)
+      this.props.set(arrayWithProps);
     }
   };
 
@@ -57,13 +43,15 @@ class NormalLoginForm extends Component {
       })
     });
     let result = await response.json();
-    const responseContacts = await fetch('/contacts');
-    const contacts = await responseContacts.json();
-
     if (result.isLoggedIn) {
       message.success(`Вы успешно вошли, ${result.username}`);
+
+      // Get all contacts for logged user
+      const responseContacts = await fetch(`/contacts/created/${result.id}`);
+      const contacts = await responseContacts.json();
+
       let arrayWithProps = [result.username, result.email, result.id, contacts];
-      this.props.set(arrayWithProps)
+      this.props.set(arrayWithProps);
     } else {
       message.error('Неверное имя пользователя или пароль');
     }
@@ -73,7 +61,6 @@ class NormalLoginForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         this.loginFetch(values.email, values.password);
       }
     });

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Checkbox, Form, Icon, Input, message, Typography} from 'antd';
+import {Button, Form, Icon, Input, message, Typography} from 'antd';
 import {connect} from 'react-redux';
 import {loggedIn} from "../../../redux/loggedIn";
 import {Redirect} from 'react-router-dom';
