@@ -191,9 +191,11 @@ export default class Leads extends Component {
             canAddLanes
             editLaneTitle
             onLaneAdd={this.onLaneAdd}
+            onLaneClick={this.onLaneClick}
             onLaneDelete={this.onLaneDelete}
             onCardDelete={this.onCardDelete}
             onCardAdd={this.onCardAdd}
+            onCardMoveAcrossLanes={this.onCardMoveAcrossLanes}
             style={style}
             laneStyle={laneStyle}
             cardStyle={cardStyle}
