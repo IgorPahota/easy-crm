@@ -31,7 +31,6 @@ export default function (oldState = InitialState, action) {
             };
 
         case ADD_CONTACTS:
-
                 return {
                     isLoggedIn: true,
                     id: oldState.id,
