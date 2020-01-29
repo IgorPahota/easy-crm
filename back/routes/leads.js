@@ -11,21 +11,9 @@ router.route('/')
     await res.send(result);
   })
   .post(async (req, res) => {
-    // console.log(req.body);
     const {
       title, stageId, description, cardId
     } = req.body;
-    // console.log(title, stageId, description);
-    // const foundedStage = await Stage.findOne({ _id: stageId });
-    // console.log(foundedStage);
-    // foundedStage.cards.push({
-    //   id: cardId,
-    //   title,
-    //   description
-    // });
-    // console.log(foundedStage);
-    // await foundedStage.save();
-
     const newLead = new Lead({
       name: title,
       stageId,
@@ -35,43 +23,40 @@ router.route('/')
     });
     await newLead.save();
     const foundedStage = await Stage.findOne({ _id: stageId });
-    // console.log(foundedStage);
     foundedStage.cards.push(newLead);
-    // console.log(foundedStage);
     await foundedStage.save();
-    // try {
-    //   await newLead.save();
-    //   await res.json({ newLead });
-    // } catch (error) {
-    //   res.send('Error saving to db');
-    // }
   })
   .patch(async (req, res) => {
-    const { fromLaneId, toLaneId, cardId } = req.body;
+    const {
+      fromLaneId, toLaneId, cardId, index
+    } = req.body;
     const movedCard = await Lead.findOne({ _id: cardId });
     movedCard.stageId = toLaneId;
     await movedCard.save();
 
     const stageFrom = await Stage.findOne({ _id: fromLaneId });
-    const arrayWithoutMovedCard = stageFrom.cards.filter((card) => card.title !== movedCard.name);
-    console.log(arrayWithoutMovedCard);
-    stageFrom.cards = arrayWithoutMovedCard;
+    stageFrom.cards.map((element) => {
+      if (element._id == cardId) {
+        stageFrom.cards.splice(stageFrom.cards.indexOf(element), 1);
+      }
+    });
     await stageFrom.save();
-
-
     const stageTo = await Stage.findOne({ _id: toLaneId });
-    stageTo.cards.push(movedCard);
+    const arrayForStageTo = [
+      ...stageTo.cards.slice(0, index),
+      movedCard,
+      ...stageTo.cards.slice(index)
+    ];
+    stageTo.cards = arrayForStageTo;
     await stageTo.save();
   })
   .delete(async (req, res) => {
     const { cardId, stageId } = req.body;
     await Lead.findOneAndDelete({ _id: cardId });
     const foundedStage = await Stage.findOne({ _id: stageId });
-    foundedStage.cards.map(element=>{
+    foundedStage.cards.map((element) => {
       if (element._id == cardId) {
-        console.log(element)
-        console.log(foundedStage.cards.indexOf(element));
-        foundedStage.cards.splice(foundedStage.cards.indexOf(element))
+        foundedStage.cards.splice(foundedStage.cards.indexOf(element));
       }
     });
     await foundedStage.save();

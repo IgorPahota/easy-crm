@@ -9,7 +9,6 @@ export default class Leads extends Component {
             data: {
                 lanes: []
             }
-
             // stageId: undefined,
             // data: {
             //     lanes: [
@@ -32,32 +31,14 @@ export default class Leads extends Component {
     componentDidMount = async () => {
         let response = await fetch("/stages");
         let result = await response.json();
-        let responseLead = await fetch("/leads");
-        let resultLeads = await responseLead.json();
-
-
-        // console.log('data from back',result);
-
         for (let stageIndex = 0; stageIndex < result.length; stageIndex++) {
             result[stageIndex].id = result[stageIndex]._id;
-            delete result[stageIndex]._id;
-            delete result[stageIndex].creatorId;
-            delete result[stageIndex].__v;
-
             for (let cardIndex = 0; cardIndex < result[stageIndex].cards.length; cardIndex++) {
                 result[stageIndex].cards[cardIndex].id = result[stageIndex].cards[cardIndex]._id;
                 result[stageIndex].cards[cardIndex].title = result[stageIndex].cards[cardIndex].name;
                 result[stageIndex].cards[cardIndex].description = result[stageIndex].cards[cardIndex].details
-
-                delete result[stageIndex].cards[cardIndex]._id
-                delete result[stageIndex].cards[cardIndex].name
-                delete result[stageIndex].cards[cardIndex].details
-
             }
         }
-        // console.log('new result',result);
-
-
         this.setState({
           data: {...this.state.data, lanes: result}
         });
@@ -74,7 +55,8 @@ export default class Leads extends Component {
             body: JSON.stringify({
                 fromLaneId,
                 toLaneId,
-                cardId
+                cardId,
+                index
             })
         });
     };
@@ -95,16 +77,21 @@ export default class Leads extends Component {
     };
 
     onLaneDelete = async params => {
-        console.log(params);
-    //     let response = await fetch(`/stages/${params}`, {
-    //         method: "DELETE",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify({
-    //             id: params.id
-    //         })
-    //     });
+        let response = await fetch(`/stages`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: params
+            })
+        });
+        let result = response.json();
+        if (result.isDeleted) {
+            alert('Этап удален')
+        } else {
+            alert ('Невозможно удалить этап в котором есть сделки')
+        }
     };
 
 
@@ -146,28 +133,6 @@ export default class Leads extends Component {
     };
 
     render() {
-        const data = {
-            lanes: [
-                {
-                    id: 'lane1',
-                    title: 'Planned Tasks',
-                    label: '2/2',
-                    cards: [
-                        {id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: false},
-                        {id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: {sha: 'be312a1'}}
-                    ]
-                },
-                {
-                    id: 'lane2',
-                    title: 'Completed',
-                    label: '0/0',
-                    cards: []
-                }
-            ]
-        }
-        // console.log("TRASH", this.state);
-        // console.log("DOUBLE TRASH", this.state.data.lanes.length);
-        // console.log("TRIPLE TRASH", this.state.data);
         return (
             <div>
                 {this.state.data.lanes === 0 ? (
@@ -175,7 +140,6 @@ export default class Leads extends Component {
                 ) : (
                     <Board
                         data={this.state.data}
-                        /*data={data}*/
                         editable
                         onCardMoveAcrossLanes={this.onCardMoveAcrossLanes}
                         laneDraggable={false}

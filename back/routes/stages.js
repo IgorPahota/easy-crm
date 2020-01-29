@@ -19,6 +19,21 @@ router.route('/')
     } catch (error) {
       res.send('Error saving to db');
     }
+  })
+  .delete(async (req, res) => {
+    console.log(req.body.id);
+    const stageForDeleting = await Stage.findOne({ _id: req.body.id });
+    console.log(stageForDeleting.cards.length);
+    if (stageForDeleting.cards.length > 0) {
+      await res.json({
+        isDeleted: false
+      });
+    } else {
+      await Stage.findOneAndDelete({ _id: req.body.id });
+      await res.json({
+        isDeleted: true
+      });
+    }
   });
 
 router.route('/created/:userId')
