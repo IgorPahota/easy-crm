@@ -15,21 +15,21 @@ class NormalLoginForm extends Component {
     }
   }
 
-  componentDidMount = async () => {
-    // Check if some user is logged in (session exists)
-    const response = await fetch('/login');
-    const result = await response.json();
+//   componentDidMount = async () => {
+//     // Check if some user is logged in (session exists)
+//     const response = await fetch('/login');
+//     const result = await response.json();
 
 
-    if (result.isLoggedIn) {
-      // Retrieve all contacts for logged user
-      const responseContacts = await fetch(`/contacts/created/${result.id}`);
-      const contacts = await responseContacts.json();
-      message.warning(`Вы уже вошли в систему, ${result.username}`);
-      const arrayWithProps = [result.username, result.email, result.id, contacts];
-      this.props.set(arrayWithProps);
-    }
-  };
+//     if (result.isLoggedIn) {
+//       // Retrieve all contacts for logged user
+//       const responseContacts = await fetch(`/contacts/created/${result.id}`);
+//       const contacts = await responseContacts.json();
+//       message.warning(`Вы уже вошли в систему, ${result.username}`);
+//       const arrayWithProps = [result.username, result.email, result.id, contacts];
+//       this.props.set(arrayWithProps);
+//     }
+//   };
 
   loginFetch = async (formDataEmail, formDataPassword) => {
     let response = await fetch('/login', {
