@@ -147,7 +147,6 @@ export default class Leads extends Component {
         ) : (
           <Board
             data={this.state.data}
-            /*data={data}*/
             editable
             laneDraggable={false}
             canAddLanes
@@ -160,9 +159,6 @@ export default class Leads extends Component {
             laneStyle={laneStyle}
             cardStyle={cardStyle}
             t={customTranslation}
-            /*
-      components={{Card: CustomCard}}
-      onCardClick={onCardClick} */
           />
         )}
       </div>
