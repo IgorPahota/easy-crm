@@ -47,6 +47,7 @@ export default class Leads extends Component {
   componentDidMount = async () => {
     let response = await fetch("/stages");
     let result = await response.json();
+    console.log(result);
     for (let stageIndex = 0; stageIndex < result.length; stageIndex++) {
       result[stageIndex].id = result[stageIndex]._id;
       for (
@@ -109,11 +110,7 @@ export default class Leads extends Component {
       })
     });
     let result = response.json();
-    if (result.isDeleted) {
-      alert("Этап удален");
-    } else {
-      alert("Невозможно удалить этап в котором есть сделки");
-    }
+    result.log()
   };
 
   onLaneClick = params => {
@@ -123,7 +120,6 @@ export default class Leads extends Component {
   };
 
   onCardAdd = async params => {
-    console.log("adding", params);
     let response = await fetch("/leads", {
       method: "POST",
       headers: {
@@ -139,7 +135,6 @@ export default class Leads extends Component {
   };
 
   onCardDelete = async (cardId, laneId) => {
-    console.log(cardId, laneId);
     let leadResponse = await fetch("/leads", {
       method: "DELETE",
       headers: {

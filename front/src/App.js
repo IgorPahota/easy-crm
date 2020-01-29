@@ -36,6 +36,7 @@ class App extends Component {
         <Router>
           <div className="App">
             {!this.props.isLoggedIn && <LandingNavbar />}
+            {/*{!this.props.isLoggedIn && <Redirect to={'/login'}/>}*/}
             {this.props.isLoggedIn && <ApplicationNavbar />}
             <Switch>
               <Route path="/login" component={Login} />
