@@ -1,7 +1,21 @@
 import React, { Component } from "react";
-import Board from "react-trello";
+import Board, { createTranslate } from "react-trello";
+import { Icon } from "antd";
 
 import "./Leads.css";
+
+const customTranslation = createTranslate({
+  "Add another lane": "Новый этап",
+  "Click to add card": "Новая сделка",
+  "Delete lane": "Удалить этап",
+  "Lane actions": <Icon type="delete" />, // ????
+  "button.Add lane": "Добавить",
+  "button.Add card": "Добавить",
+  "button.Cancel": "Отменить",
+  "placeholder.title": "Название сделки",
+  "placeholder.description": "Описане",
+  "placeholder.label": ""
+});
 
 export default class Leads extends Component {
   constructor(props) {
@@ -145,6 +159,7 @@ export default class Leads extends Component {
             style={style}
             laneStyle={laneStyle}
             cardStyle={cardStyle}
+            t={customTranslation}
             /*
       components={{Card: CustomCard}}
       onCardClick={onCardClick} */
@@ -154,12 +169,3 @@ export default class Leads extends Component {
     );
   }
 }
-
-// const buttonTextChange = () => {
-//   console.log(document.getElementsByClassName("sc-fzXfNM"));
-//   const button = document.getElementsByClassName("sc-fzXfNM")[0];
-//   button.getElementsByClassName("cJIuoU")[0].innerHTML =
-//     "Click to add new stage";
-// };
-
-// buttonTextChange();

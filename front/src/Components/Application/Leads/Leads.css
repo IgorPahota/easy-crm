@@ -12,7 +12,12 @@
 }
 
 section.sc-fzXfMz.sc-fzXfMA.emMeOv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background: white;
+  padding: 0px;
+  height: 50px;
 }
 
 button.sc-fzXfNM.cJIuoU {
@@ -22,6 +27,9 @@ button.sc-fzXfNM.cJIuoU {
     "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
+  border: 1px solid black;
+  border-radius: 0px;
+  /* padding: 20px; */
 }
 .smooth-dnd-container.horizontal {
   padding: 0;
