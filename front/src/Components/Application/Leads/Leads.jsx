@@ -161,22 +161,17 @@ export default class Leads extends Component {
     };
     const laneStyle = {
       backgroundColor: "white",
-      // border: "1px solid black",
       fontFamily: fontfamily,
-      //   fontWeight: "bold",
       borderRadius: "4px",
       backgroundColor: "#fafafa",
       fontWeight: 500
-      // backgroundColor: "#1890ff"
     };
     const cardStyle = {
       color: "white",
       border: "1px solid rgba(0, 0, 0, 0.65)",
-      // border: "1px solid red",
       fontFamily: fontfamily,
       border: "1px solid #d9d9d9",
       borderRadius: "4px"
-      // backgroundColor: "#1890ff"
     };
 
     return (
@@ -189,7 +184,7 @@ export default class Leads extends Component {
             editable
             laneDraggable={false}
             canAddLanes
-            editLaneTitle
+            /* editLaneTitle*/
             onLaneAdd={this.onLaneAdd}
             onLaneDelete={this.onLaneDelete}
             onCardDelete={this.onCardDelete}
