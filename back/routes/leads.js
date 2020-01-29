@@ -1,6 +1,6 @@
 const express = require('express');
 const Lead = require('../models/leads');
-
+const Stage = require('../models/stages');
 // const { sessionChecker } = require('../middleware/auth');
 const router = express.Router();
 
@@ -12,24 +12,54 @@ router.route('/')
   })
   .post(async (req, res) => {
     const {
-      name, stageID, contactId, creatorId, price, details
+      title, stageId, description, cardId
     } = req.body;
     const newLead = new Lead({
-      name,
-      stageID,
-      contactId,
-      creatorId,
-      price,
-      details,
+      name: title,
+      stageId,
+      details: description,
       created: Date.now(),
       updated: Date.now()
     });
-    try {
-      await newLead.save();
-      await res.json({ newLead });
-    } catch (error) {
-      res.send('Error saving to db');
-    }
+    await newLead.save();
+    const foundedStage = await Stage.findOne({ _id: stageId });
+    foundedStage.cards.push(newLead);
+    await foundedStage.save();
+  })
+  .patch(async (req, res) => {
+    const {
+      fromLaneId, toLaneId, cardId, index
+    } = req.body;
+    const movedCard = await Lead.findOne({ _id: cardId });
+    movedCard.stageId = toLaneId;
+    await movedCard.save();
+
+    const stageFrom = await Stage.findOne({ _id: fromLaneId });
+    stageFrom.cards.map((element) => {
+      if (element._id == cardId) {
+        stageFrom.cards.splice(stageFrom.cards.indexOf(element), 1);
+      }
+    });
+    await stageFrom.save();
+    const stageTo = await Stage.findOne({ _id: toLaneId });
+    const arrayForStageTo = [
+      ...stageTo.cards.slice(0, index),
+      movedCard,
+      ...stageTo.cards.slice(index)
+    ];
+    stageTo.cards = arrayForStageTo;
+    await stageTo.save();
+  })
+  .delete(async (req, res) => {
+    const { cardId, stageId } = req.body;
+    await Lead.findOneAndDelete({ _id: cardId });
+    const foundedStage = await Stage.findOne({ _id: stageId });
+    foundedStage.cards.map((element) => {
+      if (element._id == cardId) {
+        foundedStage.cards.splice(foundedStage.cards.indexOf(element));
+      }
+    });
+    await foundedStage.save();
   });
 
 router.route('/:id')
