@@ -10,13 +10,29 @@ router.route('/')
     await res.send(result);
   })
   .post(async (req, res) => {
-    const { name } = req.body;
-    const newStage = new Stage({ name });
+    const { title } = req.body;
+    console.log(title);
+    const newStage = new Stage({ title });
     try {
       await newStage.save();
       await res.json({ newStage });
     } catch (error) {
       res.send('Error saving to db');
+    }
+  })
+  .delete(async (req, res) => {
+    console.log(req.body.id);
+    const stageForDeleting = await Stage.findOne({ _id: req.body.id });
+    console.log(stageForDeleting.cards.length);
+    if (stageForDeleting.cards.length > 0) {
+      await res.json({
+        isDeleted: false
+      });
+    } else {
+      await Stage.findOneAndDelete({ _id: req.body.id });
+      await res.json({
+        isDeleted: true
+      });
     }
   });
 
