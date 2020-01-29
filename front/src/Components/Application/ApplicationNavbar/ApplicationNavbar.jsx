@@ -7,7 +7,7 @@ import { Menu, Icon } from 'antd';
 
 class ApplicationNavbar extends Component {
   state = {
-    current: 'mail',
+    current: 'app',
   };
 
   handleClick = e => {
@@ -21,7 +21,7 @@ class ApplicationNavbar extends Component {
     return (
       <div>
 
-        <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
+        <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" theme="dark">
 
           <Menu.Item key="app">
             <NavLink to={'/dashboard'}>
@@ -52,12 +52,6 @@ class ApplicationNavbar extends Component {
           </Menu.Item>
 
         </Menu>
-
-
-        {/* <NavLink to={'/dashboard'}>Dashboard</NavLink>
-              <NavLink to={'/contacts'}>Contacts</NavLink>
-              <NavLink to={'/leads'}>Leads</NavLink>
-              <Logout/>*/}
 
       </div>
     );

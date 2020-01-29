@@ -4,7 +4,7 @@ import { Icon, Menu } from "antd";
 
 class LandingNavbar extends Component {
   state = {
-    current: 'mail',
+    current: 'login',
   };
 
   handleClick = e => {
@@ -17,10 +17,7 @@ class LandingNavbar extends Component {
   render() {
     return (
       <div>
-        {/*     <NavLink to={'/login'}>Login</NavLink>
-                <NavLink to={'/signup'}>Signup</NavLink>*/}
-
-        <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
+        <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" theme="dark">
 
           <Menu.Item key="login">
             <NavLink to={'/login'}>
