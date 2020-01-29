@@ -1,4 +1,6 @@
-import {ADD_CONTACTS, SHOW_CONTACT, FILTER_CONTACTS, LOGIN_SUCCESS, LOGOUT_SUCCESS} from "./actions";
+import {
+    ADD_CONTACTS, SHOW_CONTACT, FILTER_CONTACTS, LOGIN_SUCCESS, LOGOUT_SUCCESS, ADD_NOTES, DELETE_NOTE, EDIT_NOTE
+} from "./actions";
 
 const InitialState = {
     isLoggedIn: false,
@@ -7,7 +9,8 @@ const InitialState = {
     id: undefined,
     contacts: [],
     filteredContacts: [],
-    currentContact: {}
+    currentContact: {},
+    notes: []
 };
 
 export default function (oldState = InitialState, action) {
@@ -18,7 +21,9 @@ export default function (oldState = InitialState, action) {
                 username: action.username,
                 email: action.email,
                 id: action.id,
-                contacts: action.contacts
+                contacts: action.contacts,
+                currentContact: oldState.currentContact,
+                notes: oldState.notes
             };
         case LOGOUT_SUCCESS:
             return {
@@ -26,16 +31,12 @@ export default function (oldState = InitialState, action) {
             };
 
         case ADD_CONTACTS:
-                console.log('action.contacts', action.contacts)
                 return {
                     isLoggedIn: true,
+                    id: oldState.id,
                     contacts: [
                       ...oldState.contacts.concat(action.contacts)
                     ],
-                    // isLoggedIn: oldState.isLoggedIn,
-                    // username: oldState.username,
-                    // email: oldState.email,
-                    // id: oldState.id
                 };
 
             case FILTER_CONTACTS:
@@ -48,8 +49,39 @@ export default function (oldState = InitialState, action) {
 
         case SHOW_CONTACT:
                 return {
-                    currentContact: action.currentContact
+                    currentContact: action.currentContact,
+                    notes: oldState.notes
                 };
+
+        case ADD_NOTES:
+            return {
+                ...oldState,
+                notes: [
+                    ...oldState.notes.concat(action.notes)
+                ],
+            };
+
+        case DELETE_NOTE:
+            const newNotes = oldState.notes.filter((el) => el._id !== action.id);
+            return {
+                notes: newNotes,
+                currentContact: oldState.currentContact,
+            };
+
+        case EDIT_NOTE:
+            const editedNotes = oldState.notes.map((note) => {
+                if (note._id === action.id) {
+                    return { ...note, text: action.text, updated: action.updated }
+                } else {
+                    return note;
+                }
+            });
+            return {
+                ...oldState,
+                notes: editedNotes
+            };
+
+
         default:
             return oldState
     }

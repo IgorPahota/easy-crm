@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
   try {
     const { _id, password } = req.session.user;
     const user = await User.findById({ _id });
-    console.log(user);
+
     if (user.password === password) {
       await res.json({
         isLoggedIn: true,

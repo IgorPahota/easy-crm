@@ -61,3 +61,11 @@
 .bold-text {
   font-weight: bold;
 }
+
+.note {
+  margin-bottom: 2px;
+}
+.note-buttons {
+  margin-top: 2px;
+  margin-bottom: 20px;
+}

@@ -1,11 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Input, Popconfirm, Table, Button} from 'antd';
+import {Input, Popconfirm, Table, Button, message} from 'antd';
 
 import AddContacts from '../../../redux/addContact';
 import FilterContacts from '../../../redux/filterContacts';
 
-// import {loggedIn} from '../../../redux/loggedIn';
 import NewContactForm from './NewContact';
 
 class ContactsList extends React.Component {
@@ -20,19 +19,19 @@ class ContactsList extends React.Component {
   }
 
   componentDidMount = async () => {
-    
-      const response = await fetch('/contacts');
+    if (this.props.id) {
+      const response = await fetch(`/contacts/created/${this.props.id}`);
       const contacts = await response.json();
-      console.log('контакты до фетча', contacts)
-    this.setState({
-      data: contacts,
-      resultedData: contacts
-    })
-      if (contacts.isLoggedIn) {
+      this.setState({
+        data: contacts,
+        resultedData: contacts
+      });
+      if (contacts && contacts.isLoggedIn) {
         await this.props.submitContacts(contacts);
-      } else {
-        console.log('Это контакты после фетча', this.props.contacts)
       }
+    } else {
+      message.warning(`Вы не залогинены!`);
+    }
   };
 
   handleDelete = key => {
@@ -124,14 +123,12 @@ class ContactsList extends React.Component {
           ) : null,
       },
     ];
-
     return (
       <div>
         <Table rowKey={record => record._id}
                columns={columns}
                dataSource={this.props.contacts}
         />
-        {/*{this.props.contacts ? <p>{this.props.contacts}</p> : <p>а</p>}*/}
       <NewContactForm />
       </div>
     );
@@ -140,10 +137,10 @@ class ContactsList extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    // isLoggedIn: state.isLoggedIn,
+    isLoggedIn: state.isLoggedIn,
     contacts: state.contacts,
-    filteredContacts: state.resultedData
-
+    filteredContacts: state.filteredContacts,
+    id: state.id
   }
 };
 

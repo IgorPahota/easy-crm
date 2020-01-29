@@ -24,14 +24,10 @@ class App extends Component {
     let response = await fetch("/login");
     let result = await response.json();
     if (result.isLoggedIn) {
-      const responseContacts = await fetch("/contacts");
-      const contacts = await responseContacts.json();
-
-      // alert('you already logged in');
+      const response = await fetch(`/contacts/created/${result.id}`);
+      const contacts = await response.json();
       let arrayWithProps = [result.username, result.email, result.id, contacts];
       this.props.set(arrayWithProps);
-    } else {
-      // alert('login please')
     }
   };
   render() {
@@ -39,7 +35,6 @@ class App extends Component {
       <ConfigProvider locale={ruRU}>
         <Router>
           <div className="App">
-            APP.JS
             {!this.props.isLoggedIn && <LandingNavbar />}
             {this.props.isLoggedIn && <ApplicationNavbar />}
             <Switch>
