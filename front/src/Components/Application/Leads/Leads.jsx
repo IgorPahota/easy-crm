@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Board, { createTranslate } from "react-trello";
 import { Icon } from "antd";
+import {Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {leadRedirect} from "../../../redux/leadRedirect";
 
 import "./Leads.css";
 
@@ -17,30 +20,16 @@ const customTranslation = createTranslate({
   "placeholder.label": ""
 });
 
-export default class Leads extends Component {
+class Leads extends Component {
   constructor(props) {
     super(props);
     this.state = {
       stageId: undefined,
+      redirect: false,
+      redirectedLeadID: '',
       data: {
         lanes: []
       }
-      // stageId: undefined,
-      // data: {
-      //     lanes: [
-      //         {
-      //             id: undefined,
-      //             title: undefined,
-      //             cards: [
-      //                 {
-      //                     id: undefined,
-      //                     title: undefined,
-      //                     description: undefined
-      //                 }
-      //             ]
-      //         }
-      //     ]
-      // }
     };
   }
 
@@ -66,10 +55,17 @@ export default class Leads extends Component {
     this.setState({
       data: { ...this.state.data, lanes: result }
     });
+
   };
 
+
+  onCardClick = params => {
+    console.log(params);
+    this.props.set(params)
+  };
+
+
   onCardMoveAcrossLanes = async (fromLaneId, toLaneId, cardId, index) => {
-    console.log(fromLaneId, toLaneId, cardId, index);
     let response = await fetch("/leads", {
       method: "PATCH",
       headers: {
@@ -85,7 +81,6 @@ export default class Leads extends Component {
   };
 
   onLaneAdd = async params => {
-    console.log(params);
     let response = await fetch("/stages", {
       method: "POST",
       headers: {
@@ -176,8 +171,12 @@ export default class Leads extends Component {
 
     return (
       <div>
+        {/*{this.state.redirect && <Redirect to={`/leads/${this.state.redirectedLeadID}`} />}*/}
+        <div>{this.props.idLeadForRedirect}</div>
+        {this.props.idLeadForRedirect && <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />}
+
         {!this.state.data ? (
-          <div>LoADING</div>
+          <div>Place for spinner</div>
         ) : (
           <Board
             data={this.state.data}
@@ -191,6 +190,7 @@ export default class Leads extends Component {
             onCardDelete={this.onCardDelete}
             onCardAdd={this.onCardAdd}
             onCardMoveAcrossLanes={this.onCardMoveAcrossLanes}
+            onCardClick={this.onCardClick}
             style={style}
             laneStyle={laneStyle}
             cardStyle={cardStyle}
@@ -201,3 +201,20 @@ export default class Leads extends Component {
     );
   }
 }
+
+function mapStateToProps (store) {
+  return {
+    idLeadForRedirect: store.idLeadForRedirect
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    set: (id) => {
+      dispatch(leadRedirect(id))
+    }
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Leads)

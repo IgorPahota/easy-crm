@@ -1,5 +1,13 @@
 import {
-    ADD_CONTACTS, SHOW_CONTACT, FILTER_CONTACTS, LOGIN_SUCCESS, LOGOUT_SUCCESS, ADD_NOTES, DELETE_NOTE, EDIT_NOTE
+    ADD_CONTACTS,
+    SHOW_CONTACT,
+    FILTER_CONTACTS,
+    LOGIN_SUCCESS,
+    LOGOUT_SUCCESS,
+    ADD_NOTES,
+    DELETE_NOTE,
+    EDIT_NOTE,
+    LEAD_REDIRECT
 } from "./actions";
 
 const InitialState = {
@@ -10,7 +18,8 @@ const InitialState = {
     contacts: [],
     filteredContacts: [],
     currentContact: {},
-    notes: []
+    notes: [],
+    idLeadForRedirect: undefined
 };
 
 export default function (oldState = InitialState, action) {
@@ -81,7 +90,12 @@ export default function (oldState = InitialState, action) {
                 notes: editedNotes
             };
 
+        case LEAD_REDIRECT:
+            return {
 
+                ...oldState,
+                idLeadForRedirect: action.idLeadForRedirect
+            };
         default:
             return oldState
     }
