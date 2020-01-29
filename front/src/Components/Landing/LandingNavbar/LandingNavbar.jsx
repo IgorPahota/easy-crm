@@ -17,12 +17,8 @@ class LandingNavbar extends Component {
   render() {
     return (
       <div>
-        {/*     <NavLink to={'/login'}>Login</NavLink>
-                <NavLink to={'/signup'}>Signup</NavLink>*/}
-
-        <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
-
-          <Menu.Item key="login">
+       <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
+        <Menu.Item key="login">
             <NavLink to={'/login'}>
               <Icon type="login"/>
               Вход
