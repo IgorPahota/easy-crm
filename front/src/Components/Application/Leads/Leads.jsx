@@ -67,7 +67,7 @@ class Leads extends Component {
 
   onCardMoveAcrossLanes = async (fromLaneId, toLaneId, cardId, index) => {
     let response = await fetch("/leads", {
-      method: "PATCH",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
@@ -105,7 +105,6 @@ class Leads extends Component {
       })
     });
     let result = response.json();
-    result.log()
   };
 
   onLaneClick = params => {
@@ -155,7 +154,7 @@ class Leads extends Component {
       fontFamily: fontfamily,
       //   fontWeight: "bold",
       borderRadius: "4px",
-      backgroundColor: "#fafafa",
+      // backgroundColor: "#fafafa",
       fontWeight: 500
       // backgroundColor: "#1890ff"
     };
@@ -164,7 +163,7 @@ class Leads extends Component {
       border: "1px solid rgba(0, 0, 0, 0.65)",
       // border: "1px solid red",
       fontFamily: fontfamily,
-      border: "1px solid #d9d9d9",
+      // border: "1px solid #d9d9d9",
       borderRadius: "4px"
       // backgroundColor: "#1890ff"
     };
