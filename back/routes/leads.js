@@ -66,7 +66,8 @@ router.route('/')
 router.route('/:id')
   .get(async (req, res) => {
     const { id } = req.params;
-    const lead = await Lead.findById(id);
+    const lead = await Lead.findById(id)
+      .populate('stageId');
     res.json({ lead });
   })
   .put(async (req, res) => {

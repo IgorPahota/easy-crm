@@ -7,3 +7,5 @@ export const ADD_NOTES = 'ADD_NOTES';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const EDIT_NOTE = 'EDIT_NOTE';
 export const LEAD_REDIRECT = 'LEAD_REDIRECT';
+export const EDIT_CONTACT = 'EDIT_CONTACT';
+

@@ -18,45 +18,51 @@ import ApplicationNavbar from "./Components/Application/ApplicationNavbar/Applic
 import "./App.css";
 import ContactInfo from "./Components/Application/Contacts/ContactInfo";
 import Leads from "./Components/Application/Leads/Leads";
+import LeadCard from './Components/Application/Leads/LeadCard';
 
 class App extends Component {
-  componentDidMount = async () => {
-    let response = await fetch("/login");
-    let result = await response.json();
-    if (result.isLoggedIn) {
-      const response = await fetch(`/contacts/created/${result.id}`);
-      const contacts = await response.json();
-      let arrayWithProps = [result.username, result.email, result.id, contacts];
-      this.props.set(arrayWithProps);
+    componentDidMount = async () =>  {
+        let response = await fetch('/login');
+        let result = await response.json();
+        if (result.isLoggedIn) {
+            const response = await fetch(`/contacts/created/${result.id}`);
+            const contacts = await response.json();
+            let arrayWithProps = [result.username, result.email, result.id, contacts];
+            this.props.set(arrayWithProps)
+        }
+    };
+    render() {
+
+      return (
+        <ConfigProvider locale={ruRU}>
+          <Router>
+            <div className="App">
+
+              {!this.props.isLoggedIn && <LandingNavbar/>}
+              {!this.props.isLoggedIn && <Redirect to={'/login'}/>}
+              {this.props.isLoggedIn && <ApplicationNavbar/>}
+              <Switch>
+                <Route path='/login' component={Login}/>
+                <Route path='/signup' component={Signup}/>
+                <Route path='/dashboard' component={Dashboard}/>
+                <Route path="/contacts/:id" component={ContactInfo}/>
+                <Route path='/contacts' component={ContactsList}/>
+                <Route path="/leads" component={Leads}/>
+                <Route path="/leadcard" component={LeadCard}/>
+                {/*<Route render={()=>{*/}
+                {/*    return (*/}
+                {/*        <Redirect to={'/login'}/>*/}
+                {/*    )*/}
+                {/*}}/>*/}
+              </Switch>
+            </div>
+          </Router>
+        </ConfigProvider>
+      );
     }
+
   };
-  render() {
-    return (
-      <ConfigProvider locale={ruRU}>
-        <Router>
-          <div className="App">
-            {!this.props.isLoggedIn && <LandingNavbar />}
-            {!this.props.isLoggedIn && <Redirect to={'/login'}/>}
-            {this.props.isLoggedIn && <ApplicationNavbar />}
-            <Switch>
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={Signup} />
-              <Route path="/dashboard" component={Dashboard} />
-              <Route exact path="/contacts" component={ContactsList} />
-              <Route path="/contacts/:id" component={ContactInfo} />
-              <Route path="/leads" component={Leads} />
-              {/*<Route render={()=>{*/}
-              {/*    return (*/}
-              {/*        <Redirect to={'/login'}/>*/}
-              {/*    )*/}
-              {/*}}/>*/}
-            </Switch>
-          </div>
-        </Router>
-      </ConfigProvider>
-    );
-  }
-}
+
 
 function mapStateToProps(store) {
   return {
