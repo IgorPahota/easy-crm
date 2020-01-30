@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-import { Modal, Row, Col, Alert, Spin, Card, Button } from 'antd';
+import { Modal, Row, Col, Alert, Spin, Card } from 'antd';
 import Chart from "./Chart";
-// import insertCss from './insert-css.css';
 
 
 class Dashboard extends Component {
@@ -39,8 +38,6 @@ class Dashboard extends Component {
     let responseStages = await fetch('/stages');
     let stages = await responseStages.json();
     this.setState({ stages });
-
-
   };
 
   render() {
@@ -67,7 +64,7 @@ class Dashboard extends Component {
               <Row gutter={16} style={{ overflowX: 'auto ', display: 'flex' }}>
                 {stages.map((stage) => {
                     let sumStages = 0;
-                  allLeads += stage.cards.length
+                    allLeads += stage.cards.length
                     stage.cards.forEach(card => {
                       sumStages += card.price;
                       allLeadsPrice += card.price;
@@ -86,9 +83,6 @@ class Dashboard extends Component {
                 )}
               </Row>
             </div>
-              <p>Сумма всех сделок:{allLeadsPrice}</p>
-              <p>Количество всех сделок:{allLeads}</p>
-              {/*<p>Количество завершеных сделок:{allSum}</p>*/}
 
             <div>
               <Modal
@@ -103,7 +97,9 @@ class Dashboard extends Component {
                 )}
               </Modal>
             </div>
-            <Chart />
+            <Chart data={this.state.stages.slice(this.state.stages.length - 2)} allLeads={allLeads}/>
+            {/*<p>Сумма всех сделок:{allLeadsPrice}</p>
+            <p>Количество всех сделок:{allLeads}</p>*/}
           </>
         }
 

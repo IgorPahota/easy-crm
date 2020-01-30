@@ -1,59 +1,293 @@
 import React, { Component } from 'react';
 import G2 from '@antv/g2';
+import { DataSet } from "@antv/data-set";
 
 
 class Chart extends Component {
+
   componentDidMount() {
+    console.log(this.props.data);
+    const { cards, title } = this.props.data[1];
+    const titleSuccessfully = this.props.data[0].title;
+    const cardsSuccessfully = this.props.data[0].cards;
+    const { allLeads } = this.props;
+    // console.log(allLeads);
+    const value = allLeads - cards.length - cardsSuccessfully.length;
+    const startAngle = - Math.PI / 2 - Math.PI / 4;
     const data = [
-      { type: 'завершено', value: 56.4 },
-      { type: '女性', value: 43.6 }
+      { type: title, value: cards.length },
+      { type: titleSuccessfully, value: cardsSuccessfully.length },
+      { type: 'Всего задач', value: value },
+      // { type: '教育、文化、娱乐', value: 1853 },
+      // { type: '医疗保健', value: 1685 },
+      // { type: '衣着', value: 1179 },
+      // { type: '生活用品及服务', value: 1088 },
+      // { type: '其他用品及服务', value: 583 }
     ];
+    const ds = new DataSet();
+    const dv = ds.createView().source(data);
+    dv.transform({
+      type: 'percent',
+      field: 'value',
+      dimension: 'type',
+      as: 'percent'
+    });
     const chart = new G2.Chart({
       container: 'c1',
       forceFit: true,
-      height: 400,
+      height: 450,
       padding: 'auto'
     });
-    chart.source(data);
+    chart.tooltip(true, {
+      showTitle: false
+    });
+    chart.source(dv);
     chart.legend(false);
-    chart.facet('rect', {
-      fields: [ 'type' ],
-      padding: 20,
-      showTitle: false,
-      eachView: function eachView(view, facet) {
-        const data = facet.data;
-        let color;
-        if (data[0].type === 'завершено') {
-          color = '#0a9afe';
-        } else {
-          color = '#f0657d';
+    chart.coord('theta', {
+      radius: 0.75,
+      innerRadius: 0.5,
+      startAngle,
+      endAngle: startAngle + Math.PI * 2
+    });
+    chart.intervalStack().position('value')
+      .color('type', ['#0a4291', '#0a57b6', '#1373db', '#2295ff', '#48adff', '#6fc3ff', '#96d7ff', '#bde8ff'])
+      .opacity(1)
+      .label('percent', {
+        offset: - 20,
+        textStyle: {
+          fill: 'white',
+          fontSize: 12,
+          shadowBlur: 2,
+          shadowColor: 'rgba(0, 0, 0, .45)'
+        },
+        formatter: val => {
+          return parseInt(val * 100) + '%';
         }
-        data.push({ type: '其他', value: 100 - data[0].value });
-        view.source(data);
-        view.coord('theta', {
-          radius: 0.8,
-          innerRadius: 0.5
-        });
-        view.intervalStack()
-          .position('value')
-          .color('type', [ color, '#eceef1' ])
-          .opacity(1);
-        view.guide().html({
-          position: [ '50%', '50%' ],
-          html: `
-        <div class="g2-guide-html">
-          <p class="title">${data[0].type}</p>
-          <p class="value">${data[0].value}</p>
-        </div>
-      `
-        });
-      }
+      });
+
+    chart.guide().html({
+      position: ['50%', '50%'],
+      html: `<div class="g2-guide-html"><p class="title">Всего:</p><p class="value">${allLeads}</p></div>`
     });
     chart.render();
+// draw label
+    const OFFSET = 20;
+    const APPEND_OFFSET = 50;
+    const LINEHEIGHT = 60;
+    const coord = chart.get('coord'); // 获取坐标系对象
+    const center = coord.center; // 极坐标圆心坐标
+    const r = coord.radius; // 极坐标半径
+    const canvas = chart.get('canvas');
+    const canvasWidth = chart.get('width');
+    const canvasHeight = chart.get('height');
+    const labelGroup = canvas.addGroup();
+    const labels = [];
+    addPieLabel(chart);
+    canvas.draw();
+    chart.on('afterpaint', function () {
+      addPieLabel(chart);
+    });
+
+// main
+    function addPieLabel() {
+      const halves = [[], []];
+      const data = dv.rows;
+      console.log('data',data)
+      let angle = startAngle;
+
+      for (let i = 0; i < data.length; i ++) {
+        const percent = data[i].percent;
+        const targetAngle = angle + (Math.PI * 2 * percent);
+        const middleAngle = angle + (targetAngle - angle) / 2;
+        angle = targetAngle;
+        const edgePoint = getEndPoint(center, middleAngle, r);
+        const routerPoint = getEndPoint(center, middleAngle, r + OFFSET);
+        // label
+        const label = {
+          _anchor: edgePoint,
+          _router: routerPoint,
+          _data: data[i],
+          x: routerPoint.x,
+          y: routerPoint.y,
+          r: r + OFFSET,
+          fill: '#bfbfbf'
+        };
+        // 判断文本的方向
+        if (edgePoint.x < center.x) {
+          label._side = 'left';
+          halves[0].push(label);
+        } else {
+          label._side = 'right';
+          halves[1].push(label);
+        }
+      }// end of for
+
+      const maxCountForOneSide = parseInt(canvasHeight / LINEHEIGHT, 10);
+      halves.forEach(function (half, index) {
+        // step 2: reduce labels
+        if (half.length > maxCountForOneSide) {
+          half.sort(function (a, b) {
+            return b._percent - a._percent;
+          });
+          half.splice(maxCountForOneSide, half.length - maxCountForOneSide);
+        }
+
+        // step 3: distribute position (x and y)
+        half.sort(function (a, b) {
+          return a.y - b.y;
+        });
+        antiCollision(half, index);
+      });
+    }
+
+    function getEndPoint(center, angle, r) {
+      return {
+        x: center.x + r * Math.cos(angle),
+        y: center.y + r * Math.sin(angle)
+      };
+    }
+
+    function drawLabel(label) {
+      const _anchor = label._anchor,
+        _router = label._router,
+        fill = label.fill,
+        y = label.y;
+
+      const labelAttrs = {
+        y,
+        fontSize: 12, // 字体大小
+        fill: '#808080',
+        text: label._data.type + '\n' + label._data.value,
+        textBaseline: 'bottom'
+      };
+      const lastPoint = {
+        y
+      };
+
+      if (label._side === 'left') {
+        // 具体文本的位置
+        lastPoint.x = APPEND_OFFSET;
+        labelAttrs.x = APPEND_OFFSET; // 左侧文本左对齐并贴着画布最左侧边缘
+        labelAttrs.textAlign = 'left';
+      } else {
+        lastPoint.x = canvasWidth - APPEND_OFFSET;
+        labelAttrs.x = canvasWidth - APPEND_OFFSET; // 右侧文本右对齐并贴着画布最右侧边缘
+        labelAttrs.textAlign = 'right';
+      }
+
+      // 绘制文本
+      const text = labelGroup.addShape('Text', {
+        attrs: labelAttrs
+      });
+      labels.push(text);
+      // 绘制连接线
+      let points = void 0;
+      if (_router.y !== y) {
+        // 文本位置做过调整
+        points = [[_anchor.x, _anchor.y], [
+          _router.x, y
+        ], [lastPoint.x, lastPoint.y]];
+      } else {
+        points = [[_anchor.x, _anchor.y], [_router.x, _router.y], [lastPoint.x, lastPoint.y]];
+      }
+
+      labelGroup.addShape('polyline', {
+        attrs: {
+          points,
+          lineWidth: 1,
+          stroke: fill
+        }
+      });
+    }
+
+    function antiCollision(half, isRight) {
+      const startY = center.y - r - OFFSET - LINEHEIGHT;
+      let overlapping = true;
+      let totalH = canvasHeight;
+      let i = void 0;
+
+      let maxY = 0;
+      let minY = Number.MIN_VALUE;
+      const boxes = half.map(function (label) {
+        const labelY = label.y;
+        if (labelY > maxY) {
+          maxY = labelY;
+        }
+        if (labelY < minY) {
+          minY = labelY;
+        }
+        return {
+          size: LINEHEIGHT,
+          targets: [labelY - startY]
+        };
+      });
+      if (maxY - startY > totalH) {
+        totalH = maxY - startY;
+      }
+
+      while (overlapping) {
+        // eslint-disable-next-line no-loop-func
+        boxes.forEach(box => {
+          const target = (Math.min.apply(minY, box.targets) + Math.max.apply(minY, box.targets)) / 2;
+          box.pos = Math.min(Math.max(minY, target - box.size / 2), totalH - box.size);
+        });
+
+        // detect overlapping and join boxes
+        overlapping = false;
+        i = boxes.length;
+        while (i --) {
+          if (i > 0) {
+            const previousBox = boxes[i - 1];
+            const box = boxes[i];
+            if (previousBox.pos + previousBox.size > box.pos) {
+              // overlapping
+              previousBox.size += box.size;
+              previousBox.targets = previousBox.targets.concat(box.targets);
+
+              // overflow, shift up
+              if (previousBox.pos + previousBox.size > totalH) {
+                previousBox.pos = totalH - previousBox.size;
+              }
+              boxes.splice(i, 1); // removing box
+              overlapping = true;
+            }
+          }
+        }
+      }
+
+      // step 4: normalize y and adjust x
+      i = 0;
+      boxes.forEach(function (b) {
+        let posInCompositeBox = startY; // middle of the label
+        b.targets.forEach(function () {
+          half[i].y = b.pos + posInCompositeBox + LINEHEIGHT / 2;
+          posInCompositeBox += LINEHEIGHT;
+          i ++;
+        });
+      });
+
+      // (x - cx)^2 + (y - cy)^2 = totalR^2
+      half.forEach(function (label) {
+        const rPow2 = label.r * label.r;
+        const dyPow2 = Math.pow(Math.abs(label.y - center.y), 2);
+        if (rPow2 < dyPow2) {
+          label.x = center.x;
+        } else {
+          const dx = Math.sqrt(rPow2 - dyPow2);
+          if (!isRight) {
+            // left
+            label.x = center.x - dx;
+          } else {
+            // right
+            label.x = center.x + dx;
+          }
+        }
+        drawLabel(label);
+      });
+    }
   }
 
   render() {
-
     return (
       <div>
         <div id="c1"></div>
