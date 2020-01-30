@@ -62,7 +62,7 @@ class Leads extends Component {
 
   onCardMoveAcrossLanes = async (fromLaneId, toLaneId, cardId, index) => {
     let response = await fetch("/leads", {
-      method: "PATCH",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
@@ -148,7 +148,7 @@ class Leads extends Component {
       backgroundColor: "white",
       fontFamily: fontfamily,
       borderRadius: "4px",
-      backgroundColor: "#fafafa",
+      // backgroundColor: "#fafafa",
       fontWeight: 500
     };
     const cardStyle = {

@@ -27,7 +27,7 @@ router.route('/')
     foundedStage.cards.push(newLead);
     await foundedStage.save();
   })
-  .patch(async (req, res) => {
+  .put(async (req, res) => {
     const {
       fromLaneId, toLaneId, cardId, index
     } = req.body;
@@ -50,6 +50,7 @@ router.route('/')
     ];
     stageTo.cards = arrayForStageTo;
     await stageTo.save();
+    res.end()
   })
   .delete(async (req, res) => {
     const { cardId, stageId } = req.body;
