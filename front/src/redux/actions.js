@@ -8,4 +8,8 @@ export const DELETE_NOTE = 'DELETE_NOTE';
 export const EDIT_NOTE = 'EDIT_NOTE';
 export const LEAD_REDIRECT = 'LEAD_REDIRECT';
 export const EDIT_CONTACT = 'EDIT_CONTACT';
+export const FETCH_NOTES = 'FETCH_NOTES';
+export const ADD_LEADCONTACT = 'ADD_LEADCONTACT';
+export const DELETE_LEADCONTACT = 'DELETE_LEADCONTACT';
+
 

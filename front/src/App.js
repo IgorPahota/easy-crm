@@ -47,8 +47,8 @@ class App extends Component {
                 <Route path='/dashboard' component={Dashboard}/>
                 <Route path="/contacts/:id" component={ContactInfo}/>
                 <Route path='/contacts' component={ContactsList}/>
-                <Route path="/leads" component={Leads}/>
-                <Route path="/leadcard" component={LeadCard}/>
+                <Route exact path="/leads" component={Leads}/>
+                <Route exact path="/leads/:id" component={LeadCard}/>
                 {/*<Route render={()=>{*/}
                 {/*    return (*/}
                 {/*        <Redirect to={'/login'}/>*/}

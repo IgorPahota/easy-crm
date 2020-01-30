@@ -4,6 +4,7 @@ import {Breadcrumb, Icon, Input, Layout, List, Typography, Button} from 'antd';
 import ShowContact from '../../../redux/showContact';
 import EditContact from '../../../redux/editContact'
 import AddNoteToList from '../../../redux/addNote';
+import FetchNotesOnload from '../../../redux/fetchNotes';
 import NotesList from './NotesList';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
@@ -32,13 +33,26 @@ class ContactInfo extends Component {
       const response = await fetch(`http://localhost:3000/notes/created/${userId}`);
       const result = await response.json();
       if (result) {
-        await this.props.addNote(result);
+        await this.props.fetchNotes(result);
       }
     } catch (e) {
       console.log(e);
     }
   };
 
+  componentDidMount = async () => {
+    const id = this.props.match.params.id;
+    const response = await fetch(`${id}`);
+    const result = await response.json();
+    if (result) {
+      this.setState({currentUser: result.contact});
+      await this.props.addOneContact(this.state.currentUser);
+      // await this.props.addOneContact(result.contact);
+    }
+    // if (this.props.notes && this.props.notes.length === 0) {
+      this.fetchNotesForCurrentUser(id);
+    // }
+  };
   fetchEditContact = async (id) => {
     const response = await fetch(`/contacts/${id}`, {
       method: 'PUT',
@@ -84,19 +98,6 @@ class ContactInfo extends Component {
   };
 
 
-  componentDidMount = async () => {
-    const id = this.props.match.params.id;
-    const response = await fetch(`${id}`);
-    const result = await response.json();
-    if (result) {
-      this.setState({currentUser: result.contact});
-      await this.props.addOneContact(this.state.currentUser);
-      // await this.props.addOneContact(result.contact);
-    }
-    // if (this.props.notes && this.props.notes.length === 0) {
-      this.fetchNotesForCurrentUser(id);
-    // }
-  };
 
   render() {
     const { name, company, companyDetails, email, address, phone, created,  updated} = this.props.currentContact;
@@ -215,6 +216,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     addNote: (text) => {
       dispatch(AddNoteToList(text))
+    },
+    fetchNotes: (notes) => {
+      dispatch(FetchNotesOnload(notes))
     },
     editContact: (data) => {
       console.log('this is!')
