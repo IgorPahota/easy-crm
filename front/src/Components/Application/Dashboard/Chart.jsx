@@ -15,7 +15,7 @@ class Chart extends Component {
     const data = [
       { type: title, value: cards.length },
       { type: titleSuccessfully, value: cardsSuccessfully.length },
-      { type: 'Всего задач', value: value },
+      { type: 'Осталось', value: value },
       // { type: '教育、文化、娱乐', value: 1853 },
       // { type: '医疗保健', value: 1685 },
       // { type: '衣着', value: 1179 },
@@ -33,8 +33,7 @@ class Chart extends Component {
     const chart = new G2.Chart({
       container: "c1",
       forceFit: true,
-
-      height: 450,
+      height: 500,
       padding: 'auto'
     });
     chart.tooltip(true, {
