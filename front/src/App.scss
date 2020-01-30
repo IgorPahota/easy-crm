@@ -97,6 +97,48 @@ a:hover {
   background-color: $base-color-secondary;
 }
 
+.ant-btn-primary:focus {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.ant-btn {
+  color: $base-font-color-light;
+  background-color: $base-color;
+  border-color: $base-color;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-btn.cancel {
+  color: $base-font-color-light;
+  background-color: $base-font-color-dark;
+  border-color: $base-font-color-dark;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-btn.cancel:hover {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.ant-btn.cancel:active {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.ant-btn.cancel:focus {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.ant-btn.new-contact.ant-btn-primary {
+  margin: 20px auto auto 20px;
+}
+
 .ant-menu.ant-menu-dark .ant-menu-item-selected {
   background-color: $base-color-secondary;
 }
@@ -106,8 +148,16 @@ a:hover {
   margin-top: 2em;
 }
 
+.ant-table {
+  color: $base-font-color-dark;
+}
+
 .ant-input {
   color: $base-font-color-dark;
+}
+
+.ant-input:hover {
+  border-color: $base-color;
 }
 
 .ant-input:focus {
@@ -141,6 +191,42 @@ a:hover {
 h2.ant-typography {
   color: $base-font-color-dark;
 }
+
+.sc-AykKH.guDsfl.react-trello-board {
+  background-color: $base-background-color;
+  color: $base-font-color-dark;
+}
+
+.sc-AykKJ.NSWzM.react-trello-lane {
+  border-radius: 4px;
+}
+
+.sc-fzXfLQ.sc-fzXfLV.ebsDqi {
+  color: $base-font-color-dark;
+}
+
+.sc-AykKI.sc-AykKK.dVImGv {
+}
+
+.sc-fzXfMD.NKOpD {
+  color: $base-font-color-dark;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 4px;
+  min-height: 40px;
+  max-height: 80px;
+  width: 280px;
+}
+
+.sc-fzXfLS.sc-fzXfLT.jdfPWI.react-trello-card {
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+// .sc-fzXfLS.sc-fzXfLT.jdfPWI.react-trello-card:hover {
+//   background-color: $base-color-secondary;
+//   color: $base-font-color-light;
+// }
 
 body {
   color: $base-font-color-light;
