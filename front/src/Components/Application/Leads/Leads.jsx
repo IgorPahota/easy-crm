@@ -100,7 +100,6 @@ class Leads extends Component {
       })
     });
     let result = response.json();
-    result.log();
   };
 
   onLaneClick = params => {
@@ -148,11 +147,12 @@ class Leads extends Component {
       backgroundColor: "white",
       fontFamily: fontfamily,
       borderRadius: "4px",
-      // backgroundColor: "#fafafa",
-      fontWeight: 500
+      fontWeight: 500,
+      marginLeft: 8,
+      marginRight: 8,
+      marginBottom: 20
     };
     const cardStyle = {
-      border: "1px solid #ada9ab",
       fontFamily: fontfamily,
       borderRadius: "4px"
     };

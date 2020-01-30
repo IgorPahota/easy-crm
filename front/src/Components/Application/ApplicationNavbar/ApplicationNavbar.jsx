@@ -25,6 +25,9 @@ class ApplicationNavbar extends Component {
           mode="horizontal"
           theme="dark"
         >
+          <Menu.Item key="logo">
+            <NavLink to={"/dashboard"}>LOGO</NavLink>
+          </Menu.Item>
           <Menu.Item key="app">
             <NavLink to={"/dashboard"}>
               <Icon type="appstore" />

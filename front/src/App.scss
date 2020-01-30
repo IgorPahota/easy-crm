@@ -47,6 +47,10 @@ body {
   background-color: $base-background-color;
 }
 
+button:focus {
+  outline: none;
+}
+
 .login-form {
   max-width: 300px;
   margin-left: auto;
@@ -328,6 +332,7 @@ a:hover {
 .ant-pagination a:hover {
   color: $base-font-color-light;
   background-color: $base-color;
+  border-color: $base-color;
 }
 
 .ant-pagination a:focus {
@@ -345,6 +350,14 @@ a:hover {
 .ant-pagination-item.ant-pagination-item-active {
   color: $base-color;
   border-color: $base-color;
+}
+
+.ant-pagination-item-active:focus a {
+  color: $base-color;
+}
+
+.ant-pagination-item-active:hover a {
+  color: $base-font-color-light;
 }
 
 .ant-checkbox-wrapper {
@@ -483,8 +496,19 @@ h2.ant-typography {
   border-radius: 4px;
 }
 
-.sc-fzXfLQ.sc-fzXfLV.ebsDqi {
-  color: $base-font-color-dark;
+.NSWzM {
+  background-color: #e3e3e3;
+  border-radius: 4px;
+  margin: 8px 8px;
+  position: relative;
+}
+
+div.guDsfl {
+  height: 100%;
+}
+
+header textarea.sc-fzXfMD.NKOpD {
+  font-size: 16px;
 }
 
 .sc-fzXfMD.NKOpD {
@@ -498,14 +522,22 @@ h2.ant-typography {
 }
 
 .sc-fzXfLS.sc-fzXfLT.jdfPWI.react-trello-card {
-  color: $base-font-color-dark;
   border-radius: 4px;
   margin-bottom: 20px;
+  min-height: 75px;
+  // background-color: rgba($base-color, 0.25);
+  background-color: $base-background-color;
 }
 
 .sc-fzXfLS.sc-fzXfLT.jdfPWI.react-trello-card:hover {
-  background-color: #d8d6d6;
+  // background-color: rgba($base-color, 0.35);
+  background-color: $base-font-color-hover;
   color: $base-font-color-light;
+}
+
+article .fCeWxq {
+  border-bottom: 1px solid $base-font-color-dark;
+  padding-bottom: 8px;
 }
 
 .NKOpD {
@@ -520,8 +552,13 @@ section.sc-fzXfMz.sc-fzXfMA.emMeOv {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
   background: white;
   padding: 0px;
+  width: 280px;
+  background: $base-background-color;
 }
 
 button.sc-fzXfNM.cJIuoU {
@@ -536,7 +573,7 @@ button.sc-fzXfNM.cJIuoU {
   font-weight: 600;
   border-radius: 4px;
   height: 32px;
-  width: 300px;
+  width: 250px;
   color: $base-font-color-light;
   background-color: $base-color;
   border-color: $base-color;
@@ -684,4 +721,16 @@ textarea.sc-fzXfMD.NKOpD {
 
 .sc-fzXfMB.iJzOWM {
   width: 250px;
+}
+
+.sc-fzXfLR.sc-fzXfLW.gDooAJ {
+  display: none;
+}
+
+.sc-fzXfLQ.sc-fzXfLV.hSLogD {
+  width: 250px;
+}
+
+.sc-fzXfLS.eCngkD {
+  border: 1px solid $base-font-color-dark;
 }
