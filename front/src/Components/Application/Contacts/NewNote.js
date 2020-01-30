@@ -52,9 +52,15 @@ class NewNote extends Component {
 
   render() {
     return (
-      <div>
-          <TextArea value={this.state.text} onChange={this.onChange('text')} />
-        <Button onClick={this.onSubmit} style={{marginTop: '10px'}} block>Коммент!</Button>
+      <div className="new-note">
+          <TextArea autoSize={{ minRows: 1, maxRows: 4 }}
+                    value={this.state.text}
+                    onChange={this.onChange('text')}
+                    allowClear={true}
+                    onPressEnter={this.onSubmit}
+                    autoFocus={true}
+          />
+        <Button type="primary" onClick={this.onSubmit} style={{marginTop: '10px'}}>Оставить комментарий</Button>
       </div>
     );
   }

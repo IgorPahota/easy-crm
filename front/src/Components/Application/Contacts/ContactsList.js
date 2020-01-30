@@ -6,6 +6,7 @@ import AddContacts from '../../../redux/addContact';
 import FilterContacts from '../../../redux/filterContacts';
 
 import NewContactForm from './NewContact';
+import {Link} from 'react-router-dom';
 
 class ContactsList extends React.Component {
   constructor(props) {
@@ -85,17 +86,22 @@ class ContactsList extends React.Component {
         title: FilterByNameInput,
         dataIndex: 'name',
         key: '1',
-        render: (text, record) => <a href={`/contacts/${record._id}`}>{text}</a>,
+        render: (text, record) => <Link to={`/contacts/${record._id}`}>{text}</Link>,
       },
       {
         title: 'Компания',
         dataIndex: 'company',
         key: '2',
       },
+      // {
+      //   title: 'Описание',
+      //   dataIndex: 'companyDetails',
+      //   key: '3',
+      // },
       {
-        title: 'Описание',
-        dataIndex: 'companyDetails',
-        key: '3',
+        title: 'Телефон',
+        dataIndex: 'phone',
+        key: '6',
       },
       {
         title: 'Эл. почта',
@@ -106,11 +112,6 @@ class ContactsList extends React.Component {
         title: 'Адрес',
         dataIndex: 'address',
         key: '5',
-      },
-      {
-        title: 'Телефон',
-        dataIndex: 'phone',
-        key: '6',
       },
       {
         title: 'Действия',
