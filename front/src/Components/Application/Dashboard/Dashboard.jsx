@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Redirect, Link } from "react-router-dom";
-import { Modal, Row, Col, Alert, Spin, Card, Button } from "antd";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect, Link } from 'react-router-dom';
+import { Modal, Row, Col, Alert, Spin, Card } from 'antd';
 import Chart from "./Chart";
-// import insertCss from './insert-css.css';
+import Loading from "../Loading/Loading";
 
 class Dashboard extends Component {
   state = {
@@ -20,14 +20,12 @@ class Dashboard extends Component {
   };
 
   handleOk = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
@@ -42,22 +40,15 @@ class Dashboard extends Component {
   render() {
     const { stages } = this.state;
     let allLeadsPrice = 0;
-    let allLeads = 0;
+    let allLeads = 0
 
     return (
       <div>
         <h1></h1>
-
-        {!this.props.isLoggedIn && <Redirect to={"login"} />}
-        {!this.state.stages.length ? (
-          <Spin tip="Loading...">
-            <Alert
-              message="Сейчас загрузится!"
-              description="Ещё чуть-чуть)"
-              type="info"
-            />
-          </Spin>
-        ) : (
+        {!this.props.isLoggedIn && <Redirect to={'login'}/>}
+        {!this.state.stages.length
+          ? <Loading />
+          :  (
           <>
             <div style={{ background: "#EFEFEF", padding: "30px" }}>
               <Row gutter={16} style={{ overflowX: "auto ", display: "flex" }}>
@@ -92,6 +83,7 @@ class Dashboard extends Component {
             <p>Количество всех сделок:{allLeads}</p>
             {/*<p>Количество завершеных сделок:{allSum}</p>*/}
 
+
             <div>
               <Modal
                 title={this.state.stage.title}
@@ -109,7 +101,9 @@ class Dashboard extends Component {
                   ))}
               </Modal>
             </div>
-            <Chart />
+            <Chart data={this.state.stages.slice(this.state.stages.length - 2)} allLeads={allLeads}/>
+            {/*<p>Сумма всех сделок:{allLeadsPrice}</p>
+            <p>Количество всех сделок:{allLeads}</p>*/}
           </>
         )}
       </div>
