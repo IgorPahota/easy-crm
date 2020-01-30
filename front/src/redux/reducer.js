@@ -58,6 +58,7 @@ export default function (oldState = InitialState, action) {
         case FILTER_CONTACTS:
             if (action.contacts) {
                 return {
+                    ...oldState,
                     contacts: action.contacts
                 }
             }
