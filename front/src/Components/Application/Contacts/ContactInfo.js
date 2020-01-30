@@ -1,24 +1,18 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import {
-  Breadcrumb,
-  Icon,
-  Input,
-  Layout,
-  List,
-  Typography,
-  Button
-} from "antd";
-import ShowContact from "../../../redux/showContact";
-import EditContact from "../../../redux/editContact";
-import AddNoteToList from "../../../redux/addNote";
-import NotesList from "./NotesList";
-import moment from "moment";
-import { loggedIn } from "../../../redux/loggedIn";
-import { Link } from "react-router-dom";
 
-const { Header, Content, Sider } = Layout;
-const { Title } = Typography;
+import React, {Component} from 'react';
+import {connect} from "react-redux";
+import {Breadcrumb, Icon, Input, Layout, List, Typography, Button} from 'antd';
+import ShowContact from '../../../redux/showContact';
+import EditContact from '../../../redux/editContact'
+import AddNoteToList from '../../../redux/addNote';
+import FetchNotesOnload from '../../../redux/fetchNotes';
+import NotesList from './NotesList';
+import moment from 'moment';
+import {Link} from 'react-router-dom';
+
+const {Header, Content, Sider} = Layout;
+const {Title} = Typography;
+
 
 class ContactInfo extends Component {
   constructor(props) {
@@ -43,14 +37,29 @@ class ContactInfo extends Component {
       );
       const result = await response.json();
       if (result) {
-        await this.props.addNote(result);
+        await this.props.fetchNotes(result);
       }
     } catch (e) {
       console.log(e);
     }
   };
 
-  fetchEditContact = async id => {
+
+  componentDidMount = async () => {
+    const id = this.props.match.params.id;
+    const response = await fetch(`${id}`);
+    const result = await response.json();
+    if (result) {
+      this.setState({currentUser: result.contact});
+      await this.props.addOneContact(this.state.currentUser);
+      // await this.props.addOneContact(result.contact);
+    }
+    // if (this.props.notes && this.props.notes.length === 0) {
+      this.fetchNotesForCurrentUser(id);
+    // }
+  };
+  fetchEditContact = async (id) => {
+
     const response = await fetch(`/contacts/${id}`, {
       method: "PUT",
       headers: {
@@ -116,16 +125,7 @@ class ContactInfo extends Component {
     this.setState(newState);
   };
 
-  componentDidMount = async () => {
-    const id = this.props.match.params.id;
-    const response = await fetch(`${id}`);
-    const result = await response.json();
-    if (result) {
-      this.setState({ currentUser: result.contact });
-      await this.props.addOneContact(this.state.currentUser);
-    }
-    this.fetchNotesForCurrentUser(id);
-  };
+
 
   render() {
     const {
@@ -296,9 +296,6 @@ class ContactInfo extends Component {
             <NotesList userId={this.props.match.params.id} />
           </Content>
         </Layout>
-        {/*<Footer style={{textAlign: 'center'}}>*/}
-        {/*  EasyCRM ©2020 Elbrus Bootcamp*/}
-        {/*</Footer>*/}
       </Layout>
     );
   }
@@ -320,9 +317,14 @@ const mapDispatchToProps = dispatch => {
     addNote: text => {
       dispatch(AddNoteToList(text));
     },
-    editContact: data => {
-      console.log("this is!");
-      dispatch(EditContact(data));
+
+    fetchNotes: (notes) => {
+      dispatch(FetchNotesOnload(notes))
+    },
+    editContact: (data) => {
+      console.log('this is!')
+      dispatch(EditContact(data))
+
     }
   };
 };

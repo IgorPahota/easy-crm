@@ -21,6 +21,7 @@ import LeadCard from "./Components/Application/Leads/LeadCard";
 import "./App.scss";
 
 class App extends Component {
+
   componentDidMount = async () => {
     let response = await fetch("/login");
     let result = await response.json();
@@ -29,6 +30,7 @@ class App extends Component {
       const contacts = await response.json();
       let arrayWithProps = [result.username, result.email, result.id, contacts, result.type];
       this.props.set(arrayWithProps);
+
     }
   };
   render() {
@@ -47,6 +49,7 @@ class App extends Component {
               <Route path="/contacts" component={ContactsList} />
               <Route path="/leads" component={Leads} />
               <Route path="/leadcard" component={LeadCard} />
+              <Route exact path="/leads/:id" component={LeadCard}/>
               {/*<Route render={()=>{*/}
               {/*    return (*/}
               {/*        <Redirect to={'/login'}/>*/}

@@ -8,7 +8,10 @@ import {
     LEAD_REDIRECT,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
-    SHOW_CONTACT
+    SHOW_CONTACT,
+    FETCH_NOTES,
+    ADD_LEADCONTACT,
+    DELETE_LEADCONTACT
 } from "./actions";
 
 const InitialState = {
@@ -21,7 +24,9 @@ const InitialState = {
     currentContact: {},
     notes: [],
     idLeadForRedirect: undefined,
-    userType: undefined
+    userType: undefined,
+    leadcontacts: []
+
 
 };
 
@@ -36,7 +41,9 @@ export default function (oldState = InitialState, action) {
                 contacts: action.contacts,
                 currentContact: oldState.currentContact,
                 notes: oldState.notes,
-                userType: action.userType
+                userType: action.userType,
+                leadcontacts: oldState.leadcontacts
+
             };
         case LOGOUT_SUCCESS:
             return {
@@ -73,7 +80,13 @@ export default function (oldState = InitialState, action) {
                 ...oldState,
                 notes: [
                     ...oldState.notes.concat(action.notes)
-                ],
+                ]
+            };
+
+        case FETCH_NOTES:
+            return {
+                ...oldState,
+                notes: action.notes
             };
 
         case DELETE_NOTE:
@@ -121,6 +134,22 @@ export default function (oldState = InitialState, action) {
             return {
                 ...oldState,
                 currentContact: editedContact
+            };
+
+        case ADD_LEADCONTACT:
+            return {
+                ...oldState,
+                leadcontacts: [
+                    ...oldState.leadcontacts.concat(action.leadcontacts)
+                ]
+            };
+
+        case DELETE_LEADCONTACT:
+            console.log('reducer', oldState.leadcontacts, action.leadcontacts)
+          const newLeadcontacts = oldState.leadcontacts.filter(elem => elem === action.id)
+            return {
+                ...oldState,
+                leadcontacts: newLeadcontacts
             };
 
         default:

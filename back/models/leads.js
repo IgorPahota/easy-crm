@@ -8,7 +8,9 @@ const contactsSchema = new mongoose.Schema({
   price: { type: Number, default: 0 },
   details: { type: String },
   created: { type: Date },
-  updated: { type: Date, default: Date.now }
+  updated: { type: Date, default: Date.now },
+  // leadcontacts: { type: mongoose.Schema.ObjectId, ref: 'Contact', required: true },
+  leadcontacts: [{type: mongoose.Schema.ObjectId, ref: 'Contact', required: true}]
 
 });
 
