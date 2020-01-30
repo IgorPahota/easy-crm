@@ -59,7 +59,7 @@ class Dashboard extends Component {
           </Spin>
         ) : (
           <>
-            <div style={{ background: "#EFEFEF", padding: "30px" }}>
+            <div style={{ background: "#EFEFEF", width: "100%" }}>
               <Row gutter={16} style={{ overflowX: "auto ", display: "flex" }}>
                 {stages.map(stage => {
                   let sumStages = 0;
