@@ -9,21 +9,8 @@ router.route('/')
   .get(async (req, res) => {
     const arrayForUser = [];
     const result = await Stage.find({});
-    console.log(req.session.user.type);
-    // if (req.session.user.type === 'user') {
-    //   for (let stageIndex = 0; stageIndex < result.length; stageIndex++) {
-    //     arrayForUser.push(result[stageIndex]);
-    //     const tempCards = [];
-    //     for (let cardIndex = 0; cardIndex < result[stageIndex].cards.length; cardIndex++) {
-    //       if (result[stageIndex].cards[cardIndex].creatorId == req.session.user._id) {
-    //         tempCards.push(result[stageIndex].cards[cardIndex]);
-    //       }
-    //     }
-    //     arrayForUser[stageIndex].cards = tempCards;
-    //   }
-    // }
     if (req.session.user.type === 'admin') {
-      await res.send(result);
+      await res.json(result);
     } else if (req.session.user.type === 'user') {
       for (let stageIndex = 0; stageIndex < result.length; stageIndex++) {
         arrayForUser.push(result[stageIndex]);
@@ -35,9 +22,11 @@ router.route('/')
         }
         arrayForUser[stageIndex].cards = tempCards;
       }
-      await res.send(arrayForUser);
+      // await res.send(arrayForUser);
+      await res.json(arrayForUser)
     }
-    await res.send(result);
+    // await res.send(result);
+    // await res.json({arrayForUser})
   })
   .post(async (req, res) => {
     const { title } = req.body;
