@@ -7,6 +7,7 @@ import FilterContacts from "../../../redux/filterContacts";
 
 import NewContactForm from "./NewContact";
 import { Link } from "react-router-dom";
+import Loading from "../Loading/Loading";
 
 class ContactsList extends React.Component {
   constructor(props) {
@@ -129,12 +130,16 @@ class ContactsList extends React.Component {
     ];
     return (
       <div>
-        <Table
-          rowKey={record => record._id}
-          columns={columns}
-          dataSource={this.props.contacts}
-        />
-        <NewContactForm />
+        {!this.state.data.length
+          ? <Loading/>
+          : <><Table
+              rowKey={record => record._id}
+              columns={columns}
+              dataSource={this.props.contacts}
+            />
+            <NewContactForm />
+          </>
+        }
       </div>
     );
   }
