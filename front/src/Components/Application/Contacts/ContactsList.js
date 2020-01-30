@@ -1,12 +1,12 @@
-import React from 'react';
-import {connect} from "react-redux";
-import {Input, Popconfirm, Table, Button, message} from 'antd';
+import React from "react";
+import { connect } from "react-redux";
+import { Input, Popconfirm, Table, Button, message } from "antd";
 
-import AddContacts from '../../../redux/addContact';
-import FilterContacts from '../../../redux/filterContacts';
+import AddContacts from "../../../redux/addContact";
+import FilterContacts from "../../../redux/filterContacts";
 
-import NewContactForm from './NewContact';
-import {Link} from 'react-router-dom';
+import NewContactForm from "./NewContact";
+import { Link } from "react-router-dom";
 
 class ContactsList extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class ContactsList extends React.Component {
 
     this.state = {
       data: [],
-      value: '',
+      value: "",
       resultedData: []
     };
   }
@@ -41,12 +41,12 @@ class ContactsList extends React.Component {
     this.fetchDeleteUser(key);
   };
 
-  fetchDeleteUser = async (id) => {
+  fetchDeleteUser = async id => {
     const response = await fetch(`/contacts/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
-      },
+        "Content-Type": "application/json"
+      }
     });
     const data = await response.json();
     if (data) {
@@ -61,13 +61,11 @@ class ContactsList extends React.Component {
         value={this.state.value}
         onChange={e => {
           const currValue = e.target.value;
-          this.setState({value: currValue});
-          let filteredData = this.state.data.filter(
-            entry => {
-              const entryName = entry.name.toLowerCase();
-              return entryName.includes(currValue.toLowerCase())
-            }
-          );
+          this.setState({ value: currValue });
+          let filteredData = this.state.data.filter(entry => {
+            const entryName = entry.name.toLowerCase();
+            return entryName.includes(currValue.toLowerCase());
+          });
           this.setState({
             resultedData: filteredData
           });
@@ -78,20 +76,22 @@ class ContactsList extends React.Component {
 
     const columns = [
       {
-        title: '#',
-        key: 'index',
+        title: "#",
+        key: "index",
         render: (text, record, index) => index + 1
       },
       {
         title: FilterByNameInput,
-        dataIndex: 'name',
-        key: '1',
-        render: (text, record) => <Link to={`/contacts/${record._id}`}>{text}</Link>,
+        dataIndex: "name",
+        key: "1",
+        render: (text, record) => (
+          <Link to={`/contacts/${record._id}`}>{text}</Link>
+        )
       },
       {
-        title: 'Компания',
-        dataIndex: 'company',
-        key: '2',
+        title: "Компания",
+        dataIndex: "company",
+        key: "2"
       },
       // {
       //   title: 'Описание',
@@ -99,61 +99,65 @@ class ContactsList extends React.Component {
       //   key: '3',
       // },
       {
-        title: 'Телефон',
-        dataIndex: 'phone',
-        key: '6',
+        title: "Телефон",
+        dataIndex: "phone",
+        key: "6"
       },
       {
-        title: 'Эл. почта',
-        dataIndex: 'email',
-        key: '4',
+        title: "Эл. почта",
+        dataIndex: "email",
+        key: "4"
       },
       {
-        title: 'Адрес',
-        dataIndex: 'address',
-        key: '5',
+        title: "Адрес",
+        dataIndex: "address",
+        key: "5"
       },
       {
-        title: 'Действия',
-        key: 'action',
+        title: "Действия",
+        key: "action",
         render: (text, record) =>
           this.props.contacts.length >= 1 ? (
-            <Popconfirm title="Уверены?" onConfirm={() => this.handleDelete(record._id)}>
-              {<Button type="link">Удалить</Button>}
+            <Popconfirm
+              title="Уверены?"
+              onConfirm={() => this.handleDelete(record._id)}
+            >
+              {<Button type="link ant-btn cancel">Удалить</Button>}
             </Popconfirm>
-          ) : null,
-      },
+          ) : null
+      }
     ];
     return (
       <div>
-        <Table rowKey={record => record._id}
-               columns={columns}
-               dataSource={this.props.contacts}
+        <Table
+          rowKey={record => record._id}
+          columns={columns}
+          dataSource={this.props.contacts}
         />
-      <NewContactForm />
+        <NewContactForm />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isLoggedIn: state.isLoggedIn,
     contacts: state.contacts,
     filteredContacts: state.filteredContacts,
     id: state.id
-  }
+  };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    submitContacts: (contacts) => {
-      dispatch( AddContacts(contacts) )
+    submitContacts: contacts => {
+      dispatch(AddContacts(contacts));
     },
-    submitFilteredContacts: (contacts) => {
-      dispatch( FilterContacts(contacts) )
+    submitFilteredContacts: contacts => {
+      dispatch(FilterContacts(contacts));
     }
-  }
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsList)
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);
