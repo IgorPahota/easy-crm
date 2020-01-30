@@ -1,12 +1,42 @@
 const express = require('express');
 const Stage = require('../models/stages');
+const Lead = require('../models/leads');
 
 const router = express.Router();
 
 
 router.route('/')
   .get(async (req, res) => {
+    const arrayForUser = [];
     const result = await Stage.find({});
+    console.log(req.session.user.type);
+    // if (req.session.user.type === 'user') {
+    //   for (let stageIndex = 0; stageIndex < result.length; stageIndex++) {
+    //     arrayForUser.push(result[stageIndex]);
+    //     const tempCards = [];
+    //     for (let cardIndex = 0; cardIndex < result[stageIndex].cards.length; cardIndex++) {
+    //       if (result[stageIndex].cards[cardIndex].creatorId == req.session.user._id) {
+    //         tempCards.push(result[stageIndex].cards[cardIndex]);
+    //       }
+    //     }
+    //     arrayForUser[stageIndex].cards = tempCards;
+    //   }
+    // }
+    if (req.session.user.type === 'admin') {
+      await res.send(result);
+    } else if (req.session.user.type === 'user') {
+      for (let stageIndex = 0; stageIndex < result.length; stageIndex++) {
+        arrayForUser.push(result[stageIndex]);
+        const tempCards = [];
+        for (let cardIndex = 0; cardIndex < result[stageIndex].cards.length; cardIndex++) {
+          if (result[stageIndex].cards[cardIndex].creatorId == req.session.user._id) {
+            tempCards.push(result[stageIndex].cards[cardIndex]);
+          }
+        }
+        arrayForUser[stageIndex].cards = tempCards;
+      }
+      await res.send(arrayForUser);
+    }
     await res.send(result);
   })
   .post(async (req, res) => {
@@ -21,12 +51,15 @@ router.route('/')
     }
   })
   .delete(async (req, res) => {
-    console.log(req.body.id);
     const stageForDeleting = await Stage.findOne({ _id: req.body.id });
-    console.log(stageForDeleting.cards.length);
+
     if (stageForDeleting.cards.length > 0) {
+      stageForDeleting.cards.map(async (element) => {
+        await Lead.findOneAndDelete({ _id: element._id });
+      });
+      await Stage.findOneAndDelete({ _id: req.body.id });
       await res.json({
-        isDeleted: false
+        isDeleted: true
       });
     } else {
       await Stage.findOneAndDelete({ _id: req.body.id });

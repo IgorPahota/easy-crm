@@ -39,6 +39,7 @@ class App extends Component {
             <div className="App">
 
               {!this.props.isLoggedIn && <LandingNavbar/>}
+              {!this.props.isLoggedIn && <Redirect to={'/login'}/>}
               {this.props.isLoggedIn && <ApplicationNavbar/>}
               <Switch>
                 <Route path='/login' component={Login}/>
@@ -59,7 +60,9 @@ class App extends Component {
         </ConfigProvider>
       );
     }
-}
+
+  };
+
 
 function mapStateToProps(store) {
   return {
