@@ -20,7 +20,8 @@ const InitialState = {
     filteredContacts: [],
     currentContact: {},
     notes: [],
-    idLeadForRedirect: undefined
+    idLeadForRedirect: undefined,
+    userType: undefined
 
 };
 
@@ -34,7 +35,8 @@ export default function (oldState = InitialState, action) {
                 id: action.id,
                 contacts: action.contacts,
                 currentContact: oldState.currentContact,
-                notes: oldState.notes
+                notes: oldState.notes,
+                userType: action.userType
             };
         case LOGOUT_SUCCESS:
             return {

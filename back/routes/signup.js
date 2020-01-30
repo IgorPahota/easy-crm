@@ -21,7 +21,8 @@ router.post('/', async (req, res) => {
       username: req.session.user.username,
       email: req.session.user.email,
       // eslint-disable-next-line no-underscore-dangle
-      id: req.session.user._id
+      id: req.session.user._id,
+      type: 'user'
     });
   } catch (error) {
     await res.json({

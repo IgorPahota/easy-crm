@@ -6,7 +6,8 @@ function loggedIn (data) {
         username: data[0],
         email: data[1],
         id: data[2],
-        contacts: data[3]
+        contacts: data[3],
+        userType: data[4]
     }
 }
 

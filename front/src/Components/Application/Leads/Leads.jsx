@@ -160,6 +160,7 @@ class Leads extends Component {
         {this.props.idLeadForRedirect && (
           <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />
         )}
+
         {!this.state.data ? (
           <div>Place for spinner</div>
         ) : (
@@ -168,7 +169,7 @@ class Leads extends Component {
             editable
             laneDraggable={false}
             canAddLanes
-            editLaneTitle
+            // editLaneTitle={this.props.userType == 'admin'}
             onLaneAdd={this.onLaneAdd}
             onLaneClick={this.onLaneClick}
             onLaneDelete={this.onLaneDelete}
@@ -179,6 +180,7 @@ class Leads extends Component {
             style={style}
             laneStyle={laneStyle}
             cardStyle={cardStyle}
+            hideCardDeleteIcon={this.props.userType == 'user'}
             t={customTranslation}
 
           />
@@ -190,7 +192,8 @@ class Leads extends Component {
 
 function mapStateToProps(store) {
   return {
-    idLeadForRedirect: store.idLeadForRedirect
+    idLeadForRedirect: store.idLeadForRedirect,
+    userType: store.userType
 
   };
 
