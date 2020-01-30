@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import Board, { createTranslate } from "react-trello";
 import { Icon } from "antd";
-import {Redirect} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {leadRedirect} from "../../../redux/leadRedirect";
-
-import "./Leads.css";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { leadRedirect } from "../../../redux/leadRedirect";
 
 const customTranslation = createTranslate({
   "Add another lane": "Новый этап",
@@ -26,7 +24,7 @@ class Leads extends Component {
     this.state = {
       stageId: undefined,
       redirect: false,
-      redirectedLeadID: '',
+      redirectedLeadID: "",
       data: {
         lanes: []
       }
@@ -55,15 +53,12 @@ class Leads extends Component {
     this.setState({
       data: { ...this.state.data, lanes: result }
     });
-
   };
-
 
   onCardClick = params => {
     console.log(params);
-    this.props.set(params)
+    this.props.set(params);
   };
-
 
   onCardMoveAcrossLanes = async (fromLaneId, toLaneId, cardId, index) => {
     let response = await fetch("/leads", {
@@ -144,32 +139,27 @@ class Leads extends Component {
     const fontfamily =
       "font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'";
     const style = {
-      backgroundColor: "white",
+      backgroundColor: "#efefef",
       fontFamily: fontfamily
     };
     const laneStyle = {
       backgroundColor: "white",
-      // border: "1px solid black",
       fontFamily: fontfamily,
-      //   fontWeight: "bold",
       borderRadius: "4px",
       // backgroundColor: "#fafafa",
       fontWeight: 500
-      // backgroundColor: "#1890ff"
     };
     const cardStyle = {
-      color: "white",
-      border: "1px solid rgba(0, 0, 0, 0.65)",
-      // border: "1px solid red",
+      border: "1px solid #ada9ab",
       fontFamily: fontfamily,
-      // border: "1px solid #d9d9d9",
       borderRadius: "4px"
-      // backgroundColor: "#1890ff"
     };
 
     return (
       <div>
-        {this.props.idLeadForRedirect && <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />}
+        {this.props.idLeadForRedirect && (
+          <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />
+        )}
         {!this.state.data ? (
           <div>Place for spinner</div>
         ) : (
@@ -198,20 +188,20 @@ class Leads extends Component {
   }
 }
 
-function mapStateToProps (store) {
+function mapStateToProps(store) {
   return {
     idLeadForRedirect: store.idLeadForRedirect
 
-  }
+  };
+
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    set: (id) => {
-      dispatch(leadRedirect(id))
+    set: id => {
+      dispatch(leadRedirect(id));
     }
-  }
+  };
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Leads)
+export default connect(mapStateToProps, mapDispatchToProps)(Leads);

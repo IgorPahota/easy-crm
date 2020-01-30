@@ -1,45 +1,45 @@
-import React, { Component } from 'react';
-import G2 from '@antv/g2';
-
+import React, { Component } from "react";
+import G2 from "@antv/g2";
 
 class Chart extends Component {
   componentDidMount() {
     const data = [
-      { type: 'завершено', value: 56.4 },
-      { type: '女性', value: 43.6 }
+      { type: "завершено", value: 56.4 },
+      { type: "女性", value: 43.6 }
     ];
     const chart = new G2.Chart({
-      container: 'c1',
+      container: "c1",
       forceFit: true,
       height: 400,
-      padding: 'auto'
+      padding: "auto"
     });
     chart.source(data);
     chart.legend(false);
-    chart.facet('rect', {
-      fields: [ 'type' ],
+    chart.facet("rect", {
+      fields: ["type"],
       padding: 20,
       showTitle: false,
       eachView: function eachView(view, facet) {
         const data = facet.data;
         let color;
-        if (data[0].type === 'завершено') {
-          color = '#0a9afe';
+        if (data[0].type === "завершено") {
+          color = "#1e387f";
         } else {
-          color = '#f0657d';
+          color = "#f5222d";
         }
-        data.push({ type: '其他', value: 100 - data[0].value });
+        data.push({ type: "其他", value: 100 - data[0].value });
         view.source(data);
-        view.coord('theta', {
+        view.coord("theta", {
           radius: 0.8,
           innerRadius: 0.5
         });
-        view.intervalStack()
-          .position('value')
-          .color('type', [ color, '#eceef1' ])
+        view
+          .intervalStack()
+          .position("value")
+          .color("type", [color, "#ada9ab"])
           .opacity(1);
         view.guide().html({
-          position: [ '50%', '50%' ],
+          position: ["50%", "50%"],
           html: `
         <div class="g2-guide-html">
           <p class="title">${data[0].type}</p>
@@ -53,7 +53,6 @@ class Chart extends Component {
   }
 
   render() {
-
     return (
       <div>
         <div id="c1"></div>
