@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { Modal, Row, Col, Alert, Spin, Card } from 'antd';
 import Chart from "./Chart";
+import Loading from "../Loading/Loading";
 
 
 class Dashboard extends Component {
 
   state = {
-    stages: [],
+    stages: [1],
     visible: false,
     stage: {}
   };
@@ -51,14 +52,15 @@ class Dashboard extends Component {
         <h1></h1>
 
         {!this.props.isLoggedIn && <Redirect to={'login'}/>}
-        {!this.state.stages.length
-          ? <Spin tip="Loading...">
+        {this.state.stages.length
+          ? /*<Spin tip="Loading...">
             <Alert
               message="Сейчас загрузится!"
               description="Ещё чуть-чуть)"
               type="info"
             />
-          </Spin>
+          </Spin>*/
+          <Loading />
           : <>
             <div style={{ background: '#ECECEC', padding: '30px' }}>
               <Row gutter={16} style={{ overflowX: 'auto ', display: 'flex' }}>

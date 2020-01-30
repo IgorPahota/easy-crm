@@ -1,0 +1,14 @@
+.loading-picture {
+    
+    width: 100%;
+    height: 100px;
+}
+
+.loading-picture img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -23px;
+    margin-left: -20px;
+}
+
