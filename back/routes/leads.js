@@ -26,6 +26,7 @@ router.route('/')
     const foundedStage = await Stage.findOne({ _id: stageId });
     foundedStage.cards.push(newLead);
     await foundedStage.save();
+    res.end();
   })
   .put(async (req, res) => {
     const {
@@ -62,6 +63,7 @@ router.route('/')
       }
     });
     await foundedStage.save();
+    res.end()
   });
 
 router.route('/:id')

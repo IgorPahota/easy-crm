@@ -90,8 +90,7 @@ class Leads extends Component {
         title: params.title
       })
     });
-    // let result = await response.json();
-    // console.log(result);
+
   };
 
   onLaneDelete = async params => {
@@ -191,6 +190,7 @@ class Leads extends Component {
             laneStyle={laneStyle}
             cardStyle={cardStyle}
             t={customTranslation}
+
           />
         )}
       </div>
@@ -201,6 +201,7 @@ class Leads extends Component {
 function mapStateToProps (store) {
   return {
     idLeadForRedirect: store.idLeadForRedirect
+
   }
 }
 

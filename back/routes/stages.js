@@ -22,11 +22,8 @@ router.route('/')
         }
         arrayForUser[stageIndex].cards = tempCards;
       }
-      // await res.send(arrayForUser);
-      await res.json(arrayForUser)
+      await res.json(arrayForUser);
     }
-    // await res.send(result);
-    // await res.json({arrayForUser})
   })
   .post(async (req, res) => {
     const { title } = req.body;
