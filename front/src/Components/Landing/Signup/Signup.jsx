@@ -17,17 +17,17 @@ class SignupForm extends Component {
         }
     }
 
-    componentDidMount = async () =>  {
-        let response = await fetch('/login');
-        let result = await response.json();
-        if (result.isLoggedIn) {
-            message.warning('Вы уже вошли в систему');
-            let arrayWithProps = [result.username, result.email, result.id]
-            this.props.set(arrayWithProps)
-        } else {
-            // alert('login please')
-        }
-    };
+    // componentDidMount = async () =>  {
+    //     let response = await fetch('/login');
+    //     let result = await response.json();
+    //     if (result.isLoggedIn) {
+    //         message.warning('Вы уже вошли в систему');
+    //         let arrayWithProps = [result.username, result.email, result.id]
+    //         this.props.set(arrayWithProps)
+    //     } else {
+    //         // alert('login please')
+    //     }
+    // };
 
     signupFetch = async (formDataUsername, formDataEmail, formDataPassword) => {
         let response = await fetch("/signup", {
@@ -43,8 +43,13 @@ class SignupForm extends Component {
         });
         let result = await response.json();
         if (result.isLoggedIn) {
-            message.success(`Вы успешно зарегистрированы, ${result.username}`)
-            let arrayWithProps = [result.username, result.email, result.id];
+            message.success(`Вы успешно зарегистрированы, ${result.username}`);
+
+            // Get all contacts for logged user
+            const responseContacts = await fetch(`/contacts/created/${result.id}`);
+            const contacts = await responseContacts.json();
+
+            let arrayWithProps = [result.username, result.email, result.id, contacts, result.type];
             this.props.set(arrayWithProps)
         } else {
             message.error('Не получилось.. Попробуйте снова!')

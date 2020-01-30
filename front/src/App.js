@@ -28,7 +28,7 @@ class App extends Component {
     if (result.isLoggedIn) {
       const response = await fetch(`/contacts/created/${result.id}`);
       const contacts = await response.json();
-      let arrayWithProps = [result.username, result.email, result.id, contacts];
+      let arrayWithProps = [result.username, result.email, result.id, contacts, result.type];
       this.props.set(arrayWithProps);
 
     }
@@ -39,7 +39,7 @@ class App extends Component {
         <Router>
           <div className="App">
             {!this.props.isLoggedIn && <LandingNavbar />}
-            {/*{!this.props.isLoggedIn && <Redirect to={'/login'}/>}*/}
+            {!this.props.isLoggedIn && <Redirect to={'/login'}/>}
             {this.props.isLoggedIn && <ApplicationNavbar />}
             <Switch>
               <Route path="/login" component={Login} />
