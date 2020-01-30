@@ -171,10 +171,7 @@ class Leads extends Component {
 
     return (
       <div>
-        {/*{this.state.redirect && <Redirect to={`/leads/${this.state.redirectedLeadID}`} />}*/}
-        <div>{this.props.idLeadForRedirect}</div>
         {this.props.idLeadForRedirect && <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />}
-
         {!this.state.data ? (
           <div>Place for spinner</div>
         ) : (
