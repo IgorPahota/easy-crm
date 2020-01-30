@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Input} from 'antd';
+import {Button, Input, Card, Icon} from 'antd';
 import EditNote from '../../../redux/editNote';
 import {connect} from 'react-redux';
 import moment from 'moment';
@@ -61,21 +61,30 @@ class Note extends Component {
     return (
       <div>
         <li>
-          {this.state.isEditing ?
-            <p className="note"><Input type="text" onChange={this.nameChanger}
-                                       value={this.state.text}/></p> :
-            <p className="note"><b>{note.text}</b><br/>
-              <span style={{fontSize: 'small'}}>Создано: {created} {updated} </span></p>}
-          <p className="note-buttons">
-            <Button size="small" onClick={() => this.props.onDeleted(id)}>
-              Удалить
-            </Button>
+          <Card className="custom-card" bordered={true} >
+            <div className="note-text">
+            {this.state.isEditing ?
+              <p className="note"><Input type="text" onChange={this.nameChanger}
+                                         value={this.state.text}
+                                         className="note-input"
+                                         onPressEnter = {() => this.editNote(note._id, note.text)}
+                                         autoFocus={true}
+              /></p> :
+              <p className="note"><b>{note.text}</b><br/>
+                <span className="small-note-text">Создано: {created} {updated} </span></p>}
+            </div>
+            <p className="note-buttons">
+              <Button size="small" type="button" onClick={() => this.editNote(note._id, note.text)}
+                      className="btn btn-outline-danger btn-sm">
+                <Icon type="edit" theme="outlined" />
+              </Button>
 
-            <Button size="small" type="button" onClick={() => this.editNote(note._id, note.text)}
-                    className="btn btn-outline-danger btn-sm">
-              Редактировать
-            </Button>
-          </p>
+              <Button size="small" onClick={() => this.props.onDeleted(id)}>
+                <Icon type="delete" theme="outlined" />
+              </Button>
+            </p>
+
+          </Card>
 
         </li>
       </div>

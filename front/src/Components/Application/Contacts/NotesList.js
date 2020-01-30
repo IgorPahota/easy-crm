@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Note from "./Note";
-
 import {connect} from 'react-redux'
 import NewNote from './NewNote';
 import DeleteNote from '../../../redux/deleteNote';
@@ -33,8 +32,8 @@ class NotesList extends Component {
 
   render() {
     return (
-      <div>
-        <ol>
+      <div className="notes-content">
+        <ul className="notes-list">
         {this.props.notes.map( (note, i) =>
           <Note userId={this.props.currentContact._id}
                 note={note}
@@ -43,9 +42,9 @@ class NotesList extends Component {
                 onDeleted={this.deleteOneNote}
                 />
         )}
-        </ol>
-        <NewNote userId={this.props.currentContact._id}/>
-      </div>
+        </ul>
+        <NewNote userId={this.props.currentContact._id} />
+        </div>
     );
   }
 }

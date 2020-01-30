@@ -6,12 +6,10 @@ import { DataSet } from "@antv/data-set";
 class Chart extends Component {
 
   componentDidMount() {
-    console.log(this.props.data);
     const { cards, title } = this.props.data[1];
     const titleSuccessfully = this.props.data[0].title;
     const cardsSuccessfully = this.props.data[0].cards;
     const { allLeads } = this.props;
-    // console.log(allLeads);
     const value = allLeads - cards.length - cardsSuccessfully.length;
     const startAngle = - Math.PI / 2 - Math.PI / 4;
     const data = [
@@ -33,8 +31,9 @@ class Chart extends Component {
       as: 'percent'
     });
     const chart = new G2.Chart({
-      container: 'c1',
+      container: "c1",
       forceFit: true,
+
       height: 450,
       padding: 'auto'
     });
@@ -92,7 +91,6 @@ class Chart extends Component {
     function addPieLabel() {
       const halves = [[], []];
       const data = dv.rows;
-      console.log('data',data)
       let angle = startAngle;
 
       for (let i = 0; i < data.length; i ++) {

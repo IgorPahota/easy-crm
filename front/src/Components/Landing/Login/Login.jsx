@@ -97,13 +97,6 @@ class NormalLoginForm extends Component {
             )}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: true,
-            })(<Checkbox>Запомнить меня</Checkbox>)}
-            <a className="login-form-forgot" href="">
-              Я забыл пароль
-            </a>
             <Button type="primary" htmlType="submit" className="login-form-button">
               Войти
             </Button>

@@ -1,0 +1,687 @@
+@import "~antd/dist/antd.css";
+@import "./sass/variables.scss";
+@import "./sass/navbar.scss";
+// @import "./sass/loginForm.scss";
+
+.App {
+  // margin: 10px;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: $base-background-color;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  color: $base-font-color-light;
+  background-color: $base-background-color;
+}
+
+.login-form {
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.form-title {
+  text-align: center;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+canvas {
+  color: $base-font-color-dark;
+}
+
+.g2-guide-html {
+  color: $base-font-color-dark;
+}
+
+.note {
+  margin-bottom: 2px;
+}
+
+.note-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin-left: 20px;
+  margin-bottom: 0px;
+}
+.custom-card {
+  display: inline-block;
+  justify-content: left;
+  padding: 5px;
+  min-height: 10px;
+  border: 1px solid #d6d6c2;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  vertical-align: top;
+}
+
+.ant-card-head {
+  color: $base-font-color-dark;
+}
+
+.ant-card-head-title {
+  text-align: center;
+}
+
+.ant-card-body {
+  color: $base-font-color-dark;
+}
+
+.custom-card > .ant-card-body {
+  display: flex;
+  padding: 5px;
+}
+
+.ant-row {
+  justify-content: center;
+}
+
+.notes-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.note-input {
+  width: 400px;
+}
+
+.notes-content {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.new-note {
+  width: 50%;
+}
+
+.note,
+.note-text {
+  margin-bottom: 0px;
+  color: darkblue;
+}
+
+.small-note-text {
+  font-size: small;
+  color: darkgrey;
+}
+
+.contact-input {
+  width: 100%;
+}
+
+.contact-input {
+  margin-bottom: 10px;
+}
+
+.contacts-buttons {
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+a {
+  color: $base-color-secondary;
+}
+
+a:hover {
+  color: $base-color;
+}
+
+.ant-card {
+  color: #262626;
+}
+
+.ant-btn-primary {
+  color: $base-font-color-light;
+  background-color: $base-color;
+  border-color: $base-color;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-btn-primary:hover {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.ant-btn-primary:active {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.ant-btn-primary:focus {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.ant-btn {
+  color: $base-font-color-light;
+  background-color: $base-color;
+  border-color: $base-color;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-btn.cancel {
+  color: $base-font-color-light;
+  background-color: $base-font-color-hover;
+  border-color: $base-font-color-hover;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-btn.cancel:hover {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.ant-btn.cancel:active {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.ant-btn.cancel:focus {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.ant-btn.new-contact.ant-btn-primary {
+  margin: -20px auto auto 20px;
+}
+
+.ant-btn.btn.btn-outline-danger.btn-sm.ant-btn-button.ant-btn-sm {
+  color: $base-font-color-light;
+  background-color: $base-color;
+  border-color: $base-color;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-btn.btn.btn-outline-danger.btn-sm.ant-btn-button.ant-btn-sm:hover {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.ant-btn.btn.btn-outline-danger.btn-sm.ant-btn-button.ant-btn-sm:active {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.ant-btn.btn.btn-outline-danger.btn-sm.ant-btn-button.ant-btn-sm:focus {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.ant-btn.ant-btn-sm {
+  margin-top: 5px;
+  color: $base-font-color-light;
+  background-color: $base-font-color-hover;
+  border-color: $base-font-color-hover;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-btn.ant-btn-sm:hover {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.ant-btn.ant-btn-sm:active {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.ant-btn.ant-btn-sm:focus {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background-color: $base-color-secondary;
+}
+
+.ant-form-item {
+  color: $base-font-color-dark;
+  margin-top: 2em;
+}
+
+.ant-table {
+  color: $base-font-color-dark;
+}
+
+.ant-input {
+  color: $base-font-color-dark;
+}
+
+.ant-input:hover {
+  border-color: $base-color;
+}
+
+.ant-input:focus {
+  border-color: $base-color;
+}
+
+.ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+  border-color: $base-color;
+  border-right-width: 1px !important;
+}
+
+.ant-pagination {
+  color: $base-color;
+}
+
+.ant-pagination a {
+  color: $base-color;
+}
+
+.ant-pagination a:hover {
+  color: $base-font-color-light;
+  background-color: $base-color;
+}
+
+.ant-pagination a:focus {
+  color: $base-color;
+}
+
+.ant-pagination a:active {
+  color: $base-color;
+}
+
+.ant-pagination-item {
+  color: $base-color;
+}
+
+.ant-pagination-item.ant-pagination-item-active {
+  color: $base-color;
+  border-color: $base-color;
+}
+
+.ant-checkbox-wrapper {
+  color: $base-font-color-dark;
+}
+
+.ant-checkbox-inner {
+  border-radius: 4px;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: $base-color;
+  border-color: $base-color;
+}
+
+.ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox:hover .ant-checkbox-inner,
+.ant-checkbox-input:focus + .ant-checkbox-inner {
+  border-color: $base-color;
+}
+
+.ant-layout-header {
+  text-align: center;
+  width: 100%;
+  height: 18px;
+}
+
+textarea.ant-input {
+  resize: none;
+  width: 358px;
+  min-width: 358px;
+  max-width: 358px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}
+
+.ant-layout-sider.ant-layout-sider-dark {
+  background: $base-background-color;
+  flex: 0 0 250px;
+  max-width: 250px;
+  min-width: 250px;
+  width: 250px;
+}
+
+.ant-layout-sider-children {
+  margin: 20px;
+}
+
+.ant-breadcrumb {
+  color: $base-font-color-dark;
+}
+
+.ant-breadcrumb a {
+  color: $base-color-secondary;
+}
+
+.ant-breadcrumb a:hover {
+  color: $base-color;
+}
+
+.ant-breadcrumb a:active {
+  color: $base-color;
+}
+
+.ant-breadcrumb a:focus {
+  color: $base-color;
+}
+
+.ant-list {
+  color: $base-font-color-dark;
+}
+
+.ant-list-bordered {
+  border: 1px solid $base-font-color-hover;
+  border-radius: 4px;
+}
+
+.ant-list.ant-list-sm.ant-list-split.ant-list-bordered {
+  background-color: #fff;
+}
+
+.ant-spin-dot-item {
+  color: $base-color;
+}
+
+.custom-card {
+  padding: 5px;
+  min-height: 10px;
+  border: 1px solid $base-font-color-hover;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  vertical-align: top;
+}
+
+p.note {
+  color: $base-font-color-dark;
+}
+
+h2.ant-typography {
+  color: $base-font-color-dark;
+}
+
+.ant-table-tbody
+  > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+  > td {
+  background-color: $base-color-secondary;
+  color: $base-font-color-light;
+}
+
+.ant-table-tbody
+  > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+  > td
+  > a {
+  color: $base-font-color-hover;
+}
+
+.ant-table-tbody
+  > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+  > td
+  > a:hover {
+  color: $base-font-color-light;
+}
+
+.anticon.anticon-close-circle.ant-input-textarea-clear-icon {
+  position: absolute;
+  top: 3px;
+  left: 340px;
+}
+
+.sc-AykKH.guDsfl.react-trello-board {
+  background-color: $base-background-color;
+  color: $base-font-color-dark;
+}
+
+.sc-AykKJ.NSWzM.react-trello-lane {
+  border-radius: 4px;
+}
+
+.sc-fzXfLQ.sc-fzXfLV.ebsDqi {
+  color: $base-font-color-dark;
+}
+
+.sc-fzXfMD.NKOpD {
+  color: $base-font-color-dark;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 4px;
+  min-height: 40px;
+  max-height: 80px;
+  width: 250px;
+}
+
+.sc-fzXfLS.sc-fzXfLT.jdfPWI.react-trello-card {
+  color: $base-font-color-dark;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.sc-fzXfLS.sc-fzXfLT.jdfPWI.react-trello-card:hover {
+  background-color: #d8d6d6;
+  color: $base-font-color-light;
+}
+
+.NKOpD {
+  text-align: center;
+}
+
+.gEYoeL {
+  color: $base-font-color-dark;
+}
+
+section.sc-fzXfMz.sc-fzXfMA.emMeOv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+  padding: 0px;
+}
+
+button.sc-fzXfNM.cJIuoU {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px;
+  height: 32px;
+  width: 300px;
+  color: $base-font-color-light;
+  background-color: $base-color;
+  border-color: $base-color;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+button.sc-fzXfNM.cJIuoU:hover {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+button.sc-fzXfNM.cJIuoU:active {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+button.sc-fzXfNM.cJIuoU:focus {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.smooth-dnd-container.horizontal {
+  padding: 0;
+}
+
+a.sc-fzXfMx.jwoiC {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+span.sc-fzXfLQ.sc-fzXfLV.ebsDqi {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+div.sc-fzXfLX.fAZUdY {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+textarea.sc-fzXfMD.NKOpD {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 60px;
+}
+
+.sc-fzXfLP.gFJOQf a {
+  color: $base-color-secondary;
+  text-align: center;
+}
+
+.sc-fzXfLP.gFJOQf a {
+  color: $base-color;
+}
+
+.sc-AykKH.guDsfl.react-trello-board {
+  margin-top: 40px;
+}
+
+.sc-fzXfNK.kQVYfQ {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px;
+  height: 32px;
+  width: 250px;
+  color: $base-font-color-light;
+  background-color: $base-color;
+  border-color: $base-color;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.sc-fzXfNK.kQVYfQ:hover {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.sc-fzXfNK.kQVYfQ:active {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.sc-fzXfNK.kQVYfQ:focus {
+  background-color: $base-color-secondary;
+  border-color: $base-color-secondary;
+}
+
+.sc-fzXfNL.PJPrx {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  font-weight: 600;
+  color: $base-font-color-light;
+  background-color: $base-font-color-hover;
+  border-color: $base-font-color-hover;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  width: 250px;
+  height: 32px;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+.sc-fzXfNL.PJPrx:hover {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.sc-fzXfNL.PJPrx:active {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.sc-fzXfNL.PJPrx:focus {
+  background-color: $base-color-cancel;
+  border-color: $base-color-cancel;
+}
+
+.sc-fzXfMC.hGTMYp {
+  background-color: transparent;
+}
+
+.ebyqhV {
+  font-size: 15px;
+  width: 250px;
+  height: auto;
+}
+
+.sc-fzXfMy.ebyqhV {
+  width: 250px;
+}
+
+.sc-fzXfMB.iJzOWM {
+  width: 250px;
+}

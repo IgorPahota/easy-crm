@@ -19,14 +19,15 @@ router.route('/')
       stageId,
       details: description,
       created: Date.now(),
-      updated: Date.now()
+      updated: Date.now(),
+      creatorId: req.session.user._id
     });
     await newLead.save();
     const foundedStage = await Stage.findOne({ _id: stageId });
     foundedStage.cards.push(newLead);
     await foundedStage.save();
   })
-  .patch(async (req, res) => {
+  .put(async (req, res) => {
     const {
       fromLaneId, toLaneId, cardId, index
     } = req.body;
@@ -49,6 +50,7 @@ router.route('/')
     ];
     stageTo.cards = arrayForStageTo;
     await stageTo.save();
+    res.end()
   })
   .delete(async (req, res) => {
     const { cardId, stageId } = req.body;
@@ -65,7 +67,8 @@ router.route('/')
 router.route('/:id')
   .get(async (req, res) => {
     const { id } = req.params;
-    const lead = await Lead.findById(id);
+    const lead = await Lead.findById(id)
+      .populate('stageId');
     res.json({ lead });
   })
   .put(async (req, res) => {

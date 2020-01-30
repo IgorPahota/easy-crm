@@ -1,7 +1,7 @@
 const express = require('express');
 const Contact = require('../models/contacts');
+const User = require('../models/users');
 
-// const { sessionChecker } = require('../middleware/auth');
 const router = express.Router();
 
 router.route('/')
@@ -39,7 +39,12 @@ router.route('/')
 router.route('/created/:userId')
   .get(async (req, res) => {
     const { userId } = req.params;
-    const result = await Contact.find({ creatorId: userId });
+    const person = await User.findById(userId);
+
+    const result = (person.type === 'admin')
+      ? await Contact.find()
+      : await Contact.find({ creatorId: userId });
+
     await res.json(result);
   });
 

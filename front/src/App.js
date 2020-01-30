@@ -15,9 +15,10 @@ import ContactsList from "./Components/Application/Contacts/ContactsList";
 import LandingNavbar from "./Components/Landing/LandingNavbar/LandingNavbar";
 import { loggedIn } from "./redux/loggedIn";
 import ApplicationNavbar from "./Components/Application/ApplicationNavbar/ApplicationNavbar";
-import "./App.css";
 import ContactInfo from "./Components/Application/Contacts/ContactInfo";
 import Leads from "./Components/Application/Leads/Leads";
+import LeadCard from "./Components/Application/Leads/LeadCard";
+import "./App.scss";
 
 class App extends Component {
   componentDidMount = async () => {
@@ -36,14 +37,16 @@ class App extends Component {
         <Router>
           <div className="App">
             {!this.props.isLoggedIn && <LandingNavbar />}
+            {/*{!this.props.isLoggedIn && <Redirect to={'/login'}/>}*/}
             {this.props.isLoggedIn && <ApplicationNavbar />}
             <Switch>
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
               <Route path="/dashboard" component={Dashboard} />
-              <Route exact path="/contacts" component={ContactsList} />
               <Route path="/contacts/:id" component={ContactInfo} />
+              <Route path="/contacts" component={ContactsList} />
               <Route path="/leads" component={Leads} />
+              <Route path="/leadcard" component={LeadCard} />
               {/*<Route render={()=>{*/}
               {/*    return (*/}
               {/*        <Redirect to={'/login'}/>*/}

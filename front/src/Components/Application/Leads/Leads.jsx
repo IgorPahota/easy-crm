@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Board, { createTranslate } from "react-trello";
 import { Icon } from "antd";
-
-import "./Leads.css";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { leadRedirect } from "../../../redux/leadRedirect";
 
 const customTranslation = createTranslate({
   "Add another lane": "Новый этап",
@@ -17,36 +18,23 @@ const customTranslation = createTranslate({
   "placeholder.label": ""
 });
 
-export default class Leads extends Component {
+class Leads extends Component {
   constructor(props) {
     super(props);
     this.state = {
       stageId: undefined,
+      redirect: false,
+      redirectedLeadID: "",
       data: {
         lanes: []
       }
-      // stageId: undefined,
-      // data: {
-      //     lanes: [
-      //         {
-      //             id: undefined,
-      //             title: undefined,
-      //             cards: [
-      //                 {
-      //                     id: undefined,
-      //                     title: undefined,
-      //                     description: undefined
-      //                 }
-      //             ]
-      //         }
-      //     ]
-      // }
     };
   }
 
   componentDidMount = async () => {
     let response = await fetch("/stages");
     let result = await response.json();
+    console.log(result);
     for (let stageIndex = 0; stageIndex < result.length; stageIndex++) {
       result[stageIndex].id = result[stageIndex]._id;
       for (
@@ -67,10 +55,14 @@ export default class Leads extends Component {
     });
   };
 
+  onCardClick = params => {
+    console.log(params);
+    this.props.set(params);
+  };
+
   onCardMoveAcrossLanes = async (fromLaneId, toLaneId, cardId, index) => {
-    console.log(fromLaneId, toLaneId, cardId, index);
     let response = await fetch("/leads", {
-      method: "PATCH",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
@@ -84,7 +76,6 @@ export default class Leads extends Component {
   };
 
   onLaneAdd = async params => {
-    console.log(params);
     let response = await fetch("/stages", {
       method: "POST",
       headers: {
@@ -109,11 +100,6 @@ export default class Leads extends Component {
       })
     });
     let result = response.json();
-    if (result.isDeleted) {
-      alert("Этап удален");
-    } else {
-      alert("Невозможно удалить этап в котором есть сделки");
-    }
   };
 
   onLaneClick = params => {
@@ -123,7 +109,6 @@ export default class Leads extends Component {
   };
 
   onCardAdd = async params => {
-    console.log("adding", params);
     let response = await fetch("/leads", {
       method: "POST",
       headers: {
@@ -139,7 +124,6 @@ export default class Leads extends Component {
   };
 
   onCardDelete = async (cardId, laneId) => {
-    console.log(cardId, laneId);
     let leadResponse = await fetch("/leads", {
       method: "DELETE",
       headers: {
@@ -156,33 +140,29 @@ export default class Leads extends Component {
     const fontfamily =
       "font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'";
     const style = {
-      backgroundColor: "white",
+      backgroundColor: "#efefef",
       fontFamily: fontfamily
     };
     const laneStyle = {
       backgroundColor: "white",
-      // border: "1px solid black",
       fontFamily: fontfamily,
-      //   fontWeight: "bold",
       borderRadius: "4px",
-      backgroundColor: "#fafafa",
+      // backgroundColor: "#fafafa",
       fontWeight: 500
-      // backgroundColor: "#1890ff"
     };
     const cardStyle = {
-      color: "white",
-      border: "1px solid rgba(0, 0, 0, 0.65)",
-      // border: "1px solid red",
+      border: "1px solid #ada9ab",
       fontFamily: fontfamily,
-      border: "1px solid #d9d9d9",
       borderRadius: "4px"
-      // backgroundColor: "#1890ff"
     };
 
     return (
       <div>
+        {this.props.idLeadForRedirect && (
+          <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />
+        )}
         {!this.state.data ? (
-          <div>LoADING</div>
+          <div>Place for spinner</div>
         ) : (
           <Board
             data={this.state.data}
@@ -196,6 +176,7 @@ export default class Leads extends Component {
             onCardDelete={this.onCardDelete}
             onCardAdd={this.onCardAdd}
             onCardMoveAcrossLanes={this.onCardMoveAcrossLanes}
+            onCardClick={this.onCardClick}
             style={style}
             laneStyle={laneStyle}
             cardStyle={cardStyle}
@@ -206,3 +187,19 @@ export default class Leads extends Component {
     );
   }
 }
+
+function mapStateToProps(store) {
+  return {
+    idLeadForRedirect: store.idLeadForRedirect
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    set: id => {
+      dispatch(leadRedirect(id));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Leads);

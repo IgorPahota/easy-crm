@@ -1,5 +1,14 @@
 import {
-    ADD_CONTACTS, SHOW_CONTACT, FILTER_CONTACTS, LOGIN_SUCCESS, LOGOUT_SUCCESS, ADD_NOTES, DELETE_NOTE, EDIT_NOTE
+    ADD_CONTACTS,
+    ADD_NOTES,
+    DELETE_NOTE,
+    EDIT_CONTACT,
+    EDIT_NOTE,
+    FILTER_CONTACTS,
+    LEAD_REDIRECT,
+    LOGIN_SUCCESS,
+    LOGOUT_SUCCESS,
+    SHOW_CONTACT
 } from "./actions";
 
 const InitialState = {
@@ -10,7 +19,9 @@ const InitialState = {
     contacts: [],
     filteredContacts: [],
     currentContact: {},
-    notes: []
+    notes: [],
+    idLeadForRedirect: undefined
+
 };
 
 export default function (oldState = InitialState, action) {
@@ -31,15 +42,15 @@ export default function (oldState = InitialState, action) {
             };
 
         case ADD_CONTACTS:
-                return {
-                    isLoggedIn: true,
-                    id: oldState.id,
-                    contacts: [
-                      ...oldState.contacts.concat(action.contacts)
-                    ],
-                };
+            return {
+                isLoggedIn: true,
+                ...oldState,
+                contacts: [
+                    ...oldState.contacts.concat(action.contacts)
+                ],
+            };
 
-            case FILTER_CONTACTS:
+        case FILTER_CONTACTS:
             if (action.contacts) {
                 return {
                     contacts: action.contacts
@@ -48,10 +59,11 @@ export default function (oldState = InitialState, action) {
             break;
 
         case SHOW_CONTACT:
-                return {
-                    currentContact: action.currentContact,
-                    notes: oldState.notes
-                };
+            return {
+                ...oldState,
+                currentContact: action.currentContact,
+                // notes: oldState.notes
+            };
 
         case ADD_NOTES:
             return {
@@ -64,6 +76,7 @@ export default function (oldState = InitialState, action) {
         case DELETE_NOTE:
             const newNotes = oldState.notes.filter((el) => el._id !== action.id);
             return {
+                ...oldState,
                 notes: newNotes,
                 currentContact: oldState.currentContact,
             };
@@ -71,7 +84,7 @@ export default function (oldState = InitialState, action) {
         case EDIT_NOTE:
             const editedNotes = oldState.notes.map((note) => {
                 if (note._id === action.id) {
-                    return { ...note, text: action.text, updated: action.updated }
+                    return {...note, text: action.text, updated: action.updated}
                 } else {
                     return note;
                 }
@@ -82,7 +95,33 @@ export default function (oldState = InitialState, action) {
             };
 
 
+        case LEAD_REDIRECT:
+            return {
+
+                ...oldState,
+                idLeadForRedirect: action.idLeadForRedirect
+            };
+
+        case EDIT_CONTACT:
+            const editedContact = {
+                _id: action.id,
+                name: action.name,
+                company: action.company,
+                companyDetails: action.companyDetails,
+                email: action.email,
+                address: action.address,
+                phone: action.phone,
+                created: action.created,
+                creatorId: action.creatorId,
+                updated: action.updated
+            };
+            return {
+                ...oldState,
+                currentContact: editedContact
+            };
+
         default:
             return oldState
     }
+
 }
