@@ -99,7 +99,7 @@ class Dashboard extends Component {
                 footer={null}
               >
                 {this.state.stage.cards && this.state.stage.cards.map(card =>
-                  <p><Link to={`/lead/${card._id}`}>{card.name}</Link> на сумму: {card.price} </p>
+                  <p><Link to={`/leads/${card._id}`}>{card.name}</Link> на сумму: {card.price} </p>
                 )}
               </Modal>
             </div>
