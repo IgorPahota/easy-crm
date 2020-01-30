@@ -6,7 +6,6 @@ import EditContact from '../../../redux/editContact'
 import AddNoteToList from '../../../redux/addNote';
 import NotesList from './NotesList';
 import moment from 'moment';
-import {loggedIn} from '../../../redux/loggedIn';
 import {Link} from 'react-router-dom';
 
 const {Header, Content, Sider} = Layout;
@@ -92,8 +91,11 @@ class ContactInfo extends Component {
     if (result) {
       this.setState({currentUser: result.contact});
       await this.props.addOneContact(this.state.currentUser);
+      // await this.props.addOneContact(result.contact);
     }
-    this.fetchNotesForCurrentUser(id);
+    // if (this.props.notes && this.props.notes.length === 0) {
+      this.fetchNotesForCurrentUser(id);
+    // }
   };
 
   render() {
@@ -193,9 +195,6 @@ class ContactInfo extends Component {
             <NotesList userId={this.props.match.params.id} />
           </Content>
         </Layout>
-        {/*<Footer style={{textAlign: 'center'}}>*/}
-        {/*  EasyCRM ©2020 Elbrus Bootcamp*/}
-        {/*</Footer>*/}
       </Layout>
     );
   }
