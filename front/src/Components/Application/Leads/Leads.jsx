@@ -100,7 +100,6 @@ class Leads extends Component {
       })
     });
     let result = response.json();
-    result.log();
   };
 
   onLaneClick = params => {
