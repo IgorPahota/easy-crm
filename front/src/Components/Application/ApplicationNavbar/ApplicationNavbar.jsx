@@ -53,11 +53,6 @@ class ApplicationNavbar extends Component {
             </NavLink>
           </Menu.Item>
         </Menu>
-
-        {/* <NavLink to={'/dashboard'}>Dashboard</NavLink>
-              <NavLink to={'/contacts'}>Contacts</NavLink>
-              <NavLink to={'/leads'}>Leads</NavLink>
-              <Logout/>*/}
       </div>
     );
   }
