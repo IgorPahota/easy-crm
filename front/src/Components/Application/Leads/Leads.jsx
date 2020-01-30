@@ -4,6 +4,7 @@ import { Icon } from "antd";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { leadRedirect } from "../../../redux/leadRedirect";
+import Loading from "../Loading/Loading";
 
 const customTranslation = createTranslate({
   "Add another lane": "Новый этап",
@@ -161,8 +162,8 @@ class Leads extends Component {
         {this.props.idLeadForRedirect && (
           <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />
         )}
-        {!this.state.data ? (
-          <div>Place for spinner</div>
+        {!this.state.data.lanes.length ? (
+          <Loading/>
         ) : (
           <Board
             data={this.state.data}
