@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {loggedIn} from "../../../redux/loggedIn";
 import {Redirect, Link} from 'react-router-dom';
 
-const {Title} = Typography;
+const { Title } = Typography;
 
 class NormalLoginForm extends Component {
   constructor(props) {
@@ -12,15 +12,15 @@ class NormalLoginForm extends Component {
     this.state = {
       email: undefined,
       password: undefined
-    }
+    };
   }
 
 
   loginFetch = async (formDataEmail, formDataPassword) => {
-    let response = await fetch('/login', {
+    let response = await fetch("/login", {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         email: formDataEmail,
@@ -38,7 +38,7 @@ class NormalLoginForm extends Component {
       let arrayWithProps = [result.username, result.email, result.id, contacts, result.type];
       this.props.set(arrayWithProps);
     } else {
-      message.error('Неверное имя пользователя или пароль');
+      message.error("Неверное имя пользователя или пароль");
     }
   };
 
@@ -52,43 +52,61 @@ class NormalLoginForm extends Component {
   };
 
   render() {
-    const {getFieldDecorator} = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     return (
       <div>
         <Form onSubmit={this.handleSubmit} className="login-form">
-        <Title level={2} className={"form-title"}>Вход</Title>
           <Form.Item>
-            {getFieldDecorator('email', {
-              rules: [{required: true, message: 'Введите адрес электронной почты'}],
+            <h1 style={{ textAlign: "center" }}>LOGO</h1>
+          </Form.Item>
+          <Title level={2} className={"form-title"}>
+            Вход
+          </Title>
+          <Form.Item>
+            {getFieldDecorator("email", {
+              rules: [
+                { required: true, message: "Введите адрес электронной почты" }
+              ]
             })(
               <Input
-                prefix={<Icon type="smile" theme="outlined" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                prefix={
+                  <Icon
+                    type="smile"
+                    theme="outlined"
+                    style={{ color: "rgba(0,0,0,.25)" }}
+                  />
+                }
                 placeholder="Электронная почта"
                 autoComplete={"email"}
-              />,
+              />
             )}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator('password', {
-              rules: [{required: true, message: 'Введите пароль для входа'}],
+            {getFieldDecorator("password", {
+              rules: [{ required: true, message: "Введите пароль для входа" }]
             })(
               <Input
-                prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                prefix={
+                  <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                }
                 type="password"
                 placeholder="Пароль"
                 autoComplete={"password"}
-
-              />,
+              />
             )}
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
               Войти
             </Button>
             Или <Link to='/signup'>зарегестрироваться!</Link>
           </Form.Item>
         </Form>
-        {this.props.isLoggedIn && <Redirect to='/dashboard'/>}
+        {this.props.isLoggedIn && <Redirect to="/dashboard" />}
       </div>
     );
   }
@@ -96,18 +114,18 @@ class NormalLoginForm extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    set: (data) => {
-      dispatch(loggedIn(data))
+    set: data => {
+      dispatch(loggedIn(data));
     }
-  }
+  };
 }
 
 function mapStateToProps(store) {
   return {
     isLoggedIn: store.isLoggedIn
-  }
+  };
 }
 
-const Login = Form.create({name: 'normal_login'})(NormalLoginForm);
+const Login = Form.create({ name: "normal_login" })(NormalLoginForm);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
