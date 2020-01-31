@@ -18,7 +18,7 @@ const InitialState = {
     isLoggedIn: false,
     username: undefined,
     email: undefined,
-    id: undefined,
+    id: '',
     contacts: [],
     filteredContacts: [],
     currentContact: {},

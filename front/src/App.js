@@ -39,7 +39,7 @@ class App extends Component {
         <Router>
           <div className="App">
             {!this.props.isLoggedIn && <LandingNavbar />}
-            {!this.props.isLoggedIn && <Redirect to={'/login'}/>}
+            {/*{!this.props.isLoggedIn && <Redirect to={'/login'}/>}*/}
             {this.props.isLoggedIn && <ApplicationNavbar />}
             <Switch>
               <Route path="/login" component={Login} />
@@ -47,9 +47,9 @@ class App extends Component {
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/contacts/:id" component={ContactInfo} />
               <Route path="/contacts" component={ContactsList} />
-              <Route path="/leads" component={Leads} />
               <Route path="/leadcard" component={LeadCard} />
-              <Route exact path="/leads/:id" component={LeadCard}/>
+              <Route exact path="/leads" component={Leads} />
+              <Route path="/leads/:id" component={LeadCard}/>
               {/*<Route render={()=>{*/}
               {/*    return (*/}
               {/*        <Redirect to={'/login'}/>*/}
