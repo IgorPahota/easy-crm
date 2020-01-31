@@ -390,7 +390,7 @@ textarea.ant-input {
   width: 358px;
   min-width: 358px;
   max-width: 358px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #cac8c8;
   border-radius: 4px;
 }
 
@@ -431,7 +431,7 @@ textarea.ant-input {
 }
 
 .ant-list-bordered {
-  border: 1px solid $base-font-color-hover;
+  border: 1px solid #cac8c8;
   border-radius: 4px;
 }
 
@@ -446,7 +446,8 @@ textarea.ant-input {
 .custom-card {
   padding: 5px;
   min-height: 10px;
-  border: 1px solid $base-font-color-hover;
+  min-width: 358px;
+  border: 1px solid #cac8c8;
   border-radius: 4px;
   margin-bottom: 10px;
   vertical-align: top;
@@ -536,7 +537,7 @@ header textarea.sc-fzXfMD.NKOpD {
 }
 
 article .fCeWxq {
-  border-bottom: 1px solid $base-font-color-dark;
+  border-bottom: 1px solid #cac8c8;
   padding-bottom: 8px;
 }
 
@@ -732,18 +733,21 @@ textarea.sc-fzXfMD.NKOpD {
 }
 
 .sc-fzXfLS.eCngkD {
-  border: 1px solid $base-font-color-dark;
+  border: 1px solid #cac8c8;
 }
 
-// .ant-row {
-//   margin-right: 0 !important;
-//   margin-left: 0 !important;
-// }
+.small-note-text {
+  font-size: 12px;
+  color: #ada9ab;
+}
 
-// .ant-col:first-child {
-//   padding-left: 0 !important;
-// }
+.note,
+.note-text {
+  margin-bottom: 0px;
+  margin-right: 50px;
+}
 
-// .ant-col:last-child {
-//   padding-right: 0 !important;
-// }
+p.note {
+  margin-top: 6px;
+  color: #262626;
+}
