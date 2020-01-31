@@ -11,7 +11,7 @@ import {
     SHOW_CONTACT,
     FETCH_NOTES,
     ADD_LEADCONTACT,
-    DELETE_LEADCONTACT
+    DELETE_LEADCONTACT, ADD_LEADDETAILS
 } from "./actions";
 
 const InitialState = {
@@ -151,6 +151,12 @@ export default function (oldState = InitialState, action) {
             return {
                 ...oldState,
                 leadcontacts: newLeadcontacts
+            };
+
+        case ADD_LEADDETAILS:
+            return {
+                ...oldState,
+                leadDetails: action.leadDetails
             };
 
         default:
