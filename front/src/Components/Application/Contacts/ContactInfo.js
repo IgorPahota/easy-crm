@@ -50,8 +50,9 @@ class ContactInfo extends Component {
     const result = await response.json();
     if (result) {
       this.setState({currentUser: result.contact});
-      await this.props.addOneContact(this.state.currentUser);
-      // await this.props.addOneContact(result.contact);
+
+      // await this.props.addOneContact(this.state.currentUser);
+      await this.props.addOneContact(result.contact);
     }
     // if (this.props.notes && this.props.notes.length === 0) {
       this.fetchNotesForCurrentUser(id);
