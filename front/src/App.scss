@@ -752,6 +752,61 @@ p.note {
   color: #262626;
 }
 
+.bluelogo {
+  margin-top: -40px;
+  margin-bottom: 50px;
+}
+
 .leads-font {
-  color: black;
+  color: $base-font-color-dark;
+  display: flex;
+}
+
+.lead-card {
+  margin-top: 20px;
+  // margin-left: 40px;
+  border-radius: 4px;
+}
+
+.lead-card-position {
+  margin-left: 40px;
+}
+
+.lead-card-search {
+  margin-top: 30px;
+}
+
+.lead-add-btn {
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
+.lead-card-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.notes-list {
+  margin: 20px;
+}
+
+.ant-input.ant-select-search__field {
+  color: $base-font-color-dark;
+}
+
+.ant-select-auto-complete.ant-select .ant-input:hover {
+  border-color: $base-color;
+  border-right-width: 1px !important;
+}
+
+.ant-select-auto-complete.ant-select .ant-input:focus {
+  border-color: $base-color;
+  border-right-width: 1px !important;
+}
+
+.dashboard-logo {
+  display: block;
+  margin-left: auto;
+  margin-top: 80px;
+  margin-right: auto;
 }

@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
-import { Modal, Row, Col, Alert, Spin, Card , message} from 'antd';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect, Link } from "react-router-dom";
+import { Modal, Row, Col, Alert, Spin, Card, message } from "antd";
 import Chart from "./Chart";
 import Loading from "../Loading/Loading";
+
+import bluelogo from "./Easycrm-logo-x2.png";
 
 class Dashboard extends Component {
   state = {
@@ -50,10 +52,10 @@ class Dashboard extends Component {
 
     return (
       <div>
-        {!this.props.isLoggedIn && <Redirect to={'login'}/>}
-        {!stages.length
-          ? <Loading/>
-          :
+        {!this.props.isLoggedIn && <Redirect to={"login"} />}
+        {!stages.length ? (
+          <Loading />
+        ) : (
           <>
             <div style={{ background: "#EFEFEF", width: "100%" }}>
               <Row gutter={16} style={{ overflowX: "auto ", display: "flex" }}>
@@ -94,24 +96,30 @@ class Dashboard extends Component {
                 footer={null}
               >
                 {this.state.stage.cards &&
-                this.state.stage.cards.map(card => (
-                  <p>
-                    <Link to={`/leads/${card._id}`}>{card.name}</Link> на
-                    сумму: {card.price}{" "}
-                  </p>
-                ))}
+                  this.state.stage.cards.map(card => (
+                    <p>
+                      <Link to={`/leads/${card._id}`}>{card.name}</Link> на
+                      сумму: {card.price}{" "}
+                    </p>
+                  ))}
               </Modal>
             </div>
-            {allLeads
-              ? <Chart data={stages.slice(stages.length - 2)} allLeads={allLeads}/>
-              :  <>{message.success('Необходимо добавить сделки...')}
+            {allLeads ? (
+              <Chart
+                data={stages.slice(stages.length - 2)}
+                allLeads={allLeads}
+              />
+            ) : (
+              <>
+                {message.success("Необходимо добавить сделки...")}
                 {/*setTimeout(() => message.success('Необходимо добавить сделки...'),3000)*/}
-              <p style={{color: "#262626"}}>Тут будет логотип</p>)</>
-            }
+                <img class="bluelogo" alt="logo" src={bluelogo} width="300px" className="dashboard-logo" />
+                )
+              </>
+            )}
             {/*{<p>Сумма всех сделок:{allLeadsPrice}</p>}*/}
-
           </>
-        }
+        )}
       </div>
     );
   }

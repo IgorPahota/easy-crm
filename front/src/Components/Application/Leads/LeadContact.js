@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
+import { Card } from "antd";
 
 class LeadContact extends Component {
   constructor(props) {
@@ -6,15 +7,30 @@ class LeadContact extends Component {
   }
 
   render() {
-  const {contact, id} = this.props;
+    const { contact, id } = this.props;
     return (
-      <div>
-        {contact.name} <br />
-       {contact.phone}<br />
-        {contact.company}<br />
-    {contact.companyDetails}<br />
-        <p>{contact.phone}</p>
-      </div>
+      <Card
+        title="Card title"
+        bordered={false}
+        style={{ width: 300 }}
+        className="lead-card"
+      >
+        <div>
+        <p>
+          {contact.name}
+          </p>  
+        <p>
+          {contact.comapny}
+          </p>  
+        <p>
+          {contact.companyDetails}
+          </p>  
+        <p>
+          {contact.name}
+          </p> 
+          <p>{contact.phone}</p>
+        </div>
+      </Card>
     );
   }
 }
