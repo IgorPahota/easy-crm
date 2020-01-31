@@ -28,6 +28,7 @@ class App extends Component {
     if (result.isLoggedIn) {
       const response = await fetch(`/contacts/created/${result.id}`);
       const contacts = await response.json();
+      console.log('>>>', contacts)
       let arrayWithProps = [result.username, result.email, result.id, contacts, result.type];
       this.props.set(arrayWithProps);
 
@@ -47,9 +48,9 @@ class App extends Component {
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/contacts/:id" component={ContactInfo} />
               <Route path="/contacts" component={ContactsList} />
-              <Route path="/leads" component={Leads} />
               <Route path="/leadcard" component={LeadCard} />
               <Route exact path="/leads/:id" component={LeadCard}/>
+              <Route exact path="/leads" component={Leads} />
               {/*<Route render={()=>{*/}
               {/*    return (*/}
               {/*        <Redirect to={'/login'}/>*/}

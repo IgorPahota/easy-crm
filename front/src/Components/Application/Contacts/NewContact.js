@@ -55,6 +55,7 @@ class NewContact extends Component {
     const data = await response.json();
     if (data) {
       console.log("data", data);
+      await this.props.submitContacts(data.newContact);
     } else {
       alert("Wrong username or password!");
     }
@@ -72,7 +73,7 @@ class NewContact extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ loading: false, visible: false });
+    this.setState({ loading: false });
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         const formValues = {
@@ -81,7 +82,8 @@ class NewContact extends Component {
           creatorId: this.props.id
         };
         await this.fetchAddUser(formValues);
-        await this.props.submitContacts(formValues);
+
+        this.setState({ visible: false });
       }
     });
   };

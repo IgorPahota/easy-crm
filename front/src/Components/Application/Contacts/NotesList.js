@@ -34,7 +34,7 @@ class NotesList extends Component {
     return (
       <div className="notes-content">
         <ul className="notes-list">
-        {this.props.notes.map( (note, i) =>
+          {this.props.notes && this.props.notes.map( (note, i) =>
           <Note userId={this.props.currentContact._id}
                 note={note}
                 key={i}

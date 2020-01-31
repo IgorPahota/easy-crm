@@ -79,7 +79,7 @@ class SignupForm extends Component {
     let result = await response.json();
     if (result.isLoggedIn) {
       message.success(`Вы успешно зарегистрированы, ${result.username}`);
-      let arrayWithProps = [result.username, result.email, result.id];
+      let arrayWithProps = [result.username, result.email, result.id, []];
       this.props.set(arrayWithProps);
     } else {
       message.error("Не получилось.. Попробуйте снова!");

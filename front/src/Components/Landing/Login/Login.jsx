@@ -35,6 +35,7 @@ class NormalLoginForm extends Component {
       // Get all contacts for logged user
       const responseContacts = await fetch(`/contacts/created/${result.id}`);
       const contacts = await responseContacts.json();
+      console.log('>>', contacts)
 
       let arrayWithProps = [
         result.username,
@@ -110,7 +111,7 @@ class NormalLoginForm extends Component {
             >
               Войти
             </Button>
-            Или <Link to="/signup">зарегестрироваться!</Link>
+            Или <Link to='/signup'>зарегистрироваться!</Link>
           </Form.Item>
         </Form>
         {this.props.isLoggedIn && <Redirect to="/dashboard" />}

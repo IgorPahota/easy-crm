@@ -11,14 +11,14 @@ import {
     SHOW_CONTACT,
     FETCH_NOTES,
     ADD_LEADCONTACT,
-    DELETE_LEADCONTACT
+    DELETE_LEADCONTACT, ADD_LEADDETAILS
 } from "./actions";
 
 const InitialState = {
     isLoggedIn: false,
     username: undefined,
     email: undefined,
-    id: undefined,
+    id: '',
     contacts: [],
     filteredContacts: [],
     currentContact: {},
@@ -51,6 +51,7 @@ export default function (oldState = InitialState, action) {
             };
 
         case ADD_CONTACTS:
+            console.log(action.contacts);
             return {
                 isLoggedIn: true,
                 ...oldState,
@@ -150,6 +151,12 @@ export default function (oldState = InitialState, action) {
             return {
                 ...oldState,
                 leadcontacts: newLeadcontacts
+            };
+
+        case ADD_LEADDETAILS:
+            return {
+                ...oldState,
+                leadDetails: action.leadDetails
             };
 
         default:
