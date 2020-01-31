@@ -18,7 +18,7 @@ class LeadCard extends Component {
   }
 
   componentDidMount() {
-      fetch(`5e32f91a9133a124d44d43f0`)
+      fetch(`leads/5e32f91a9133a124d44d43f0`)
       // fetch(this.props.idLeadForRedirect)
         .then(res => res.json())
         .then(leadDetails =>
@@ -138,7 +138,8 @@ class LeadCard extends Component {
 const mapStateToProps = (state) => {
   return {
     contacts: state.contacts,
-    leadcontacts: state.leadcontacts
+    leadcontacts: state.leadcontacts,
+    idLeadForRedirect: state.idLeadForRedirect
   }
 };
 

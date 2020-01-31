@@ -85,7 +85,7 @@ class NormalLoginForm extends Component {
             <Button type="primary" htmlType="submit" className="login-form-button">
               Войти
             </Button>
-            Или <Link to='/signup'>зарегестрироваться!</Link>
+            Или <Link to='/signup'>зарегистрироваться!</Link>
           </Form.Item>
         </Form>
         {this.props.isLoggedIn && <Redirect to='/dashboard'/>}
