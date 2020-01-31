@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.route('/')
   .get(async (req, res) => {
-    const result = await Lead.find({});
+    const result = await Lead.find({}).populate('creatorId');
     await res.send(result);
   })
   .post(async (req, res) => {
@@ -38,7 +38,7 @@ router.route('/')
 
     const stageFrom = await Stage.findOne({ _id: fromLaneId });
     stageFrom.cards.map((element) => {
-      if (element._id == cardId) {
+      if (element._id === cardId) {
         stageFrom.cards.splice(stageFrom.cards.indexOf(element), 1);
       }
     });

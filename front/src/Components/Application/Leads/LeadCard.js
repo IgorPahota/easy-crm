@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {AutoComplete, Button} from 'antd';
+import {AutoComplete, Button, Card } from 'antd';
 import {connect} from 'react-redux';
 import AddLeadContact from '../../../redux/addToLead';
 import DeleteContactFromLead from '../../../redux/deleteFromLead';
 import LeadContact from './LeadContact';
+import AddLeadDetails from '../../../redux/addLeadDetails';
 
 class LeadCard extends Component {
   constructor(props) {
@@ -19,19 +20,16 @@ class LeadCard extends Component {
   }
 
   componentDidMount() {
-      // fetch(`5e32f91a9133a124d44d43f0`)
-    console.log('here',this.props.match.params.id);
       fetch(this.props.match.params.id)
-      // fetch(this.props.idLeadForRedirect)
-
         .then(res => res.json())
-        .then(leadDetails =>
-          this.setState({leadDetails: leadDetails.lead, isLoading: false}));
-    console.log(this.state.leadDetails)
-    }
+        .then(leadDetails => {
+          this.props.addLeadDetails(leadDetails.lead);
+          this.setState({isLoading: false});
+        })
+  }
 
   fetchAddContactToLead = async (contactId) => {
-    const response = await fetch(`/leads/contacts/${this.props.idLeadForRedirect}`, {
+    const response = await fetch(`/leads/contacts/${this.props.match.params.id}`, {
       method: 'PATCH',
       headers: {
         "Content-Type": "application/json"
@@ -43,8 +41,8 @@ class LeadCard extends Component {
 
     const data = await response.json();
     if (data) {
-      console.log('data after add to db', data);
       const leadContactsForProps = data.upd;
+      console.log('добавляем в leadcontacts', leadContactsForProps);
       this.props.addContactToLead(leadContactsForProps)
     } else {
       console.log('Wrong username or password!');
@@ -52,7 +50,7 @@ class LeadCard extends Component {
   };
 
   fetchDeleteContactFromLead = async (contactId) => {
-    const response = await fetch(`/leads/contacts/${this.props.idLeadForRedirect}`, {
+    const response = await fetch(`/leads/contacts/${this.props.match.params.id}`, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json"
@@ -64,7 +62,7 @@ class LeadCard extends Component {
 
     const data = await response.json();
     if (data) {
-      console.log('data after delete from db', data)
+      console.log('удаляем id из leadcontacts', data)
       const idForDelete = data.updatedLead.leadcontacts._id;
       this.props.deleteContactFromLead(idForDelete);
     } else {
@@ -74,63 +72,68 @@ class LeadCard extends Component {
 
     onSelect = (value) => {
       this.setState({value});
-      // this.props.addContactToLead(value);
+      console.log(this.state.value)
     };
 
     submit = () => {
-      this.fetchAddContactToLead( this.state.value);
+      this.fetchAddContactToLead(this.state.value);
+      this.setState({value: ''});
+
     };
 
-  delete = () => {
-    this.fetchDeleteContactFromLead( this.state.value);
-  };
+    delete = () => {
+      this.fetchDeleteContactFromLead(this.state.value);
+    };
 
     render() {
-      const {isLoading} = this.state;
       const arr = [];
       const conts = this.props.contacts ? this.props.contacts.map((el) => {
         const {name: text, _id: value} = el;
         arr.push({text, value});
         return el
       }) : null;
-      console.log('this.props.leadcontacts', this.props.leadcontacts)
       return (
         <div className="leads-font">
-          {this.state.leadDetails ?
+          {this.props.leadDetails ?
             <div>
               <AutoComplete
                 style={{width: 200}}
                 dataSource={arr}
-                onSelect={this.onSelect}
+                onChange={this.onSelect}
                 placeholder="Print"
                 filterOption={(inputValue, option) =>
                   option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
                 }
-              />
+              /><br/>
               <Button type="primary"
                       onClick={this.submit}
                       style={{marginTop: '10px'}}>
                Добавить
-              </Button>
+              </Button> <br/>
               <Button type="primary"
                       onClick={this.delete}
                       style={{marginTop: '10px'}}>
                Удалить
               </Button>
-              <p>Цена { this.state.leadDetails.price}</p>
-              <p>Айди сделки{this.state.leadDetails.leadId}</p>
-              <p>Имя {this.state.leadDetails.name}</p>
-              <p>
-                стейдж название (из попьюлейт) {this.state.leadDetails && this.state.leadDetails.stageId.title}
-              </p>
-              <p>Детали {this.state.leadDetails.details}</p>
-              <p>Создатель {this.state.leadDetails.creatorId}</p>
-              <p>Создана {this.state.leadDetails.created}</p>
-              <p>Обновлена{this.state.leadDetails.updated}</p>
+
+
+              <Card title="Card title" bordered={false} style={{ width: 300 }}>
+                <p>Цена { this.props.leadDetails.price}</p>
+                <p>Айди сделки{this.props.leadDetails.leadId}</p>
+                <p>Имя {this.props.leadDetails.name}</p>
+                <p>
+                  стейдж название (из попьюлейт) {this.props.leadDetails && this.props.leadDetails.stageId.title}
+                </p>
+                <p>Детали {this.props.leadDetails.details}</p>
+                <p>Создатель {this.props.leadDetails.creatorId}</p>
+                <p>Создана {this.props.leadDetails.created}</p>
+                <p>Обновлена{this.props.leadDetails.updated}</p>
+              </Card>
+
               {/*<p>Контакты{leadcontacts}</p>*/}
 
               <ul className="notes-list">
-                {this.props.leadcontacts.map( (contact, i) =>
+                {this.props.leadcontacts && this.props.leadcontacts.map( (contact, i) =>
                   <LeadContact userId={contact._id}
                         contact={contact}
                         key={i}
@@ -142,7 +145,7 @@ class LeadCard extends Component {
 
             </div>
             :
-            <h3>Loading</h3>
+            <h3>LeadCard 143 Loading</h3>
           }
         </div>
       );
@@ -153,7 +156,8 @@ const mapStateToProps = (state) => {
   return {
     contacts: state.contacts,
     leadcontacts: state.leadcontacts,
-    idLeadForRedirect: state.idLeadForRedirect
+    idLeadForRedirect: state.idLeadForRedirect,
+    leadDetails: state.leadDetails
   }
 };
 
@@ -164,6 +168,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteContactFromLead: (contact) => {
       dispatch(DeleteContactFromLead(contact))
+    },
+    addLeadDetails: (data) => {
+      dispatch(AddLeadDetails(data))
     }
   }
 };

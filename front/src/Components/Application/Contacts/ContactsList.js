@@ -129,7 +129,7 @@ class ContactsList extends React.Component {
           ) : null
       }
     ];
-    console.log(this.props.contacts);
+
     return (
       <div>
         {!this.props.contacts
