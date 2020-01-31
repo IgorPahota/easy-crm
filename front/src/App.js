@@ -21,14 +21,16 @@ import LeadCard from "./Components/Application/Leads/LeadCard";
 import "./App.scss";
 
 class App extends Component {
+
   componentDidMount = async () => {
     let response = await fetch("/login");
     let result = await response.json();
     if (result.isLoggedIn) {
       const response = await fetch(`/contacts/created/${result.id}`);
       const contacts = await response.json();
-      let arrayWithProps = [result.username, result.email, result.id, contacts];
+      let arrayWithProps = [result.username, result.email, result.id, contacts, result.type];
       this.props.set(arrayWithProps);
+
     }
   };
   render() {
@@ -37,7 +39,7 @@ class App extends Component {
         <Router>
           <div className="App">
             {!this.props.isLoggedIn && <LandingNavbar />}
-            {/*{!this.props.isLoggedIn && <Redirect to={'/login'}/>}*/}
+            {!this.props.isLoggedIn && <Redirect to={'/login'}/>}
             {this.props.isLoggedIn && <ApplicationNavbar />}
             <Switch>
               <Route path="/login" component={Login} />
@@ -47,6 +49,7 @@ class App extends Component {
               <Route path="/contacts" component={ContactsList} />
               <Route path="/leads" component={Leads} />
               <Route path="/leadcard" component={LeadCard} />
+              <Route exact path="/leads/:id" component={LeadCard}/>
               {/*<Route render={()=>{*/}
               {/*    return (*/}
               {/*        <Redirect to={'/login'}/>*/}

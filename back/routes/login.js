@@ -14,7 +14,8 @@ router.post('/', async (req, res) => {
       username: user.username,
       email: user.email,
       // eslint-disable-next-line no-underscore-dangle
-      id: user._id
+      id: user._id,
+      type: user.type
     });
   } else {
     await res.json({
@@ -34,7 +35,8 @@ router.get('/', async (req, res) => {
         username: user.username,
         email: user.email,
         // eslint-disable-next-line no-underscore-dangle
-        id: user._id
+        id: user._id,
+        type: user.type
       });
     } else {
       await res.json({

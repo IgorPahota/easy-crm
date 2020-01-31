@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { message, Button, Checkbox, Form, Icon, Input, Typography } from "antd";
-import { connect } from "react-redux";
-import { loggedIn } from "../../../redux/loggedIn";
-import { Redirect } from "react-router-dom";
+import React, {Component} from 'react';
+import {message, Button, Checkbox, Form, Icon, Input, Typography} from 'antd';
+import {connect} from 'react-redux';
+import {loggedIn} from "../../../redux/loggedIn";
+import {Redirect, Link} from 'react-router-dom';
 
 const { Title } = Typography;
 
@@ -15,20 +15,6 @@ class NormalLoginForm extends Component {
     };
   }
 
-  //   componentDidMount = async () => {
-  //     // Check if some user is logged in (session exists)
-  //     const response = await fetch('/login');
-  //     const result = await response.json();
-
-  //     if (result.isLoggedIn) {
-  //       // Retrieve all contacts for logged user
-  //       const responseContacts = await fetch(`/contacts/created/${result.id}`);
-  //       const contacts = await responseContacts.json();
-  //       message.warning(`Вы уже вошли в систему, ${result.username}`);
-  //       const arrayWithProps = [result.username, result.email, result.id, contacts];
-  //       this.props.set(arrayWithProps);
-  //     }
-  //   };
 
   loginFetch = async (formDataEmail, formDataPassword) => {
     let response = await fetch("/login", {
@@ -49,7 +35,7 @@ class NormalLoginForm extends Component {
       const responseContacts = await fetch(`/contacts/created/${result.id}`);
       const contacts = await responseContacts.json();
 
-      let arrayWithProps = [result.username, result.email, result.id, contacts];
+      let arrayWithProps = [result.username, result.email, result.id, contacts, result.type];
       this.props.set(arrayWithProps);
     } else {
       message.error("Неверное имя пользователя или пароль");
@@ -117,7 +103,7 @@ class NormalLoginForm extends Component {
             >
               Войти
             </Button>
-            Или <a href="/signup">зарегистрироваться!</a>
+            Или <Link to='/signup'>зарегестрироваться!</Link>
           </Form.Item>
         </Form>
         {this.props.isLoggedIn && <Redirect to="/dashboard" />}

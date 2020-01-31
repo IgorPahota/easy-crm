@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Redirect, Link } from "react-router-dom";
-import { Modal, Row, Col, Alert, Spin, Card, Button } from "antd";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect, Link } from 'react-router-dom';
+import { Modal, Row, Col, Alert, Spin, Card , message} from 'antd';
 import Chart from "./Chart";
-// import insertCss from './insert-css.css';
+import Loading from "../Loading/Loading";
 
 class Dashboard extends Component {
   state = {
@@ -20,14 +20,12 @@ class Dashboard extends Component {
   };
 
   handleOk = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
@@ -37,27 +35,25 @@ class Dashboard extends Component {
     let responseStages = await fetch("/stages");
     let stages = await responseStages.json();
     this.setState({ stages });
+    // this.timerID = setTimeout(() => message.success('Необходимо добавить сделки...'),3000);
   };
+
+  // componentWillUnmount() {
+  //   clearTimeout(this.timerID)
+  // }
 
   render() {
     const { stages } = this.state;
     let allLeadsPrice = 0;
     let allLeads = 0;
+    let timerId;
 
     return (
       <div>
-        <h1></h1>
-
-        {!this.props.isLoggedIn && <Redirect to={"login"} />}
-        {!this.state.stages.length ? (
-          <Spin tip="Loading...">
-            <Alert
-              message="Сейчас загрузится!"
-              description="Ещё чуть-чуть)"
-              type="info"
-            />
-          </Spin>
-        ) : (
+        {!this.props.isLoggedIn && <Redirect to={'login'}/>}
+        {!stages.length
+          ? <Loading/>
+          :
           <>
             <div style={{ background: "#EFEFEF", width: "100%" }}>
               <Row gutter={16} style={{ overflowX: "auto ", display: "flex" }}>
@@ -88,9 +84,6 @@ class Dashboard extends Component {
                 })}
               </Row>
             </div>
-            <p>Сумма всех сделок:{allLeadsPrice}</p>
-            <p>Количество всех сделок:{allLeads}</p>
-            {/*<p>Количество завершеных сделок:{allSum}</p>*/}
 
             <div>
               <Modal
@@ -101,17 +94,24 @@ class Dashboard extends Component {
                 footer={null}
               >
                 {this.state.stage.cards &&
-                  this.state.stage.cards.map(card => (
-                    <p>
-                      <Link to={`/leads/${card._id}`}>{card.name}</Link> на
-                      сумму: {card.price}{" "}
-                    </p>
-                  ))}
+                this.state.stage.cards.map(card => (
+                  <p>
+                    <Link to={`/leads/${card._id}`}>{card.name}</Link> на
+                    сумму: {card.price}{" "}
+                  </p>
+                ))}
               </Modal>
             </div>
-            <Chart />
+            {allLeads
+              ? <Chart data={stages.slice(stages.length - 2)} allLeads={allLeads}/>
+              :  <>{message.success('Необходимо добавить сделки...')}
+                {/*setTimeout(() => message.success('Необходимо добавить сделки...'),3000)*/}
+              <p style={{color: "#262626"}}>Тут будет логотип</p>)</>
+            }
+            {/*{<p>Сумма всех сделок:{allLeadsPrice}</p>}*/}
+
           </>
-        )}
+        }
       </div>
     );
   }
