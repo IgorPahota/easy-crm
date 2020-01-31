@@ -18,7 +18,7 @@ class Logout extends Component {
     render() {
         return (
             <div onClick={this.logoutFetch}>
-                <Icon type="logout" />Выйти
+                <Icon  onClick={this.logoutFetch} type="logout" />Выйти
                 {/*<Button onClick={this.logoutFetch}>Logout</Button>*/}
                 <Redirect to='login'/>
             </div>

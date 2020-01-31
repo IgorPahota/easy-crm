@@ -34,6 +34,7 @@ class NormalLoginForm extends Component {
       // Get all contacts for logged user
       const responseContacts = await fetch(`/contacts/created/${result.id}`);
       const contacts = await responseContacts.json();
+      console.log('>>', contacts)
 
       let arrayWithProps = [result.username, result.email, result.id, contacts, result.type];
       this.props.set(arrayWithProps);

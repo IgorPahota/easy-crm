@@ -147,7 +147,7 @@ export default function (oldState = InitialState, action) {
 
         case DELETE_LEADCONTACT:
             console.log('reducer', oldState.leadcontacts, action.leadcontacts)
-          const newLeadcontacts = oldState.leadcontacts.filter(elem => elem === action.id)
+          const newLeadcontacts = oldState.leaFdcontacts.filter(elem => elem === action.id)
             return {
                 ...oldState,
                 leadcontacts: newLeadcontacts

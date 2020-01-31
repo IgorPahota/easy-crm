@@ -20,7 +20,7 @@ class LeadCard extends Component {
   componentDidMount() {
       // fetch(`5e32f91a9133a124d44d43f0`)
     console.log('here',this.props.idLeadForRedirect);
-      fetch(this.props.idLeadForRedirect)
+      fetch(this.props.params)
 
         .then(res => res.json())
         .then(leadDetails =>
