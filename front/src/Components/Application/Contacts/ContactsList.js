@@ -131,7 +131,7 @@ class ContactsList extends React.Component {
     ];
     return (
       <div>
-        {!this.state.data.length
+        {!this.props
           ? <Loading/>
           : <><Table
               rowKey={record => record._id}

@@ -18,8 +18,10 @@ class LeadCard extends Component {
   }
 
   componentDidMount() {
-      fetch(`leads/5e32f91a9133a124d44d43f0`)
-      // fetch(this.props.idLeadForRedirect)
+      // fetch(`5e32f91a9133a124d44d43f0`)
+    console.log('here',this.props.idLeadForRedirect);
+      fetch(this.props.idLeadForRedirect)
+
         .then(res => res.json())
         .then(leadDetails =>
           this.setState({leadDetails: leadDetails.lead, isLoading: false}));
