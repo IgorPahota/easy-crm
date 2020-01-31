@@ -26,6 +26,7 @@ router.route('/')
     const foundedStage = await Stage.findOne({ _id: stageId });
     foundedStage.cards.push(newLead);
     await foundedStage.save();
+    res.end();
   })
   .put(async (req, res) => {
     const {
@@ -50,7 +51,7 @@ router.route('/')
     ];
     stageTo.cards = arrayForStageTo;
     await stageTo.save();
-    res.end()
+    res.end();
   })
   .delete(async (req, res) => {
     const { cardId, stageId } = req.body;
@@ -62,6 +63,32 @@ router.route('/')
       }
     });
     await foundedStage.save();
+    res.end()
+  });
+
+router.route('/contacts/:leadId')
+  .get(async (req, res) => {
+    const { leadId } = req.params;
+    console.log(req);
+    const result = await Lead.findById(leadId);
+    await res.send(result);
+  })
+  .patch(async (req, res) => {
+    const { leadId } = req.params;
+    const { contactId } = req.body;
+    const update = { $addToSet: { leadcontacts: contactId } };
+    const updatedLead = await Lead.findOneAndUpdate({ _id: leadId }, update, { new: true }).populate('leadcontacts');
+    console.log('updatedLead', updatedLead);
+    const upd = updatedLead.leadcontacts[0];
+
+    await res.json({ upd });
+  })
+  .delete(async (req, res) => {
+    const { leadId } = req.params;
+    const { contactId } = req.body;
+    const update = { $pull: { leadcontacts: contactId } };
+    const updatedLead = await Lead.findOneAndUpdate({ _id: leadId }, update, { new: true });
+    await res.json({ updatedLead });
   });
 
 router.route('/:id')

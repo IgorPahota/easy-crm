@@ -8,19 +8,25 @@ import {
     LEAD_REDIRECT,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
-    SHOW_CONTACT
+    SHOW_CONTACT,
+    FETCH_NOTES,
+    ADD_LEADCONTACT,
+    DELETE_LEADCONTACT
 } from "./actions";
 
 const InitialState = {
     isLoggedIn: false,
     username: undefined,
     email: undefined,
-    id: undefined,
+    id: '',
     contacts: [],
     filteredContacts: [],
     currentContact: {},
     notes: [],
-    idLeadForRedirect: undefined
+    idLeadForRedirect: undefined,
+    userType: undefined,
+    leadcontacts: []
+
 
 };
 
@@ -34,7 +40,10 @@ export default function (oldState = InitialState, action) {
                 id: action.id,
                 contacts: action.contacts,
                 currentContact: oldState.currentContact,
-                notes: oldState.notes
+                notes: oldState.notes,
+                userType: action.userType,
+                leadcontacts: oldState.leadcontacts
+
             };
         case LOGOUT_SUCCESS:
             return {
@@ -42,6 +51,7 @@ export default function (oldState = InitialState, action) {
             };
 
         case ADD_CONTACTS:
+            console.log(action.contacts);
             return {
                 isLoggedIn: true,
                 ...oldState,
@@ -53,6 +63,7 @@ export default function (oldState = InitialState, action) {
         case FILTER_CONTACTS:
             if (action.contacts) {
                 return {
+                    ...oldState,
                     contacts: action.contacts
                 }
             }
@@ -70,7 +81,13 @@ export default function (oldState = InitialState, action) {
                 ...oldState,
                 notes: [
                     ...oldState.notes.concat(action.notes)
-                ],
+                ]
+            };
+
+        case FETCH_NOTES:
+            return {
+                ...oldState,
+                notes: action.notes
             };
 
         case DELETE_NOTE:
@@ -118,6 +135,22 @@ export default function (oldState = InitialState, action) {
             return {
                 ...oldState,
                 currentContact: editedContact
+            };
+
+        case ADD_LEADCONTACT:
+            return {
+                ...oldState,
+                leadcontacts: [
+                    ...oldState.leadcontacts.concat(action.leadcontacts)
+                ]
+            };
+
+        case DELETE_LEADCONTACT:
+            console.log('reducer', oldState.leadcontacts, action.leadcontacts)
+          const newLeadcontacts = oldState.leadcontacts.filter(elem => elem === action.id)
+            return {
+                ...oldState,
+                leadcontacts: newLeadcontacts
             };
 
         default:

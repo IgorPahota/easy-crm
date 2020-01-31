@@ -49,13 +49,14 @@ class Dashboard extends Component {
     let timerId;
 
     return (
-      <div>
+      <div style={{marginTop: "40px"}}>
+
         {!this.props.isLoggedIn && <Redirect to={'login'}/>}
         {!stages.length
           ? <Loading/>
           :
           <>
-            <div style={{ background: "#EFEFEF", padding: "30px" }}>
+            <div style={{ background: "#EFEFEF", width: "100%" }}>
               <Row gutter={16} style={{ overflowX: "auto ", display: "flex" }}>
                 {stages.map(stage => {
                   let sumStages = 0;
@@ -108,8 +109,6 @@ class Dashboard extends Component {
                 {/*setTimeout(() => message.success('Необходимо добавить сделки...'),3000)*/}
               <p style={{color: "#262626"}}>Тут будет логотип</p>)</>
             }
-            {/*{<p>Сумма всех сделок:{allLeadsPrice}</p>}*/}
-
           </>
         }
       </div>

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {loggedOut} from "../../../redux/loggedOut";
 import { message, Button, Icon } from 'antd';
+import {Redirect} from 'react-router-dom';
 
 class Logout extends Component {
 
@@ -19,6 +20,7 @@ class Logout extends Component {
             <div onClick={this.logoutFetch}>
                 <Icon type="logout" />Выйти
                 {/*<Button onClick={this.logoutFetch}>Logout</Button>*/}
+                <Redirect to='login'/>
             </div>
         );
     }

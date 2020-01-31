@@ -48,13 +48,13 @@ class Chart extends Component {
       endAngle: startAngle + Math.PI * 2
     });
     chart.intervalStack().position('value')
-      .color('type', ['#0a4291', '#0a57b6', '#1373db', '#2295ff', '#48adff', '#6fc3ff', '#96d7ff', '#bde8ff'])
+      .color('type', ['#13234f', '#1e387f', '#1373db', '#2295ff', '#48adff', '#6fc3ff', '#96d7ff', '#bde8ff'])
       .opacity(1)
       .label('percent', {
         offset: - 20,
         textStyle: {
           fill: 'white',
-          fontSize: 12,
+          fontSize: 16,
           shadowBlur: 2,
           shadowColor: 'rgba(0, 0, 0, .45)'
         },
@@ -65,7 +65,7 @@ class Chart extends Component {
 
     chart.guide().html({
       position: ['50%', '50%'],
-      html: `<div class="g2-guide-html"><p class="title">Всего:</p><p class="value">${allLeads}</p></div>`
+      html: `<div class="g2-guide-html"><p class="title title-center">Всего:</p><p class="value title-center">${allLeads}</p></div>`
     });
     chart.render();
 // draw label
@@ -152,8 +152,8 @@ class Chart extends Component {
 
       const labelAttrs = {
         y,
-        fontSize: 12, // 字体大小
-        fill: '#808080',
+        fontSize: 20, // 字体大小
+        fill: '#262626',
         text: label._data.type + '\n' + label._data.value,
         textBaseline: 'bottom'
       };
@@ -191,7 +191,7 @@ class Chart extends Component {
       labelGroup.addShape('polyline', {
         attrs: {
           points,
-          lineWidth: 1,
+          lineWidth: 2,
           stroke: fill
         }
       });

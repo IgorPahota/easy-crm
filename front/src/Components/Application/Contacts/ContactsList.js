@@ -32,17 +32,17 @@ class ContactsList extends React.Component {
         await this.props.submitContacts(contacts);
       }
     } else {
-      message.warning(`Вы не залогинены!`);
+      console.log('Нет this.props.id в CMD ContactList')
     }
   };
 
   handleDelete = key => {
     const filteredData = this.props.contacts.filter(item => item._id !== key);
-    this.props.submitFilteredContacts(filteredData);
-    this.fetchDeleteUser(key);
+
+    this.fetchDeleteUser(key, filteredData);
   };
 
-  fetchDeleteUser = async id => {
+  fetchDeleteUser = async (id, filtered)  => {
     const response = await fetch(`/contacts/${id}`, {
       method: "DELETE",
       headers: {
@@ -50,8 +50,9 @@ class ContactsList extends React.Component {
       }
     });
     const data = await response.json();
-    if (data) {
+    if (data.success) {
       console.log(data);
+      this.props.submitFilteredContacts(filtered)
     }
   };
 
@@ -130,7 +131,7 @@ class ContactsList extends React.Component {
     ];
     return (
       <div>
-        {!this.state.data.length
+        {!this.props
           ? <Loading/>
           : <><Table
               rowKey={record => record._id}

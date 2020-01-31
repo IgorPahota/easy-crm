@@ -86,8 +86,7 @@ class Leads extends Component {
         title: params.title
       })
     });
-    // let result = await response.json();
-    // console.log(result);
+
   };
 
   onLaneDelete = async params => {
@@ -148,11 +147,12 @@ class Leads extends Component {
       backgroundColor: "white",
       fontFamily: fontfamily,
       borderRadius: "4px",
-      // backgroundColor: "#fafafa",
-      fontWeight: 500
+      fontWeight: 500,
+      marginLeft: 8,
+      marginRight: 8,
+      marginBottom: 20
     };
     const cardStyle = {
-      border: "1px solid #ada9ab",
       fontFamily: fontfamily,
       borderRadius: "4px"
     };
@@ -162,15 +162,17 @@ class Leads extends Component {
         {this.props.idLeadForRedirect && (
           <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />
         )}
+
         {!this.state.data.lanes.length ? (
           <Loading/>
+
         ) : (
           <Board
             data={this.state.data}
             editable
             laneDraggable={false}
             canAddLanes
-            editLaneTitle
+            // editLaneTitle={this.props.userType == 'admin'}
             onLaneAdd={this.onLaneAdd}
             onLaneClick={this.onLaneClick}
             onLaneDelete={this.onLaneDelete}
@@ -181,7 +183,9 @@ class Leads extends Component {
             style={style}
             laneStyle={laneStyle}
             cardStyle={cardStyle}
+            hideCardDeleteIcon={this.props.userType == 'user'}
             t={customTranslation}
+
           />
         )}
       </div>
@@ -191,8 +195,11 @@ class Leads extends Component {
 
 function mapStateToProps(store) {
   return {
-    idLeadForRedirect: store.idLeadForRedirect
+    idLeadForRedirect: store.idLeadForRedirect,
+    userType: store.userType
+
   };
+
 }
 
 function mapDispatchToProps(dispatch) {
