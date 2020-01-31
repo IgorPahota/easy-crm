@@ -51,6 +51,7 @@ export default function (oldState = InitialState, action) {
             };
 
         case ADD_CONTACTS:
+            console.log(action.contacts);
             return {
                 isLoggedIn: true,
                 ...oldState,

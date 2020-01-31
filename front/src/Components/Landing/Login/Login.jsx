@@ -103,7 +103,7 @@ class NormalLoginForm extends Component {
             >
               Войти
             </Button>
-            Или <Link to='/signup'>зарегестрироваться!</Link>
+            Или <Link to='/signup'>зарегистрироваться!</Link>
           </Form.Item>
         </Form>
         {this.props.isLoggedIn && <Redirect to="/dashboard" />}
