@@ -101,11 +101,11 @@ router.route('/:id')
   .put(async (req, res) => {
     const { id } = req.params;
     const update = {
-      name: req.body.name,
-      stageID: req.body.stageID,
-      contactId: req.body.contactId,
+      // name: req.body.name,
+      // stageID: req.body.stageID,
+      // contactId: req.body.contactId,
       price: req.body.price,
-      details: req.body.details,
+      // details: req.body.details,
       updated: Date.now()
     };
     const updated = await Lead.findOneAndUpdate({ _id: id }, update, { new: true });

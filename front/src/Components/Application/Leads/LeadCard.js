@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AutoComplete, Button} from 'antd';
+import {AutoComplete, Button, Input} from 'antd';
 import {connect} from 'react-redux';
 import AddLeadContact from '../../../redux/addToLead';
 import DeleteContactFromLead from '../../../redux/deleteFromLead';
@@ -14,7 +14,9 @@ class LeadCard extends Component {
       dataSource: '',
       leadDetails: '',
       isLoading: true,
-      contact: ''
+      contact: '',
+      isEditing: false,
+      priceData: ''
     }
   }
 
@@ -31,7 +33,7 @@ class LeadCard extends Component {
     }
 
   fetchAddContactToLead = async (contactId) => {
-    const response = await fetch(`/leads/contacts/${this.props.idLeadForRedirect}`, {
+    const response = await fetch(`/leads/contacts/${this.props.match.params.id}`, {
       method: 'PATCH',
       headers: {
         "Content-Type": "application/json"
@@ -52,7 +54,7 @@ class LeadCard extends Component {
   };
 
   fetchDeleteContactFromLead = async (contactId) => {
-    const response = await fetch(`/leads/contacts/${this.props.idLeadForRedirect}`, {
+    const response = await fetch(`/leads/contacts/${this.props.match.params.id}`, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json"
@@ -85,7 +87,40 @@ class LeadCard extends Component {
     this.fetchDeleteContactFromLead( this.state.value);
   };
 
-    render() {
+
+  priceEdit = async () => {
+    this.setState({
+      isEditing: true
+    })
+  };
+
+  priceEditData = async (e) => {
+    console.log('EVENT',e)
+    this.setState({
+      priceData: e.target.value
+    });
+
+  };
+
+  fetchPrice = async () => {
+    let response = await fetch(this.props.match.params.id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        price: this.state.priceData
+      })
+    });
+    let result = await response.json();
+    console.log(result)
+    this.setState({
+      isEditing: false
+    })
+  };
+
+
+  render() {
       const {isLoading} = this.state;
       const arr = [];
       const conts = this.props.contacts ? this.props.contacts.map((el) => {
@@ -117,7 +152,14 @@ class LeadCard extends Component {
                       style={{marginTop: '10px'}}>
                Удалить
               </Button>
-              <p>Цена { this.state.leadDetails.price}</p>
+              <p onClick={this.priceEdit}>Цена { this.state.leadDetails.price}</p>
+              {this.state.isEditing &&
+                  <div>
+                <input onChange={this.priceEditData}/>
+                    <Button onClick={this.fetchPrice}>Изменить цену</Button>
+                  </div>
+                }
+
               <p>Айди сделки{this.state.leadDetails.leadId}</p>
               <p>Имя {this.state.leadDetails.name}</p>
               <p>
@@ -144,6 +186,8 @@ class LeadCard extends Component {
             :
             <h3>Loading</h3>
           }
+
+
         </div>
       );
     }

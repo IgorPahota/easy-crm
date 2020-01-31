@@ -11,5 +11,5 @@ export const EDIT_CONTACT = 'EDIT_CONTACT';
 export const FETCH_NOTES = 'FETCH_NOTES';
 export const ADD_LEADCONTACT = 'ADD_LEADCONTACT';
 export const DELETE_LEADCONTACT = 'DELETE_LEADCONTACT';
-
+export const EDIT_LEAD = 'EDIT_LEAD';
 
