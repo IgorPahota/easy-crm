@@ -1,8 +1,10 @@
-import React, {Component} from 'react';
-import {message, Button, Checkbox, Form, Icon, Input, Typography} from 'antd';
-import {connect} from 'react-redux';
-import {loggedIn} from "../../../redux/loggedIn";
-import {Redirect, Link} from 'react-router-dom';
+import React, { Component } from "react";
+import { message, Button, Checkbox, Form, Icon, Input, Typography } from "antd";
+import { connect } from "react-redux";
+import { loggedIn } from "../../../redux/loggedIn";
+import { Redirect, Link } from "react-router-dom";
+
+import bluelogo from "./Easycrm-logo-x2.png";
 
 const { Title } = Typography;
 
@@ -14,7 +16,6 @@ class NormalLoginForm extends Component {
       password: undefined
     };
   }
-
 
   loginFetch = async (formDataEmail, formDataPassword) => {
     let response = await fetch("/login", {
@@ -35,7 +36,13 @@ class NormalLoginForm extends Component {
       const responseContacts = await fetch(`/contacts/created/${result.id}`);
       const contacts = await responseContacts.json();
 
-      let arrayWithProps = [result.username, result.email, result.id, contacts, result.type];
+      let arrayWithProps = [
+        result.username,
+        result.email,
+        result.id,
+        contacts,
+        result.type
+      ];
       this.props.set(arrayWithProps);
     } else {
       message.error("Неверное имя пользователя или пароль");
@@ -57,7 +64,7 @@ class NormalLoginForm extends Component {
       <div>
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
-            <h1 style={{ textAlign: "center" }}>LOGO</h1>
+            <img class="bluelogo" alt="logo" src={bluelogo} width="300px"></img>
           </Form.Item>
           <Title level={2} className={"form-title"}>
             Вход
@@ -103,7 +110,7 @@ class NormalLoginForm extends Component {
             >
               Войти
             </Button>
-            Или <Link to='/signup'>зарегестрироваться!</Link>
+            Или <Link to="/signup">зарегестрироваться!</Link>
           </Form.Item>
         </Form>
         {this.props.isLoggedIn && <Redirect to="/dashboard" />}

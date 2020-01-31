@@ -4,6 +4,8 @@ import Logout from "../../Landing/Logout/Logout";
 import { connect } from "react-redux";
 import { Menu, Icon } from "antd";
 
+import whitelogo from "./Easycrm-logo-inv.png";
+
 class ApplicationNavbar extends Component {
   state = {
     current: "app"
@@ -26,7 +28,14 @@ class ApplicationNavbar extends Component {
           theme="dark"
         >
           <Menu.Item key="logo">
-            <NavLink to={"/dashboard"}>LOGO</NavLink>
+            <NavLink to={"/dashboard"}>
+              <img
+                class="whitelogo"
+                alt="logo"
+                src={whitelogo}
+                height="20px"
+              ></img>
+            </NavLink>
           </Menu.Item>
           <Menu.Item key="app">
             <NavLink to={"/dashboard"}>

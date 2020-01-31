@@ -4,57 +4,65 @@ import { connect } from "react-redux";
 import { loggedIn } from "../../../redux/loggedIn";
 import { Redirect } from "react-router-dom";
 
+import bluelogo from "./Easycrm-logo-x2.png";
+
 const { Title } = Typography;
 
 // import { Redirect } from 'react-router-dom'
 
 class SignupForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: undefined,
-            password: undefined
-        }
-    }
-
-    // componentDidMount = async () =>  {
-    //     let response = await fetch('/login');
-    //     let result = await response.json();
-    //     if (result.isLoggedIn) {
-    //         message.warning('Вы уже вошли в систему');
-    //         let arrayWithProps = [result.username, result.email, result.id]
-    //         this.props.set(arrayWithProps)
-    //     } else {
-    //         // alert('login please')
-    //     }
-    // };
-
-    signupFetch = async (formDataUsername, formDataEmail, formDataPassword) => {
-        let response = await fetch("/signup", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: formDataUsername,
-                email: formDataEmail,
-                password: formDataPassword
-            })
-        });
-        let result = await response.json();
-        if (result.isLoggedIn) {
-            message.success(`Вы успешно зарегистрированы, ${result.username}`);
-
-            // Get all contacts for logged user
-            const responseContacts = await fetch(`/contacts/created/${result.id}`);
-            const contacts = await responseContacts.json();
-
-            let arrayWithProps = [result.username, result.email, result.id, contacts, result.type];
-            this.props.set(arrayWithProps)
-        } else {
-            message.error('Не получилось.. Попробуйте снова!')
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: undefined,
+      password: undefined
     };
+  }
+
+  // componentDidMount = async () =>  {
+  //     let response = await fetch('/login');
+  //     let result = await response.json();
+  //     if (result.isLoggedIn) {
+  //         message.warning('Вы уже вошли в систему');
+  //         let arrayWithProps = [result.username, result.email, result.id]
+  //         this.props.set(arrayWithProps)
+  //     } else {
+  //         // alert('login please')
+  //     }
+  // };
+
+  signupFetch = async (formDataUsername, formDataEmail, formDataPassword) => {
+    let response = await fetch("/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: formDataUsername,
+        email: formDataEmail,
+        password: formDataPassword
+      })
+    });
+    let result = await response.json();
+    if (result.isLoggedIn) {
+      message.success(`Вы успешно зарегистрированы, ${result.username}`);
+
+      // Get all contacts for logged user
+      const responseContacts = await fetch(`/contacts/created/${result.id}`);
+      const contacts = await responseContacts.json();
+
+      let arrayWithProps = [
+        result.username,
+        result.email,
+        result.id,
+        contacts,
+        result.type
+      ];
+      this.props.set(arrayWithProps);
+    } else {
+      message.error("Не получилось.. Попробуйте снова!");
+    }
+  };
 
   signupFetch = async (formDataUsername, formDataEmail, formDataPassword) => {
     let response = await fetch("/signup", {
@@ -94,7 +102,7 @@ class SignupForm extends Component {
       <div>
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
-            <h1 style={{ textAlign: "center" }}>LOGO</h1>
+            <img class="bluelogo" alt="logo" src={bluelogo} width="300px"></img>
           </Form.Item>
           <Title level={2} className={"form-title"}>
             Регистрация
