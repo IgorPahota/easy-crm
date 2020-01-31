@@ -3,6 +3,7 @@ import {AutoComplete, Button} from 'antd';
 import {connect} from 'react-redux';
 import AddLeadContact from '../../../redux/addToLead';
 import DeleteContactFromLead from '../../../redux/deleteFromLead';
+import LeadContact from './LeadContact';
 
 class LeadCard extends Component {
   constructor(props) {
@@ -18,17 +19,16 @@ class LeadCard extends Component {
   }
 
   componentDidMount() {
-      // fetch(`5e32f91a9133a124d44d43f0`)
-    console.log('here',this.props.idLeadForRedirect);
       fetch(this.props.idLeadForRedirect)
 
         .then(res => res.json())
         .then(leadDetails =>
           this.setState({leadDetails: leadDetails.lead, isLoading: false}));
+    console.log(this.state.leadDetails)
     }
 
   fetchAddContactToLead = async (contactId) => {
-    const response = await fetch(`/leads/contacts/5e32f91a9133a124d44d43f0`, {
+    const response = await fetch(`/leads/contacts/${this.props.idLeadForRedirect}`, {
       method: 'PATCH',
       headers: {
         "Content-Type": "application/json"
@@ -49,7 +49,7 @@ class LeadCard extends Component {
   };
 
   fetchDeleteContactFromLead = async (contactId) => {
-    const response = await fetch(`/leads/contacts/5e32f91a9133a124d44d43f0`, {
+    const response = await fetch(`/leads/contacts/${this.props.idLeadForRedirect}`, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json"
@@ -84,18 +84,15 @@ class LeadCard extends Component {
 
     render() {
       const {isLoading} = this.state;
-      // const {stageId, price, _id: leadId, name, details, creatorId, created, updated} = this.state.leadDetails;
-      const {leadcontacts} = this.props;
-      console.log(leadcontacts);
       const arr = [];
       const conts = this.props.contacts ? this.props.contacts.map((el) => {
         const {name: text, _id: value} = el;
         arr.push({text, value});
         return el
       }) : null;
-
+      console.log('this.props.leadcontacts', this.props.leadcontacts)
       return (
-        <div>
+        <div className="leads-font">
           {this.state.leadDetails ?
             <div>
               <AutoComplete
@@ -128,6 +125,18 @@ class LeadCard extends Component {
               <p>Создана {this.state.leadDetails.created}</p>
               <p>Обновлена{this.state.leadDetails.updated}</p>
               {/*<p>Контакты{leadcontacts}</p>*/}
+
+              <ul className="notes-list">
+                {this.props.leadcontacts.map( (contact, i) =>
+                  <LeadContact userId={contact._id}
+                        contact={contact}
+                        key={i}
+                        id={contact._id}
+                  />
+                )}
+              </ul>
+
+
             </div>
             :
             <h3>Loading</h3>
