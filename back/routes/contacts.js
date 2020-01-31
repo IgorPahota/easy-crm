@@ -72,9 +72,9 @@ router.route('/:id')
     const { id } = req.params;
     try {
       await Contact.findOneAndDelete({ _id: id });
-      await res.json(true);
+      await res.json({ success: true });
     } catch (e) {
-      await res.json(false);
+      await res.json({ error: e });
     }
   });
 
