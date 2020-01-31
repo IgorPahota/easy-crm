@@ -299,6 +299,8 @@ class ContactInfo extends Component {
           </Layout>
         </Layout>
       );
+    } else {
+      return <></>;
     }
   }
 }

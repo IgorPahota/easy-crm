@@ -58,7 +58,7 @@ class Leads extends Component {
 
   onCardClick = params => {
     console.log(params);
-    this.props.set(params);
+    this.props.history.push(`/leads/${params}`);
   };
 
   onCardMoveAcrossLanes = async (fromLaneId, toLaneId, cardId, index) => {
@@ -159,9 +159,9 @@ class Leads extends Component {
 
     return (
       <div>
-        {this.props.idLeadForRedirect && (
-          <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />
-        )}
+        {/*{this.props.idLeadForRedirect && (*/}
+        {/*  <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />*/}
+        {/*)}*/}
 
         {!this.state.data.lanes.length ? (
           <Loading/>
