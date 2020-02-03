@@ -4,6 +4,9 @@ import {connect} from 'react-redux';
 import {loggedIn} from "../../../redux/loggedIn";
 import {Redirect, Link} from 'react-router-dom';
 
+import bluelogo from "./Easycrm-logo-x2.png";
+
+
 const { Title } = Typography;
 
 class NormalLoginForm extends Component {
@@ -58,7 +61,7 @@ class NormalLoginForm extends Component {
       <div>
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
-            <h1 style={{ textAlign: "center" }}>LOGO</h1>
+            <img class="bluelogo" alt="logo" src={bluelogo} width="300px"></img>
           </Form.Item>
           <Title level={2} className={"form-title"}>
             Вход
