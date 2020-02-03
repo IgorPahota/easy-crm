@@ -11,7 +11,9 @@ import {
     SHOW_CONTACT,
     FETCH_NOTES,
     ADD_LEADCONTACT,
-    DELETE_LEADCONTACT, ADD_LEADDETAILS
+    DELETE_LEADCONTACT,
+    ADD_LEADDETAILS,
+    FETCH_CONTACTS_TO_LEAD
 } from "./actions";
 
 const InitialState = {
@@ -26,8 +28,6 @@ const InitialState = {
     idLeadForRedirect: undefined,
     userType: undefined,
     leadcontacts: []
-
-
 };
 
 export default function (oldState = InitialState, action) {
@@ -146,7 +146,7 @@ export default function (oldState = InitialState, action) {
             };
 
         case DELETE_LEADCONTACT:
-            console.log('reducer', oldState.leadcontacts, action.leadcontacts)
+            // console.log('reducer', oldState.leadcontacts, action.leadcontacts)
           const newLeadcontacts = oldState.leadcontacts.filter(elem => elem === action.id)
             return {
                 ...oldState,
@@ -157,6 +157,12 @@ export default function (oldState = InitialState, action) {
             return {
                 ...oldState,
                 leadDetails: action.leadDetails
+            };
+
+        case FETCH_CONTACTS_TO_LEAD:
+            return {
+                ...oldState,
+                leadcontacts: action.leadcontacts
             };
 
         default:

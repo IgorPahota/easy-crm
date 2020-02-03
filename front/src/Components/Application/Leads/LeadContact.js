@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Button, Icon} from 'antd';
 
 class LeadContact extends Component {
   constructor(props) {
@@ -6,14 +7,19 @@ class LeadContact extends Component {
   }
 
   render() {
-  const {contact, id} = this.props;
+    const {contact, id} = this.props;
     return (
       <div>
-        {contact.name} <br />
-       {contact.phone}<br />
-        {contact.company}<br />
-    {contact.companyDetails}<br />
-        <p>{contact.phone}</p>
+        <p>
+        {contact.name} <br/>
+        {contact.phone}<br/>
+        {contact.company}<br/>
+        {contact.companyDetails}<br/>
+        {contact.phone}<br />
+          <Button size="small" onClick={() => this.props.onDeleted(id)}>
+            <Icon type="delete" theme="outlined" />
+          </Button>
+        </p>
       </div>
     );
   }

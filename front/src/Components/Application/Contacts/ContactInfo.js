@@ -237,7 +237,7 @@ class ContactInfo extends Component {
                       className="bold-text"
                       onClick={() => this.edit(this.props.currentContact)}
                     >
-                      {name}
+                      <span onClick={() => this.edit(this.props.currentContact)}>{name}</span>
                     </List.Item>
 
                     <List.Item
