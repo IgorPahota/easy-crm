@@ -4,7 +4,6 @@ import { Redirect, Link } from "react-router-dom";
 import { Modal, Row, Col, Alert, Spin, Card, message } from "antd";
 import Chart from "./Chart";
 import Loading from "../Loading/Loading";
-
 import bluelogo from "./Easycrm-logo-x2.png";
 
 class Dashboard extends Component {
@@ -109,14 +108,13 @@ class Dashboard extends Component {
                 data={stages.slice(stages.length - 2)}
                 allLeads={allLeads}
               />
-            ) : (
+            ) : 
               <>
                 {message.success("Необходимо добавить сделки...")}
                 {/*setTimeout(() => message.success('Необходимо добавить сделки...'),3000)*/}
-                <img class="bluelogo" alt="logo" src={bluelogo} width="300px" className="dashboard-logo" />
-                )
+                <img class="bluelogo" alt="logo" src={bluelogo} width="300px" className="dashboard-logo"/>
               </>
-            )}
+            }
             {/*{<p>Сумма всех сделок:{allLeadsPrice}</p>}*/}
           </>
         )}
