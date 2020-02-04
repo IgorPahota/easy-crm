@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const uri = process.env.uri;
-mongoose.connect(uri, {
+
+mongoose.connect('mongodb+srv://admin:drajaAIcMabWuIkV@easycrm-cluster-aqzdv.mongodb.net/easycrm-db?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
