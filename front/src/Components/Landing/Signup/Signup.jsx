@@ -13,6 +13,8 @@ class SignupForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+          // не очень хорошо задавать значение undefined. 
+          // this.state.email и так будет по умолчанию undefined
             email: undefined,
             password: undefined
         }

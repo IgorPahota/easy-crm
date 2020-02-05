@@ -14,6 +14,7 @@ import Dashboard from "./Components/Application/Dashboard/Dashboard";
 import ContactsList from "./Components/Application/Contacts/ContactsList";
 import LandingNavbar from "./Components/Landing/LandingNavbar/LandingNavbar";
 import { loggedIn } from "./redux/loggedIn";
+// Адски длинные пути к компонентам. Можете подсократить как-нибудь?
 import ApplicationNavbar from "./Components/Application/ApplicationNavbar/ApplicationNavbar";
 import ContactInfo from "./Components/Application/Contacts/ContactInfo";
 import Leads from "./Components/Application/Leads/Leads";
@@ -43,6 +44,7 @@ class App extends Component {
             {!this.props.isLoggedIn && <Redirect to={'/login'}/>}
             {this.props.isLoggedIn && <ApplicationNavbar />}
             <Switch>
+              {/* Лучше делать exact по возможности */}
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
               <Route path="/dashboard" component={Dashboard} />
@@ -51,11 +53,6 @@ class App extends Component {
               <Route path="/leadcard" component={LeadCard} />
               <Route exact path="/leads/:id" component={LeadCard}/>
               <Route exact path="/leads" component={Leads} />
-              {/*<Route render={()=>{*/}
-              {/*    return (*/}
-              {/*        <Redirect to={'/login'}/>*/}
-              {/*    )*/}
-              {/*}}/>*/}
             </Switch>
           </div>
         </Router>

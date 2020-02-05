@@ -24,6 +24,8 @@ class ContactsList extends React.Component {
     if (this.props.id) {
       const response = await fetch(`/contacts/created/${this.props.id}`);
       const contacts = await response.json();
+      // Во-первых слово дата ни о чем не говорит. Во-вторых я предполагаю,
+      // что вы храните в локальном стейте то, что лучше хранить в редакс сторе
       this.setState({
         data: contacts,
         resultedData: contacts

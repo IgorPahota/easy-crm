@@ -1,3 +1,5 @@
+// Не знаю откуда в вашей группе это пошло, но это не actions.
+// Это типы actions.
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const ADD_CONTACTS = 'ADD_CONTACTS';

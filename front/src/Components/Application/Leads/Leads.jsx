@@ -77,6 +77,7 @@ class Leads extends Component {
   };
 
   onLaneAdd = async params => {
+    // а если запрос неуспешен? никакой обработки нет. и не только в этой функции
     let response = await fetch("/stages", {
       method: "POST",
       headers: {
@@ -159,20 +160,14 @@ class Leads extends Component {
 
     return (
       <div>
-        {/*{this.props.idLeadForRedirect && (*/}
-        {/*  <Redirect to={`/leads/${this.props.idLeadForRedirect}`} />*/}
-        {/*)}*/}
-
         {!this.state.data.lanes.length ? (
           <Loading/>
-
         ) : (
           <Board
             data={this.state.data}
             editable
             laneDraggable={false}
             canAddLanes
-            // editLaneTitle={this.props.userType == 'admin'}
             onLaneAdd={this.onLaneAdd}
             onLaneClick={this.onLaneClick}
             onLaneDelete={this.onLaneDelete}

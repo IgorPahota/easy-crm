@@ -66,6 +66,7 @@ class ContactInfo extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
+        // Можно подсократить, чтобы не писать столько раз this.state
         name: this.state.name,
         company: this.state.company,
         companyDetails: this.state.companyDetails,
@@ -105,12 +106,15 @@ class ContactInfo extends Component {
       console.log("dataToProps", dataToProps);
       this.props.editContact(dataToProps);
     } else {
+      // алерты лучше заменить на модальные окна
       alert("Wrong username or password!");
     }
   };
 
   edit = contact => {
     if (!this.state.isEditing) {
+      // setState - не так прост. Он асинхронен, а еще схлопывает несколько
+      // подряд идущщих setState в один. Поэтому можно их объединить
       this.setState({ isEditing: true });
       this.setState({ ...contact });
     } else {

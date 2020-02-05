@@ -6,9 +6,10 @@ class LeadContact extends Component {
   }
 
   render() {
-  const {contact, id} = this.props;
+  const {contact} = this.props;
     return (
       <div>
+        {/* br - это прекрасно */}
         {contact.name} <br />
        {contact.phone}<br />
         {contact.company}<br />
