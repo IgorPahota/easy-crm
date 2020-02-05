@@ -15,7 +15,6 @@ router.route('/')
   })
   .post(async (req, res) => {
     const { text, creatorId } = req.body;
-    console.log(req.body);
     const newNote = new Note({
       text,
       creatorId,
@@ -57,6 +56,7 @@ router.route('/:id')
     const { id } = req.params;
     try {
       await Note.findOneAndDelete({ _id: id });
+      // true в json?
       await res.json(true);
     } catch (e) {
       await res.json(false);

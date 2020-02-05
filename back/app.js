@@ -19,6 +19,7 @@ const publicPath = path.join(__dirname, 'build');
 app.use(express.static(publicPath));
 
 // Подключаем импортированные маршруты с определенным url префиксом.
+// Отлично!
 app.use('/users', usersRouter);
 app.use('/leads', leadsRouter);
 app.use('/notes', notesRouter);

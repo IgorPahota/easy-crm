@@ -32,7 +32,7 @@ module.exports = function (app) {
   );
 
   app.use(cookiesCleaner);
-
+// Комменты почистите
   // Подключаем статику local
   // app.use(express.static(path.join(__dirname, '..', 'public')));
 };
