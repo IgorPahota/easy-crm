@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import G2 from '@antv/g2';
 import { DataSet } from "@antv/data-set";
 
-
 class Chart extends Component {
-
   componentDidMount() {
     const { cards, title } = this.props.data[1];
     const titleSuccessfully = this.props.data[0].title;
@@ -16,11 +14,6 @@ class Chart extends Component {
       { type: title, value: cards.length },
       { type: titleSuccessfully, value: cardsSuccessfully.length },
       { type: 'Осталось', value: value },
-      // { type: '教育、文化、娱乐', value: 1853 },
-      // { type: '医疗保健', value: 1685 },
-      // { type: '衣着', value: 1179 },
-      // { type: '生活用品及服务', value: 1088 },
-      // { type: '其他用品及服务', value: 583 }
     ];
     const ds = new DataSet();
     const dv = ds.createView().source(data);
@@ -48,13 +41,13 @@ class Chart extends Component {
       endAngle: startAngle + Math.PI * 2
     });
     chart.intervalStack().position('value')
-      .color('type', ['#0a4291', '#0a57b6', '#1373db', '#2295ff', '#48adff', '#6fc3ff', '#96d7ff', '#bde8ff'])
+      .color('type', ['#13234f', '#1e387f', '#1373db', '#2295ff', '#48adff', '#6fc3ff', '#96d7ff', '#bde8ff'])
       .opacity(1)
       .label('percent', {
         offset: - 20,
         textStyle: {
           fill: 'white',
-          fontSize: 12,
+          fontSize: 16,
           shadowBlur: 2,
           shadowColor: 'rgba(0, 0, 0, .45)'
         },
@@ -62,10 +55,9 @@ class Chart extends Component {
           return parseInt(val * 100) + '%';
         }
       });
-
     chart.guide().html({
       position: ['50%', '50%'],
-      html: `<div class="g2-guide-html"><p class="title">Всего:</p><p class="value">${allLeads}</p></div>`
+      html: `<div class="g2-guide-html"><p class="title title-center">Всего:</p><p class="value title-center">${allLeads}</p></div>`
     });
     chart.render();
 // draw label
@@ -85,13 +77,11 @@ class Chart extends Component {
     chart.on('afterpaint', function () {
       addPieLabel(chart);
     });
-
 // main
     function addPieLabel() {
       const halves = [[], []];
       const data = dv.rows;
       let angle = startAngle;
-
       for (let i = 0; i < data.length; i ++) {
         const percent = data[i].percent;
         const targetAngle = angle + (Math.PI * 2 * percent);
@@ -118,7 +108,6 @@ class Chart extends Component {
           halves[1].push(label);
         }
       }// end of for
-
       const maxCountForOneSide = parseInt(canvasHeight / LINEHEIGHT, 10);
       halves.forEach(function (half, index) {
         // step 2: reduce labels
@@ -128,7 +117,6 @@ class Chart extends Component {
           });
           half.splice(maxCountForOneSide, half.length - maxCountForOneSide);
         }
-
         // step 3: distribute position (x and y)
         half.sort(function (a, b) {
           return a.y - b.y;
@@ -136,31 +124,27 @@ class Chart extends Component {
         antiCollision(half, index);
       });
     }
-
     function getEndPoint(center, angle, r) {
       return {
         x: center.x + r * Math.cos(angle),
         y: center.y + r * Math.sin(angle)
       };
     }
-
     function drawLabel(label) {
       const _anchor = label._anchor,
         _router = label._router,
         fill = label.fill,
         y = label.y;
-
       const labelAttrs = {
         y,
-        fontSize: 12, // 字体大小
-        fill: '#808080',
+        fontSize: 18, // 字体大小
+        fill: '#262626',
         text: label._data.type + '\n' + label._data.value,
         textBaseline: 'bottom'
       };
       const lastPoint = {
         y
       };
-
       if (label._side === 'left') {
         // 具体文本的位置
         lastPoint.x = APPEND_OFFSET;
@@ -171,7 +155,6 @@ class Chart extends Component {
         labelAttrs.x = canvasWidth - APPEND_OFFSET; // 右侧文本右对齐并贴着画布最右侧边缘
         labelAttrs.textAlign = 'right';
       }
-
       // 绘制文本
       const text = labelGroup.addShape('Text', {
         attrs: labelAttrs
@@ -187,22 +170,19 @@ class Chart extends Component {
       } else {
         points = [[_anchor.x, _anchor.y], [_router.x, _router.y], [lastPoint.x, lastPoint.y]];
       }
-
       labelGroup.addShape('polyline', {
         attrs: {
           points,
-          lineWidth: 1,
+          lineWidth: 2,
           stroke: fill
         }
       });
     }
-
     function antiCollision(half, isRight) {
       const startY = center.y - r - OFFSET - LINEHEIGHT;
       let overlapping = true;
       let totalH = canvasHeight;
       let i = void 0;
-
       let maxY = 0;
       let minY = Number.MIN_VALUE;
       const boxes = half.map(function (label) {
@@ -221,14 +201,12 @@ class Chart extends Component {
       if (maxY - startY > totalH) {
         totalH = maxY - startY;
       }
-
       while (overlapping) {
         // eslint-disable-next-line no-loop-func
         boxes.forEach(box => {
           const target = (Math.min.apply(minY, box.targets) + Math.max.apply(minY, box.targets)) / 2;
           box.pos = Math.min(Math.max(minY, target - box.size / 2), totalH - box.size);
         });
-
         // detect overlapping and join boxes
         overlapping = false;
         i = boxes.length;
@@ -240,7 +218,6 @@ class Chart extends Component {
               // overlapping
               previousBox.size += box.size;
               previousBox.targets = previousBox.targets.concat(box.targets);
-
               // overflow, shift up
               if (previousBox.pos + previousBox.size > totalH) {
                 previousBox.pos = totalH - previousBox.size;
@@ -251,7 +228,6 @@ class Chart extends Component {
           }
         }
       }
-
       // step 4: normalize y and adjust x
       i = 0;
       boxes.forEach(function (b) {
@@ -262,7 +238,6 @@ class Chart extends Component {
           i ++;
         });
       });
-
       // (x - cx)^2 + (y - cy)^2 = totalR^2
       half.forEach(function (label) {
         const rPow2 = label.r * label.r;
@@ -283,7 +258,6 @@ class Chart extends Component {
       });
     }
   }
-
   render() {
     return (
       <div>
@@ -292,5 +266,4 @@ class Chart extends Component {
     );
   }
 }
-
 export default Chart;

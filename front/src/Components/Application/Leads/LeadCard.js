@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { AutoComplete, Button, Card } from "antd";
-import { connect } from "react-redux";
-import AddLeadContact from "../../../redux/addToLead";
-import DeleteContactFromLead from "../../../redux/deleteFromLead";
-import LeadContact from "./LeadContact";
+import React, {Component} from 'react';
+import {AutoComplete, Button, Input} from 'antd';
+import {connect} from 'react-redux';
+import AddLeadContact from '../../../redux/addToLead';
+import DeleteContactFromLead from '../../../redux/deleteFromLead';
+import LeadContact from './LeadContact';
 import AddLeadDetails from "../../../redux/addLeadDetails";
 
 class LeadCard extends Component {
@@ -15,8 +15,10 @@ class LeadCard extends Component {
       dataSource: "",
       leadDetails: "",
       isLoading: true,
-      contact: ""
-    };
+      contact: '',
+      isEditing: false,
+      priceData: ''
+    }
   }
 
   componentDidMount() {
@@ -28,19 +30,16 @@ class LeadCard extends Component {
       });
   }
 
-  fetchAddContactToLead = async contactId => {
-    const response = await fetch(
-      `/leads/contacts/${this.props.match.params.id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contactId
-        })
-      }
-    );
+  fetchAddContactToLead = async (contactId) => {
+    const response = await fetch(`/leads/contacts/${this.props.match.params.id}`, {
+      method: 'PATCH',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        contactId
+      })
+    });
 
     const data = await response.json();
     if (data) {
@@ -52,19 +51,16 @@ class LeadCard extends Component {
     }
   };
 
-  fetchDeleteContactFromLead = async contactId => {
-    const response = await fetch(
-      `/leads/contacts/${this.props.match.params.id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contactId
-        })
-      }
-    );
+  fetchDeleteContactFromLead = async (contactId) => {
+    const response = await fetch(`/leads/contacts/${this.props.match.params.id}`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        contactId
+      })
+    });
 
     const data = await response.json();
     if (data) {
@@ -90,20 +86,52 @@ class LeadCard extends Component {
     this.fetchDeleteContactFromLead(this.state.value);
   };
 
+
+  priceEdit = async () => {
+    this.setState({
+      isEditing: true
+    })
+  };
+
+  priceEditData = async (e) => {
+    console.log('EVENT',e)
+    this.setState({
+      priceData: e.target.value
+    });
+
+  };
+
+  fetchPrice = async () => {
+    let response = await fetch(this.props.match.params.id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        price: this.state.priceData
+      })
+    });
+    let result = await response.json();
+    console.log(result)
+    this.setState({
+      isEditing: false
+    })
+  };
+
+
   render() {
-    const arr = [];
-    const conts = this.props.contacts
-      ? this.props.contacts.map(el => {
-          const { name: text, _id: value } = el;
-          arr.push({ text, value });
-          return el;
-        })
-      : null;
-    return (
-      <div className="leads-font">
-        {this.props.leadDetails ? (
-          <div className="lead-card-position">
-            <div className="lead-card-search">
+      const {isLoading} = this.state;
+      const arr = [];
+      const conts = this.props.contacts ? this.props.contacts.map((el) => {
+        const {name: text, _id: value} = el;
+        arr.push({text, value});
+        return el
+      }) : null;
+      console.log('this.props.leadcontacts', this.props.leadcontacts)
+      return (
+        <div className="leads-font">
+          {this.state.leadDetails ?
+            <div>
               <AutoComplete
                 style={{ width: 200 }}
                 dataSource={arr}
@@ -131,27 +159,28 @@ class LeadCard extends Component {
               >
                 Удалить
               </Button>
-            </div>
-            <div className="lead-card-row">
-              <Card
-                title="Card title"
-                bordered={false}
-                style={{ width: 300 }}
-                className="lead-card"
-              >
-                <p>Цена {this.props.leadDetails.price}</p>
-                <p>Айди сделки{this.props.leadDetails.leadId}</p>
-                <p>Имя {this.props.leadDetails.name}</p>
-                <p>
-                  стейдж название (из попьюлейт){" "}
-                  {this.props.leadDetails &&
-                    this.props.leadDetails.stageId.title}
-                </p>
-                <p>Детали {this.props.leadDetails.details}</p>
-                <p>Создатель {this.props.leadDetails.creatorId}</p>
-                <p>Создана {this.props.leadDetails.created}</p>
-                <p>Обновлена{this.props.leadDetails.updated}</p>
-              </Card>
+              <Button type="primary"
+                      onClick={this.delete}
+                      style={{marginTop: '10px'}}>
+               Удалить
+              </Button>
+              <p onClick={this.priceEdit}>Цена { this.state.leadDetails.price}</p>
+              {this.state.isEditing &&
+                  <div>
+                <input onChange={this.priceEditData}/>
+                    <Button onClick={this.fetchPrice}>Изменить цену</Button>
+                  </div>
+                }
+
+              <p>Айди сделки{this.state.leadDetails.leadId}</p>
+              <p>Имя {this.state.leadDetails.name}</p>
+              <p>
+                стейдж название (из попьюлейт) {this.state.leadDetails && this.state.leadDetails.stageId.title}
+              </p>
+              <p>Детали {this.state.leadDetails.details}</p>
+              <p>Создатель {this.state.leadDetails.creatorId}</p>
+              <p>Создана {this.state.leadDetails.created}</p>
+              <p>Обновлена{this.state.leadDetails.updated}</p>
               {/*<p>Контакты{leadcontacts}</p>*/}
               <ul className="notes-list">
                 {this.props.leadcontacts &&
@@ -165,14 +194,15 @@ class LeadCard extends Component {
                   ))}
               </ul>
             </div>
-          </div>
-        ) : (
-          <h3>LeadCard 143 Loading</h3>
-        )}
-      </div>
-    );
-  }
-}
+            :
+            <h3>Loading</h3>
+          }
+
+
+        </div>
+      );
+    }
+  };
 
 const mapStateToProps = state => {
   return {
