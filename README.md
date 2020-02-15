@@ -1,7 +1,7 @@
 # easy-crm
-SPA easyCRM - удобная web программа для анализа продаж, доступная в режиме online из любой точки мира!
+SPA easyCRM - удобное web приложение для анализа продаж, доступное в режиме online из любой точки мира!
 Проект на heroku [http://easy-crm.herokuapp.com/](http://easy-crm.herokuapp.com/)
-#Локальный запуск
+## Локальный запуск
 Для работы с проектом необходимо иметь установленные библиотеки NODE, NPM.
 ```
 cd backend  
@@ -13,7 +13,7 @@ cd frontend
 npm install 
 npm start   
 ```
-#Наша команда
+## Наша команда
 * [Игорь Пахота](https://github.com/IgorPahota)
 * [Вадим Стебаков](https://github.com/vad-s)
 * [Александр Беляев](https://github.com/AVBelyaef)
