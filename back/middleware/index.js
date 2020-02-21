@@ -34,5 +34,5 @@ module.exports = function (app) {
   app.use(cookiesCleaner);
 
   // Подключаем статику local
-  // app.use(express.static(path.join(__dirname, '..', 'public')));
+  app.use(express.static(path.join(__dirname, '..', 'public')));
 };

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 let url = process.env.URL_DB
-mongoose.connect(`${url}`, {
+let local = 'mongodb+srv://admin:drajaAIcMabWuIkV@easycrm-cluster-aqzdv.mongodb.net/easycrm-db?retryWrites=true&w=majority'
+mongoose.connect(local , {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
