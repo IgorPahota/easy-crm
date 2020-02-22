@@ -1,5 +1,5 @@
 # easy-crm
-![](https://github.com/IgorPahota/easy-crm/blob/heroku5/demo.gif)
+
 SPA easyCRM - удобное web приложение для анализа продаж, доступное в режиме online из любой точки мира!
 Проект на heroku [http://easy-crm.herokuapp.com/](http://easy-crm.herokuapp.com/)
 ## Локальный запуск
