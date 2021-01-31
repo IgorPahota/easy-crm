@@ -16,7 +16,7 @@ import {
 
 const InitialState = {
     isLoggedIn: false,
-    username: undefined,
+    username: undefined, // очень плохое значение
     email: undefined,
     id: '',
     contacts: [],
@@ -30,31 +30,31 @@ const InitialState = {
 
 };
 
+// нет понимания как работает reducer. Изучите еще раз
+
 export default function (oldState = InitialState, action) {
     switch (action.type) {
         case LOGIN_SUCCESS:
             return {
+                ...oldState,
+                // Если бы в action было поле data, а в нем id, name и тд, 
+                // то можно было бы написать просто ...action.data
+                // Я сейчас написал ...action, но возникает проблема, что в state 
+                // появился type. Это плохо
+                ...action,
                 isLoggedIn: true,
-                username: action.username,
-                email: action.email,
-                id: action.id,
-                contacts: action.contacts,
-                currentContact: oldState.currentContact,
-                notes: oldState.notes,
-                userType: action.userType,
-                leadcontacts: oldState.leadcontacts
-
             };
         case LOGOUT_SUCCESS:
             return {
+                ...oldState,
                 isLoggedIn: false
             };
 
         case ADD_CONTACTS:
             console.log(action.contacts);
             return {
-                isLoggedIn: true,
                 ...oldState,
+                isLoggedIn: true,
                 contacts: [
                     ...oldState.contacts.concat(action.contacts)
                 ],
@@ -121,6 +121,9 @@ export default function (oldState = InitialState, action) {
 
         case EDIT_CONTACT:
             const editedContact = {
+                ...oldState,
+                // Если бы в action было поле data, а в нем id, name и тд, 
+                // то можно было бы написать просто ...action.data
                 _id: action.id,
                 name: action.name,
                 company: action.company,

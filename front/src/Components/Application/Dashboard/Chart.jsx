@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import G2 from '@antv/g2';
 import { DataSet } from "@antv/data-set";
 
+// я так понимаю этот код вы скопипастили откуда то?) 
+// Хоть немного порефакторите, а то китайские комменты повсюду.
 
 class Chart extends Component {
 
   componentDidMount() {
+    // data[0], data[1]? Возможно избавиться от этого?
     const { cards, title } = this.props.data[1];
     const titleSuccessfully = this.props.data[0].title;
     const cardsSuccessfully = this.props.data[0].cards;
@@ -16,6 +19,7 @@ class Chart extends Component {
       { type: title, value: cards.length },
       { type: titleSuccessfully, value: cardsSuccessfully.length },
       { type: 'Осталось', value: value },
+      // Неплохо
       // { type: '教育、文化、娱乐', value: 1853 },
       // { type: '医疗保健', value: 1685 },
       // { type: '衣着', value: 1179 },
@@ -72,7 +76,7 @@ class Chart extends Component {
     const OFFSET = 20;
     const APPEND_OFFSET = 50;
     const LINEHEIGHT = 60;
-    const coord = chart.get('coord'); // 获取坐标系对象
+    const coord = chart.get('coord'); // 获取坐标系对象 - а, ну да, теперь понял. А то get('coord') было непонятно.
     const center = coord.center; // 极坐标圆心坐标
     const r = coord.radius; // 极坐标半径
     const canvas = chart.get('canvas');

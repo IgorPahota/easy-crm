@@ -7,7 +7,7 @@ const router = express.Router();
 router.route('/')
   .get(async (req, res) => {
     if (req.session) {
-      const result = await Contact.find({});
+      const result = await Contact.find();
       await res.send(result);
     } else {
       console.log('Not logged in');
@@ -57,6 +57,7 @@ router.route('/:id')
   .put(async (req, res) => {
     const { id } = req.params;
     const update = {
+      // Деструктурируйте. писать столько раз req.body не круто
       name: req.body.name,
       company: req.body.company,
       companyDetails: req.body.companyDetails,

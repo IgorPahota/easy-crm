@@ -37,6 +37,7 @@ class Note extends Component {
 
   editNote = (id, text) => {
     if (!this.state.isEditing) {
+      // объедините setState
       this.setState({isEditing: true});
       this.setState({text});
     } else {

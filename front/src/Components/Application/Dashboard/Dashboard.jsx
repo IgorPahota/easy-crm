@@ -37,12 +37,9 @@ class Dashboard extends Component {
     let responseStages = await fetch("/stages");
     let stages = await responseStages.json();
     this.setState({ stages });
-    // this.timerID = setTimeout(() => message.success('Необходимо добавить сделки...'),3000);
   };
 
-  // componentWillUnmount() {
-  //   clearTimeout(this.timerID)
-  // }
+
 
   render() {
     const { stages } = this.state;

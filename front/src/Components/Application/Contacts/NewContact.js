@@ -10,6 +10,8 @@ class NewContact extends Component {
   constructor(props) {
     super(props);
 
+    // а почему не захотели это в редакс закинуть все? Возможно ваше решение нормальное.
+    // Но надо понимать как лучше в вашем случае.
     this.state = {
       loading: false,
       visible: false,
